@@ -1,4 +1,4 @@
-package com.example.controler;
+package com.example.hzqweather.controler;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -8,6 +8,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
+import com.example.hzqweather.define.defineMessage;
+
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.util.Log;
 public class Query {
 
 	public static void WeatherQuery(final Handler handler, final String cityId){
+		
 		new Thread(new Runnable() {
 			
 			@Override
@@ -32,7 +35,7 @@ public class Query {
 						Log.i("response:  ", weatherResponse.toString());
 						JSONObject weatherJson = new JSONObject(weatherResponse);
 						Message msg = new Message();
-						msg.arg1 = 0;
+						msg.arg1 = defineMessage.MSG_QUERY_WEATHER_SUCC;
 						msg.obj = weatherJson;
 						handler.sendMessage(msg);
 						Log.i("Weather_Result",weatherJson.toString());

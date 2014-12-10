@@ -1,4 +1,4 @@
-package com.example.model;
+package com.example.hzqweather.model;
 
 public class Weather {
 	

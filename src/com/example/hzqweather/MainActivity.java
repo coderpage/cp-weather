@@ -10,8 +10,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.controler.WeatherManager;
-import com.example.model.Weather;
+import com.example.hzqweather.controler.WeatherManager;
+import com.example.hzqweather.db.CitycodeDBHelper;
+import com.example.hzqweather.define.defineMessage;
+import com.example.hzqweather.model.Weather;
+import com.example.hzqweather.tool.utility;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -23,11 +26,12 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		System.out.println(utility.citycodeExist());
 		mHandler = new Handler(){
 			@Override
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
-				case 0:
+				case defineMessage.MSG_UPDATEUI:
 					setUI();
 					break;
 
@@ -43,6 +47,9 @@ public class MainActivity extends ActionBarActivity {
 		tvDetail = (TextView) findViewById(R.id.tv_detail);
 		etCityid = (EditText) findViewById(R.id.et_cityid);
 		setUI();
+//		DBHelper dbHelper = DBHelper.getInstance(this);
+		CitycodeDBHelper cdb = CitycodeDBHelper.getInstance(this);
+		cdb.closeDB();
 	}
 	
 	private void setUI(){
@@ -63,7 +70,7 @@ public class MainActivity extends ActionBarActivity {
 	public static void updateUI() {
 		if (mHandler != null) {
 			Message msg = mHandler.obtainMessage();
-			msg.what = 0;
+			msg.what = defineMessage.MSG_UPDATEUI;
 			mHandler.sendMessage(msg);
 		}
 	}

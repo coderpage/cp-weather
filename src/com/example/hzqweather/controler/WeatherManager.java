@@ -1,12 +1,13 @@
-package com.example.controler;
+package com.example.hzqweather.controler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.example.hzqweather.MainActivity;
-import com.example.model.Weather;
-
 import android.os.Handler;
+
+import com.example.hzqweather.MainActivity;
+import com.example.hzqweather.define.defineMessage;
+import com.example.hzqweather.model.Weather;
 
 public class WeatherManager {
 	
@@ -17,7 +18,7 @@ public class WeatherManager {
 	Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.arg1) {
-			case 0:
+			case defineMessage.MSG_QUERY_WEATHER_SUCC:
 				JSONObject weatherJson = (JSONObject) msg.obj;
 				weather = recoverWeather(weatherJson);
 				MainActivity.updateUI();
