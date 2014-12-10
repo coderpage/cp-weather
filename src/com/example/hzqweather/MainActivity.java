@@ -1,5 +1,7 @@
 package com.example.hzqweather;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,47 +14,43 @@ import android.widget.TextView;
 
 import com.example.hzqweather.controler.WeatherManager;
 import com.example.hzqweather.db.CitycodeDBHelper;
-import com.example.hzqweather.define.defineMessage;
+import com.example.hzqweather.define.DefineMessage;
+import com.example.hzqweather.define.DefineSQL;
 import com.example.hzqweather.model.Weather;
-import com.example.hzqweather.tool.utility;
+import com.example.hzqweather.tool.Utility;
 
 public class MainActivity extends ActionBarActivity {
 
 	private TextView tvDetail;
 	public static Handler mHandler;
-	private EditText etCityid;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		System.out.println(utility.citycodeExist());
-		mHandler = new Handler(){
+		System.out.println(Utility.citycodeExist());
+		mHandler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
-				case defineMessage.MSG_UPDATEUI:
+				case DefineMessage.MSG_UPDATEUI:
 					setUI();
 					break;
 
 				default:
 					break;
 				}
-				
+
 				super.handleMessage(msg);
 			}
 		};
-		
 
 		tvDetail = (TextView) findViewById(R.id.tv_detail);
-		etCityid = (EditText) findViewById(R.id.et_cityid);
 		setUI();
-//		DBHelper dbHelper = DBHelper.getInstance(this);
-		CitycodeDBHelper cdb = CitycodeDBHelper.getInstance(this);
-		cdb.closeDB();
+
 	}
-	
-	private void setUI(){
+
+	private void setUI() {
 		Weather weather = WeatherManager.weather;
 		if (weather == null) {
 			return;
@@ -70,19 +68,15 @@ public class MainActivity extends ActionBarActivity {
 	public static void updateUI() {
 		if (mHandler != null) {
 			Message msg = mHandler.obtainMessage();
-			msg.what = defineMessage.MSG_UPDATEUI;
+			msg.what = DefineMessage.MSG_UPDATEUI;
 			mHandler.sendMessage(msg);
 		}
 	}
-	
-	public void query(View v){
-		WeatherManager wm = WeatherManager.getInstance();
-		wm.queryWeather(etCityid.getText().toString().trim());
+
+	public void query(View v) {
+		startActivity(new Intent(MainActivity.this, SearchCityActivity.class));
 	}
-	
-	
-	
-	
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

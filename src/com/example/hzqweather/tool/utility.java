@@ -9,7 +9,7 @@ import java.io.InputStream;
 import android.content.Context;
 import android.os.Environment;
 
-public class utility {
+public class Utility {
 
 	public static boolean citycodeExist() {
 		String PACKAGE_NAME = "com.example.HZQweather";

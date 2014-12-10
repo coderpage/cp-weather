@@ -1,8 +1,10 @@
 package com.example.hzqweather.db;
 
-import com.example.hzqweather.tool.utility;
+import com.example.hzqweather.define.DefineSQL;
+import com.example.hzqweather.tool.Utility;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 
@@ -32,8 +34,8 @@ public class CitycodeDBHelper {
 		String PACKAGE_NAME = "com.example.hzqweather";
 		String dbPath = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + PACKAGE_NAME
 				+ "/databases/citycode.db";
-		if (!utility.citycodeExist()) {
-			utility.importDB(mContext);
+		if (!Utility.citycodeExist()) {
+			Utility.importDB(mContext);
 		}
 		SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbPath, null);
 
@@ -44,4 +46,19 @@ public class CitycodeDBHelper {
 		mDatabase.close();
 	}
 
+	public Cursor queryAll() {
+		return mDatabase.query(DefineSQL.CityCodeDB.TABLE_NAME, null, null, null, null, null, null);
+	}
+
+	public Cursor queryByCityname(String cityName){
+		String selection = DefineSQL.CityCodeDB.COLUMN_CITY + " =? or " + DefineSQL.CityCodeDB.COLUMN_COUNTY + " =? or " + DefineSQL.CityCodeDB.COLUMN_PROVINCE + " =?";
+		String[] selectionArgs = new String[]{cityName, cityName, cityName};
+		return mDatabase.query(DefineSQL.CityCodeDB.TABLE_NAME, null, selection, selectionArgs, null, null, null);
+	}
+	
+	public Cursor queryByCitycode(String cityCode){
+		String selection = DefineSQL.CityCodeDB.COLUMN_CODE + " =?";
+		String[] selectionArgs = new String[]{cityCode};
+		return mDatabase.query(DefineSQL.CityCodeDB.TABLE_NAME, null, selection, selectionArgs, null, null, null);
+	}
 }

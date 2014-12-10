@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import android.os.Handler;
 
 import com.example.hzqweather.MainActivity;
-import com.example.hzqweather.define.defineMessage;
+import com.example.hzqweather.define.DefineMessage;
 import com.example.hzqweather.model.Weather;
 
 public class WeatherManager {
@@ -18,7 +18,7 @@ public class WeatherManager {
 	Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.arg1) {
-			case defineMessage.MSG_QUERY_WEATHER_SUCC:
+			case DefineMessage.MSG_QUERY_WEATHER_SUCC:
 				JSONObject weatherJson = (JSONObject) msg.obj;
 				weather = recoverWeather(weatherJson);
 				MainActivity.updateUI();
@@ -54,7 +54,7 @@ public class WeatherManager {
 		
 		Weather weather = new Weather();
 		try {
-			String updateTime = weatherJson.getString("update_time");
+//			String updateTime = weatherJson.getString("update_time");
 			JSONObject weatherInfo = weatherJson.getJSONObject("weatherinfo");
 			String city = weatherInfo.getString("city");
 			String cityID = weatherInfo.getString("cityid");
@@ -76,7 +76,7 @@ public class WeatherManager {
 			weather.setDayOfWeek(dayOfWeek);
 			weather.setLow(low);
 			weather.setHight(hight);
-			weather.setUpdateTime(updateTime);
+//			weather.setUpdateTime(updateTime);
 			
 		} catch (JSONException e) {
 			e.printStackTrace();

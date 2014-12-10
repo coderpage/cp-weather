@@ -1,6 +1,6 @@
 package com.example.hzqweather.test;
 
-import com.example.hzqweather.tool.utility;
+import com.example.hzqweather.tool.Utility;
 
 import android.test.AndroidTestCase;
 
@@ -19,8 +19,8 @@ public class UtilityTestCase extends AndroidTestCase{
 	}
 
 	public void testCitycodeExist() throws Exception{
-		System.out.println(utility.citycodeExist());
-		assertTrue(utility.citycodeExist());
+		System.out.println(Utility.citycodeExist());
+		assertTrue(Utility.citycodeExist());
 	}
 
 }

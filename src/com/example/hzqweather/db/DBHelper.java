@@ -1,6 +1,6 @@
 package com.example.hzqweather.db;
 
-import com.example.hzqweather.tool.utility;
+import com.example.hzqweather.tool.Utility;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -25,8 +25,8 @@ public class DBHelper extends SQLiteOpenHelper {
 	private DBHelper(Context context, String name, CursorFactory factory, int version) {
 		super(context, name, factory, version);
 		mContext = context;
-		if (!utility.citycodeExist()) {
-			utility.importDB(mContext);
+		if (!Utility.citycodeExist()) {
+			Utility.importDB(mContext);
 		}
 		mDB = getWritableDatabase();
 	}
