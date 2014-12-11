@@ -9,11 +9,11 @@ import com.example.hzqweather.MainActivity;
 import com.example.hzqweather.define.DefineMessage;
 import com.example.hzqweather.model.Weather;
 
-public class WeatherManager {
+public class WeatherHeiper {
 	
-	private static WeatherManager mWeatherManager = null;
-	public static Weather weather;
-	
+	private static WeatherHeiper mWeatherManager = null;
+	public Weather weather;
+	public String cityCode;
 	public JSONObject weatherJson;
 	Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -21,7 +21,8 @@ public class WeatherManager {
 			case DefineMessage.MSG_QUERY_WEATHER_SUCC:
 				JSONObject weatherJson = (JSONObject) msg.obj;
 				weather = recoverWeather(weatherJson);
-				MainActivity.updateUI();
+				System.out.println("weather.tostring:  " + weather.toString());
+				CitysList.updateWeather(cityCode, weather);
 				break;
 
 			default:
@@ -30,20 +31,12 @@ public class WeatherManager {
 		};
 	};
 	
-	public static synchronized WeatherManager getInstance(){
-		if (mWeatherManager != null) {
-			return mWeatherManager;
-		}else {
-			mWeatherManager = new WeatherManager();
-			return mWeatherManager;
-		}
-	}
-	
-	private  WeatherManager(){
+	public WeatherHeiper(){
 		
 	}
 	
 	public void queryWeather(String cityId){
+		cityCode = cityId;
 		Query.WeatherQuery(mHandler, cityId);
 	}
 	

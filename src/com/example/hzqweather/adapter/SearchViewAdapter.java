@@ -11,12 +11,12 @@ import android.widget.TextView;
 import com.example.hzqweather.R;
 import com.example.hzqweather.model.City;
 
-public class BaseAdapter extends android.widget.BaseAdapter{
+public class SearchViewAdapter extends android.widget.BaseAdapter{
 
 	List<City>citys = null;
 	Context mContext;
 	
-	public BaseAdapter(Context context, List<City>citys){
+	public SearchViewAdapter(Context context, List<City>citys){
 		this.mContext = context;
 		this.citys = citys;
 	}

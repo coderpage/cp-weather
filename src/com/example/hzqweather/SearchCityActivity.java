@@ -15,8 +15,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.hzqweather.controler.WeatherManager;
+import com.example.hzqweather.controler.WeatherHeiper;
 import com.example.hzqweather.db.CitycodeDBHelper;
+import com.example.hzqweather.db.DBHelper;
 import com.example.hzqweather.define.DefineSQL;
 import com.example.hzqweather.model.City;
 
@@ -36,7 +37,7 @@ public class SearchCityActivity extends Activity implements OnItemClickListener 
 
 	public void query(View v) {
 		String cityName = etCity.getText().toString().trim();
-		if (cityName == null) {
+		if (cityName == null || cityName.equals("")) {
 			Toast.makeText(SearchCityActivity.this, "请输入城市名称", Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -45,7 +46,7 @@ public class SearchCityActivity extends Activity implements OnItemClickListener 
 			Toast.makeText(SearchCityActivity.this, "未找到相关城市", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		ListAdapter adapter = new com.example.hzqweather.adapter.BaseAdapter(SearchCityActivity.this, citys);
+		ListAdapter adapter = new com.example.hzqweather.adapter.SearchViewAdapter(SearchCityActivity.this, citys);
 		lvCitys.setVisibility(ListView.VISIBLE);
 		lvCitys.setAdapter(adapter);
 		lvCitys.setOnItemClickListener(this);
@@ -54,9 +55,11 @@ public class SearchCityActivity extends Activity implements OnItemClickListener 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		City city = citys.get(position);
-		 WeatherManager wm = WeatherManager.getInstance();
+		 WeatherHeiper wm = new WeatherHeiper();
 		 wm.queryWeather(city.code);
 		 lvCitys.setVisibility(ListView.GONE);
+		 DBHelper dbHelper = DBHelper.getInstance(SearchCityActivity.this);
+		 dbHelper.insertCareCitys(city.displayName, city.code, System.currentTimeMillis());
 		 startActivity(new Intent(SearchCityActivity.this, MainActivity.class));
 	}
 

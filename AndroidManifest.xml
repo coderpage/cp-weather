@@ -38,6 +38,11 @@
             android:launchMode="singleTask"
             android:label="@string/app_name" >
         </activity>
+         <activity
+            android:name=".WeatherDetailsActivity"
+            android:launchMode="singleTask"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,7 +1,6 @@
 package com.example.hzqweather;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,20 +8,20 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
-import com.example.hzqweather.controler.WeatherManager;
-import com.example.hzqweather.db.CitycodeDBHelper;
+import com.example.hzqweather.adapter.MainViewAdaper;
+import com.example.hzqweather.controler.CitysList;
 import com.example.hzqweather.define.DefineMessage;
-import com.example.hzqweather.define.DefineSQL;
-import com.example.hzqweather.model.Weather;
 import com.example.hzqweather.tool.Utility;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements OnItemClickListener {
 
-	private TextView tvDetail;
 	public static Handler mHandler;
+	private ListView lvCareCitys;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case DefineMessage.MSG_UPDATEUI:
-					setUI();
+					updateListView();
 					break;
 
 				default:
@@ -45,24 +44,30 @@ public class MainActivity extends ActionBarActivity {
 			}
 		};
 
-		tvDetail = (TextView) findViewById(R.id.tv_detail);
-		setUI();
+		CitysList.getInstance(this);
+		
+		lvCareCitys = (ListView) findViewById(R.id.lv_care_citys);
+		ListAdapter adapter = new MainViewAdaper(this, CitysList.mCitysList);
+		lvCareCitys.setAdapter(adapter);
+		lvCareCitys.setOnItemClickListener(this);
+		CitysList.initCityWeather();
+	}
+	
+	
 
+	@Override
+	protected void onPostResume() {
+		super.onPostResume();
+		lvCareCitys = (ListView) findViewById(R.id.lv_care_citys);
+		ListAdapter adapter = new MainViewAdaper(this, CitysList.mCitysList);
+		lvCareCitys.setAdapter(adapter);
+		lvCareCitys.setOnItemClickListener(this);
 	}
 
-	private void setUI() {
-		Weather weather = WeatherManager.weather;
-		if (weather == null) {
-			return;
-		}
-		tvDetail.setText("");
-		tvDetail.append("城市： " + weather.getCity() + "\n");
-		tvDetail.append("天气状况： " + weather.getWeatherCondition() + "\n");
-		tvDetail.append("最低气温： " + weather.getLow() + "\n");
-		tvDetail.append("最高气温： " + weather.getHight() + "\n");
-		tvDetail.append("日期： " + weather.getDate() + "\n");
-		tvDetail.append("星期： " + weather.getDayOfWeek() + "\n");
-		tvDetail.append("更新时间： " + weather.getUpdateTime() + "\n");
+
+
+	private void updateListView() {
+		
 	}
 
 	public static void updateUI() {
@@ -73,10 +78,16 @@ public class MainActivity extends ActionBarActivity {
 		}
 	}
 
-	public void query(View v) {
+	public void addCity(View v) {
 		startActivity(new Intent(MainActivity.this, SearchCityActivity.class));
 	}
 
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		Intent intent = new Intent(MainActivity.this, WeatherDetailsActivity.class);
+		intent.putExtra("city", CitysList.mCitysList.get(position));
+		startActivity(intent);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,4 +107,5 @@ public class MainActivity extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
 }

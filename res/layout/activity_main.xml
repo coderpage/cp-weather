@@ -9,26 +9,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.hzqweather.MainActivity" >
 
-    <Button
+     <Button
         android:id="@+id/btn_queryCity"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:onClick="query"
-        android:text="查找城市" />
+        android:onClick="addCity"
+        android:text="添加城市" />
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="查询结果:"
-        android:textColor="#163"
-        android:textSize="25sp" />
-
-    <TextView
-        android:id="@+id/tv_detail"
-        android:layout_width="fill_parent"
+    <ListView
+        android:id="@+id/lv_care_citys"
+        android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:background="#ddd"
-        android:textColor="#000"
-        android:textSize="15sp" />
+        android:divider="#000"
+        android:dividerHeight="0.1dp"
+        android:footerDividersEnabled="true"
+        android:visibility="visible" >
+    </ListView>
 
 </LinearLayout>

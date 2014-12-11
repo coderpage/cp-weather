@@ -1,6 +1,10 @@
 package com.example.hzqweather.model;
 
-public class Weather {
+import java.io.Serializable;
+
+public class Weather implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	private String city;
 	private String cityID;
@@ -73,6 +77,11 @@ public class Weather {
 
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
+	}
+	
+	@Override
+	public String toString() {
+		return city + cityID + weatherCondition;
 	}
 
 }
