@@ -15,6 +15,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.hzqweather.controler.CitysList;
 import com.example.hzqweather.controler.WeatherHeiper;
 import com.example.hzqweather.db.CitycodeDBHelper;
 import com.example.hzqweather.db.DBHelper;
@@ -59,7 +60,12 @@ public class SearchCityActivity extends Activity implements OnItemClickListener 
 		 wm.queryWeather(city.code);
 		 lvCitys.setVisibility(ListView.GONE);
 		 DBHelper dbHelper = DBHelper.getInstance(SearchCityActivity.this);
-		 dbHelper.insertCareCitys(city.displayName, city.code, System.currentTimeMillis());
+		 long rowID = dbHelper.insertCareCitys(city.displayName, city.code, System.currentTimeMillis());
+		 if (rowID == -1) {
+			Toast.makeText(SearchCityActivity.this, "城市添加失败，请重新添加", Toast.LENGTH_LONG).show();
+			return;
+		}
+		 CitysList.mCitysList.addCity(rowID);
 		 startActivity(new Intent(SearchCityActivity.this, MainActivity.class));
 	}
 

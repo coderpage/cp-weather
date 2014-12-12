@@ -3,11 +3,15 @@ package com.example.hzqweather.controler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Application;
 import android.os.Handler;
 
 import com.example.hzqweather.MainActivity;
+import com.example.hzqweather.R.string;
+import com.example.hzqweather.db.DBHelper;
 import com.example.hzqweather.define.DefineMessage;
 import com.example.hzqweather.model.Weather;
+import com.example.hzqweather.tool.Utility;
 
 public class WeatherHeiper {
 	
@@ -21,7 +25,6 @@ public class WeatherHeiper {
 			case DefineMessage.MSG_QUERY_WEATHER_SUCC:
 				JSONObject weatherJson = (JSONObject) msg.obj;
 				weather = recoverWeather(weatherJson);
-				System.out.println("weather.tostring:  " + weather.toString());
 				CitysList.updateWeather(cityCode, weather);
 				break;
 
@@ -69,7 +72,8 @@ public class WeatherHeiper {
 			weather.setDayOfWeek(dayOfWeek);
 			weather.setLow(low);
 			weather.setHight(hight);
-//			weather.setUpdateTime(updateTime);
+			String updateTime = Utility.DateFormater(System.currentTimeMillis());
+			weather.setUpdateTime(updateTime);
 			
 		} catch (JSONException e) {
 			e.printStackTrace();

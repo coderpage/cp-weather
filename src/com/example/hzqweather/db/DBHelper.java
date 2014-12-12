@@ -51,44 +51,60 @@ public class DBHelper extends SQLiteOpenHelper {
 		return mDB.query(tableName, null, null, null, null, null, null);
 	}
 
-	public void insertCareCitys(String cityName, String cityCode, long lasteUpdateTime) {
+	public Cursor queryByRowId(String tableName, long id) {
+		if (tableName.equals(MyDbTableCareCitys.TABLE_NAME)) {
+			String selection = MyDbTableCareCitys.COLUMN_DELETED + "!=? and " + MyDbTableCareCitys.COLUMN_ID + " =? ";
+			String[] selectionArgs = new String[] { "1", String.valueOf(id) };
+			return mDB.query(tableName, null, selection, selectionArgs, null, null, null);
+		}
+		String selection = MyDbTableCareCitys.COLUMN_ID + " =? ";
+		String[] selectionArgs = new String[] { String.valueOf(id) };
+		return mDB.query(tableName, null, selection, selectionArgs, null, null, null);
+	}
+
+	public long insertCareCitys(String cityName, String cityCode, long lasteUpdateTime) {
 		ContentValues values = new ContentValues();
 		values.put(MyDbTableCareCitys.COLUMN_CITY_NAME, cityName);
 		values.put(MyDbTableCareCitys.COLUMN_CITY_CODE, cityCode);
 		values.put(MyDbTableCareCitys.COLUMN_LAST_UPDATE_TIME, lasteUpdateTime);
-		mDB.insert(MyDbTableCareCitys.TABLE_NAME, null, values);
+		long id = mDB.insert(MyDbTableCareCitys.TABLE_NAME, null, values);
+		return id;
 	}
 
-	public void updateLastUpdateTime(String time, String cityCode) {
+	public boolean updateLastUpdateTime(long time, String cityCode) {
 		String whereClause = MyDbTableCareCitys.COLUMN_CITY_CODE + " = ?";
 		String[] whereArgs = new String[] { cityCode };
 		ContentValues values = new ContentValues();
 		values.put(MyDbTableCareCitys.COLUMN_LAST_UPDATE_TIME, time);
 		mDB.update(MyDbTableCareCitys.TABLE_NAME, values, whereClause, whereArgs);
+		return true;
 	}
 
-	public void updatePrimary(Boolean b, String cityCode) {
+	public boolean updatePrimary(Boolean b, String cityCode) {
 		String whereClause = MyDbTableCareCitys.COLUMN_CITY_CODE + " = ?";
 		String[] whereArgs = new String[] { cityCode };
 		ContentValues values = new ContentValues();
 		values.put(MyDbTableCareCitys.COLUMN_MAIN, b);
 		mDB.update(MyDbTableCareCitys.TABLE_NAME, values, whereClause, whereArgs);
+		return true;
 	}
 
-	public void updateLocation(Boolean b, String cityCode) {
+	public boolean updateLocation(Boolean b, String cityCode) {
 		String whereClause = MyDbTableCareCitys.COLUMN_CITY_CODE + " = ?";
 		String[] whereArgs = new String[] { cityCode };
 		ContentValues values = new ContentValues();
 		values.put(MyDbTableCareCitys.COLUMN_LOCATION, b);
 		mDB.update(MyDbTableCareCitys.TABLE_NAME, values, whereClause, whereArgs);
+		return true;
 	}
 
-	public void deleteCareCity(String cityCode) {
+	public boolean deleteCareCity(String cityCode) {
 		String whereClause = MyDbTableCareCitys.COLUMN_CITY_CODE + " = ?";
 		String[] whereArgs = new String[] { cityCode };
 		ContentValues values = new ContentValues();
 		values.put(MyDbTableCareCitys.COLUMN_DELETED, 1);
 		mDB.update(MyDbTableCareCitys.TABLE_NAME, values, whereClause, whereArgs);
+		return true;
 	}
 
 }

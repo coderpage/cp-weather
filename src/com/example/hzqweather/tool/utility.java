@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import android.content.Context;
 import android.os.Environment;
@@ -44,5 +47,12 @@ public class Utility {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static String DateFormater(long timeL){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss",Locale.CHINA);
+		Date d = new Date(timeL);
+		String date = sdf.format(d);
+		return date;
 	}
 }

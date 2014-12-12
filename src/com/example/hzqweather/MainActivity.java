@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.example.hzqweather.adapter.MainViewAdaper;
 import com.example.hzqweather.controler.CitysList;
+import com.example.hzqweather.controler.WeatherHeiper;
 import com.example.hzqweather.define.DefineMessage;
 import com.example.hzqweather.tool.Utility;
 
@@ -22,12 +23,12 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
 	public static Handler mHandler;
 	private ListView lvCareCitys;
+	private MainViewAdaper adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		System.out.println(Utility.citycodeExist());
 		mHandler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
@@ -47,7 +48,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 		CitysList.getInstance(this);
 		
 		lvCareCitys = (ListView) findViewById(R.id.lv_care_citys);
-		ListAdapter adapter = new MainViewAdaper(this, CitysList.mCitysList);
+		adapter = new MainViewAdaper(this, CitysList.mCitysList);
 		lvCareCitys.setAdapter(adapter);
 		lvCareCitys.setOnItemClickListener(this);
 		CitysList.initCityWeather();
@@ -59,15 +60,15 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	protected void onPostResume() {
 		super.onPostResume();
 		lvCareCitys = (ListView) findViewById(R.id.lv_care_citys);
-		ListAdapter adapter = new MainViewAdaper(this, CitysList.mCitysList);
+		adapter = new MainViewAdaper(this, CitysList.mCitysList);
 		lvCareCitys.setAdapter(adapter);
 		lvCareCitys.setOnItemClickListener(this);
 	}
 
 
 
-	private void updateListView() {
-		
+	public  void updateListView() {
+		adapter.notifyDataSetChanged();
 	}
 
 	public static void updateUI() {
