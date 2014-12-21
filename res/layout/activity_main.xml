@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.hzqweather.MainActivity" >
 
-     <Button
+    <Button
         android:id="@+id/btn_queryCity"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

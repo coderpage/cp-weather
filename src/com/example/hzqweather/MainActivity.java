@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SlidingDrawer;
 
 import com.example.hzqweather.adapter.MainViewAdaper;
 import com.example.hzqweather.controler.CitysList;
@@ -66,18 +68,20 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	}
 
 
-
+	/**
+	 * 更新ListView
+	 */
 	public  void updateListView() {
 		adapter.notifyDataSetChanged();
 	}
 
-	public static void updateUI() {
-		if (mHandler != null) {
-			Message msg = mHandler.obtainMessage();
-			msg.what = DefineMessage.MSG_UPDATEUI;
-			mHandler.sendMessage(msg);
-		}
-	}
+//	public static void updateUI() {
+//		if (mHandler != null) {
+//			Message msg = mHandler.obtainMessage();
+//			msg.what = DefineMessage.MSG_UPDATEUI;
+//			mHandler.sendMessage(msg);
+//		}
+//	}
 
 	public void addCity(View v) {
 		startActivity(new Intent(MainActivity.this, SearchCityActivity.class));

@@ -1,5 +1,8 @@
 package com.example.hzqweather.define;
 
+/**
+ * 定义数据库
+ */
 public class DefineSQL {
 
 	public static class CityCodeDB {

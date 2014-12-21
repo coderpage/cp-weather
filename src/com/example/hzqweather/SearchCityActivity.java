@@ -36,6 +36,10 @@ public class SearchCityActivity extends Activity implements OnItemClickListener 
 		lvCitys = (ListView) findViewById(R.id.lv_citys);
 	}
 
+	/**
+	 * 查询按钮点击事件
+	 * @param v
+	 */
 	public void query(View v) {
 		String cityName = etCity.getText().toString().trim();
 		if (cityName == null || cityName.equals("")) {
@@ -69,6 +73,11 @@ public class SearchCityActivity extends Activity implements OnItemClickListener 
 		 startActivity(new Intent(SearchCityActivity.this, MainActivity.class));
 	}
 
+	/**
+	 * 通过输入的城市名称从数据库中查询对应城市信息
+	 * @param cityName 城市名称
+	 * @return 包含所查询到的城市的list集合
+	 */
 	private List<City> searchCitys(String cityName) {
 		List<City> citys = new ArrayList<City>();
 		CitycodeDBHelper db = CitycodeDBHelper.getInstance(this);

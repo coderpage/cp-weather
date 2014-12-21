@@ -52,6 +52,10 @@ public class WeatherDetailsActivity extends Activity {
 		showDetails(city);
 	}
 
+	/**
+	 * 读取该city中的信息，然后显示到textView
+	 * @param city city对象实例
+	 */
 	public void showDetails(City city) {
 		if (city == null) {
 			return;
@@ -70,6 +74,10 @@ public class WeatherDetailsActivity extends Activity {
 		tvDetail.append("更新时间： " + weather.getUpdateTime() + "\n");
 	}
 
+	/**
+	 *删除城市按钮点击事件
+	 * @param v
+	 */
 	public void deleteCity(View v){
 		DBHelper dbHelper = DBHelper.getInstance(WeatherDetailsActivity.this);
 		boolean deleted = dbHelper.deleteCareCity(city.code);
@@ -79,6 +87,7 @@ public class WeatherDetailsActivity extends Activity {
 		}
 	}
 	
+
 	private void updateUI(){
 		for (City c : CitysList.mCitysList) {
 			if (c.code.equals(city.code)) {

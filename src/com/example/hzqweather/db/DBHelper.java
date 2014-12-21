@@ -42,6 +42,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	}
 
+	/**
+	 * 查询表中所有信息
+	 * @param tableName 表名
+	 * @return Cursor
+	 */
 	public Cursor queryAll(String tableName) {
 		if (tableName.equals(MyDbTableCareCitys.TABLE_NAME)) {
 			String selection = MyDbTableCareCitys.COLUMN_DELETED + "!=?";
@@ -51,6 +56,12 @@ public class DBHelper extends SQLiteOpenHelper {
 		return mDB.query(tableName, null, null, null, null, null, null);
 	}
 
+	/**
+	 * 通过id查询
+	 * @param tableName 表名
+	 * @param id 主键id值
+	 * @return Cursor
+	 */
 	public Cursor queryByRowId(String tableName, long id) {
 		if (tableName.equals(MyDbTableCareCitys.TABLE_NAME)) {
 			String selection = MyDbTableCareCitys.COLUMN_DELETED + "!=? and " + MyDbTableCareCitys.COLUMN_ID + " =? ";
@@ -62,6 +73,13 @@ public class DBHelper extends SQLiteOpenHelper {
 		return mDB.query(tableName, null, selection, selectionArgs, null, null, null);
 	}
 
+	/**
+	 * 添加城市
+	 * @param cityName 城市名称
+	 * @param cityCode 城市代码
+	 * @param lasteUpdateTime 最后更新时间
+	 * @return 插入记录对应的id
+	 */
 	public long insertCareCitys(String cityName, String cityCode, long lasteUpdateTime) {
 		ContentValues values = new ContentValues();
 		values.put(MyDbTableCareCitys.COLUMN_CITY_NAME, cityName);
@@ -71,6 +89,12 @@ public class DBHelper extends SQLiteOpenHelper {
 		return id;
 	}
 
+	/**
+	 * 更新城市最后更新天气的时间
+	 * @param time 最后更新的时间
+	 * @param cityCode 需要更新的城市的代码
+	 * @return 是否更新成功
+	 */
 	public boolean updateLastUpdateTime(long time, String cityCode) {
 		String whereClause = MyDbTableCareCitys.COLUMN_CITY_CODE + " = ?";
 		String[] whereArgs = new String[] { cityCode };
@@ -80,6 +104,12 @@ public class DBHelper extends SQLiteOpenHelper {
 		return true;
 	}
 
+	/**
+	 * 更新主要城市（主要城市是用户上次关闭时显示的城市，我们需要保存用户的设置信息，然后还原，现在还没实现这个功能）
+	 * @param b 是否是主要城市
+	 * @param cityCode 城市代码
+	 * @return 是否更新成功
+	 */
 	public boolean updatePrimary(Boolean b, String cityCode) {
 		String whereClause = MyDbTableCareCitys.COLUMN_CITY_CODE + " = ?";
 		String[] whereArgs = new String[] { cityCode };
@@ -89,6 +119,12 @@ public class DBHelper extends SQLiteOpenHelper {
 		return true;
 	}
 
+	/**
+	 * 更新是否是当前所在城市，（现在还没有实现GPS的定位功能）
+	 * @param b 是否是当前城市
+	 * @param cityCode 城市代码
+	 * @return 是否更新成功
+	 */
 	public boolean updateLocation(Boolean b, String cityCode) {
 		String whereClause = MyDbTableCareCitys.COLUMN_CITY_CODE + " = ?";
 		String[] whereArgs = new String[] { cityCode };
@@ -98,6 +134,11 @@ public class DBHelper extends SQLiteOpenHelper {
 		return true;
 	}
 
+	/**
+	 * 删除城市
+	 * @param cityCode 城市代码 
+	 * @return 是否删除成功
+	 */
 	public boolean deleteCareCity(String cityCode) {
 		String whereClause = MyDbTableCareCitys.COLUMN_CITY_CODE + " = ?";
 		String[] whereArgs = new String[] { cityCode };

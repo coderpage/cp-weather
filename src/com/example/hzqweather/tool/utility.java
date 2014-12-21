@@ -14,12 +14,20 @@ import android.os.Environment;
 
 public class Utility {
 
+	/**
+	 * 查询databases路径下是否存在citycode.db数据库文件
+	 * @return 是否存在
+	 */
 	public static boolean citycodeExist() {
 		String PACKAGE_NAME = "com.example.HZQweather";
 		String dbPath = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + PACKAGE_NAME + "/databases/citycode.db";
 		return new File(dbPath).exists();
 	}
 	
+	/**
+	 * 从assets文件夹下读取数据库文件，然后copy到databases文件夹下
+	 * @param context
+	 */
 	public static void importDB(Context context){
 		try {
 			
@@ -49,6 +57,11 @@ public class Utility {
 		}
 	}
 	
+	/**
+	 * 规范日期
+	 * @param timeL
+	 * @return
+	 */
 	public static String DateFormater(long timeL){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss",Locale.CHINA);
 		Date d = new Date(timeL);

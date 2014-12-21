@@ -11,6 +11,9 @@ import com.example.hzqweather.R;
 import com.example.hzqweather.controler.CitysList;
 import com.example.hzqweather.model.City;
 
+/**
+ * MainActivity中listview的adapter
+ */
 public class MainViewAdaper extends BaseAdapter{
 
 	CitysList citys = null;
