@@ -17,6 +17,7 @@
             android:id="@+id/et_city"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:text="徐州"
             android:layout_weight="1" />
 
         <Button

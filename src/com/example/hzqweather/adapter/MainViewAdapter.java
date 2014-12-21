@@ -1,6 +1,7 @@
 package com.example.hzqweather.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,12 @@ import com.example.hzqweather.model.City;
 /**
  * MainActivity中listview的adapter
  */
-public class MainViewAdaper extends BaseAdapter{
+public class MainViewAdapter extends BaseAdapter{
 
 	CitysList citys = null;
 	Context mContext;
 	
-	public MainViewAdaper(Context context, CitysList citys){
+	public MainViewAdapter(Context context, CitysList citys){
 		this.mContext = context;
 		this.citys = citys;
 	}
@@ -44,12 +45,16 @@ public class MainViewAdaper extends BaseAdapter{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			convertView = LayoutInflater.from(mContext).inflate(R.layout.item, null);
+			convertView = LayoutInflater.from(mContext).inflate(R.layout.sliding_lv_item, null);
 		}
 		City item = citys.get(position);
 		TextView tvCity = (TextView) convertView.findViewById(R.id.tv_city);
-		
-		tvCity.setText(item.displayName);
+		if (position == 0) {
+			tvCity.setText("编辑地点");
+			tvCity.setTextColor(Color.RED);
+		}else {
+			tvCity.setText(item.displayName);
+		}
 		return convertView;
 	}
 	

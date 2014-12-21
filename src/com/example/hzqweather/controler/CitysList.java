@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.example.hzqweather.MainActivity;
+import com.example.hzqweather.NavigationDrawerFragment;
 import com.example.hzqweather.db.DBHelper;
 import com.example.hzqweather.define.DefineMessage;
 import com.example.hzqweather.define.DefineSQL.MyDbTableCareCitys;
@@ -13,29 +14,28 @@ import com.example.hzqweather.model.City;
 import com.example.hzqweather.model.Weather;
 
 /**
- * 继承ArrayList，存储元素为City
- * 单例实现，保证对象的唯一性，维护所要显示所有城市
- * 对该CitysList的所有操作需有考虑线程安全问题
+ * 继承ArrayList，存储元素为City 单例实现，保证对象的唯一性，维护所要显示所有城市 对该CitysList的所有操作需有考虑线程安全问题
  */
 public class CitysList extends ArrayList<City> {
 
 	private static final long serialVersionUID = -5492195926551969982L;
 
 	public static CitysList mCitysList = null;
-	private  Context mContext;
+	private Context mContext;
 
 	private static DBHelper mDbHelper;
-	
-	public static synchronized CitysList getInstance(Context context){
+
+	public static synchronized CitysList getInstance(Context context) {
 		if (mCitysList != null) {
 			return mCitysList;
-		}else {
+		} else {
 			mCitysList = new CitysList(context);
 			return mCitysList.initCitysList();
 		}
-		
+
 	}
-	private CitysList(Context context){
+
+	private CitysList(Context context) {
 		mContext = context;
 		mDbHelper = DBHelper.getInstance(mContext);
 	}
@@ -44,7 +44,8 @@ public class CitysList extends ArrayList<City> {
 	 * 首次初始化CitysList，从数据库中读取所保存的城市
 	 * @return CitysList
 	 */
-	private  CitysList initCitysList() {
+	private CitysList initCitysList() {
+		mCitysList.add(new City());
 		Cursor cur = mDbHelper.queryAll(MyDbTableCareCitys.TABLE_NAME);
 		while (cur.moveToNext()) {
 			String cityName = cur.getString(cur.getColumnIndex(MyDbTableCareCitys.COLUMN_CITY_NAME));
@@ -66,6 +67,9 @@ public class CitysList extends ArrayList<City> {
 	 */
 	public static synchronized void initCityWeather() {
 		for (City c : mCitysList) {
+			if (c.code == null) {
+				continue;
+			}
 			WeatherHeiper weatherHeiper = new WeatherHeiper();
 			weatherHeiper.queryWeather(c.code);
 		}
@@ -84,15 +88,18 @@ public class CitysList extends ArrayList<City> {
 				mDbHelper.updateLastUpdateTime(System.currentTimeMillis(), c.code);
 				return;
 			}
+			if (mCitysList.indexOf(c) == 1) {
+				MainActivity.updateViewByCity(mCitysList.get(1));
+			}
 		}
 		
 	}
-	
+
 	/**
 	 * 向mCitysList添加城市
 	 * @param id 需要添加的城市在my.db中对应主键id
 	 */
-	public void addCity(long id){
+	public void addCity(long id) {
 		Cursor cur = mDbHelper.queryByRowId(MyDbTableCareCitys.TABLE_NAME, id);
 		if (cur.moveToNext()) {
 			String cityName = cur.getString(cur.getColumnIndex(MyDbTableCareCitys.COLUMN_CITY_NAME));
@@ -105,15 +112,16 @@ public class CitysList extends ArrayList<City> {
 			synchronized (CitysList.class) {
 				mCitysList.add(c);
 			}
-			MainActivity.mHandler.sendEmptyMessage(DefineMessage.MSG_UPDATEUI);
+			MainActivity.updateViewByCity(c);
+			NavigationDrawerFragment.updateListView();
 		}
 	}
-	
+
 	/**
 	 * 删除城市
 	 * @param code 城市代码
 	 */
-	public void deleteCity(String code){
+	public void deleteCity(String code) {
 		for (int i = 0; i < mCitysList.size(); i++) {
 			if (code.equals(mCitysList.get(i).code)) {
 				synchronized (CitysList.class) {

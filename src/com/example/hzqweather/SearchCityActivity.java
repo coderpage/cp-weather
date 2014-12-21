@@ -3,10 +3,10 @@ package com.example.hzqweather;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -22,7 +22,7 @@ import com.example.hzqweather.db.DBHelper;
 import com.example.hzqweather.define.DefineSQL;
 import com.example.hzqweather.model.City;
 
-public class SearchCityActivity extends Activity implements OnItemClickListener {
+public class SearchCityActivity extends ActionBarActivity implements OnItemClickListener {
 
 	private EditText etCity;
 	private ListView lvCitys;
