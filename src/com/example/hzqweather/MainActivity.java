@@ -4,22 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SlidingDrawer;
 
 import com.example.hzqweather.adapter.MainViewAdaper;
 import com.example.hzqweather.controler.CitysList;
-import com.example.hzqweather.controler.WeatherHeiper;
 import com.example.hzqweather.define.DefineMessage;
-import com.example.hzqweather.tool.Utility;
 
 public class MainActivity extends ActionBarActivity implements OnItemClickListener {
 
@@ -48,6 +43,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 		};
 
 		CitysList.getInstance(this);
+		
 		
 		lvCareCitys = (ListView) findViewById(R.id.lv_care_citys);
 		adapter = new MainViewAdaper(this, CitysList.mCitysList);
@@ -86,6 +82,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	public void addCity(View v) {
 		startActivity(new Intent(MainActivity.this, SearchCityActivity.class));
 	}
+	
+
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
