@@ -1,7 +1,7 @@
-package com.example.hzqweather.db;
+package com.baasplus.weather.db;
 
-import com.example.hzqweather.define.DefineSQL;
-import com.example.hzqweather.tool.Utility;
+import com.baasplus.weather.define.DefineSQL;
+import com.baasplus.weather.tool.Utility;
 
 import android.content.Context;
 import android.database.Cursor;

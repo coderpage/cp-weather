@@ -1,4 +1,4 @@
-package com.example.hzqweather;
+package com.baasplus.weather;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -19,8 +19,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.hzqweather.adapter.MainViewAdapter;
-import com.example.hzqweather.controler.CitysList;
+import com.baasplus.weather.adapter.MainViewAdapter;
+import com.baasplus.weather.controler.CitysList;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation

@@ -1,4 +1,4 @@
-package com.example.hzqweather.db;
+package com.baasplus.weather.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.hzqweather.define.DefineSQL;
-import com.example.hzqweather.define.DefineSQL.MyDbTableCareCitys;
+import com.baasplus.weather.define.DefineSQL;
+import com.baasplus.weather.define.DefineSQL.MyDbTableCareCitys;
 
 public class DBHelper extends SQLiteOpenHelper {
 

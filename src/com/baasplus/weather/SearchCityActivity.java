@@ -1,4 +1,4 @@
-package com.example.hzqweather;
+package com.baasplus.weather;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +15,12 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.hzqweather.controler.CitysList;
-import com.example.hzqweather.controler.WeatherHeiper;
-import com.example.hzqweather.db.CitycodeDBHelper;
-import com.example.hzqweather.db.DBHelper;
-import com.example.hzqweather.define.DefineSQL;
-import com.example.hzqweather.model.City;
+import com.baasplus.weather.controler.CitysList;
+import com.baasplus.weather.controler.WeatherHeiper;
+import com.baasplus.weather.db.CitycodeDBHelper;
+import com.baasplus.weather.db.DBHelper;
+import com.baasplus.weather.define.DefineSQL;
+import com.baasplus.weather.model.City;
 
 public class SearchCityActivity extends ActionBarActivity implements OnItemClickListener {
 
@@ -51,7 +51,7 @@ public class SearchCityActivity extends ActionBarActivity implements OnItemClick
 			Toast.makeText(SearchCityActivity.this, "未找到相关城市", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		ListAdapter adapter = new com.example.hzqweather.adapter.SearchViewAdapter(SearchCityActivity.this, citys);
+		ListAdapter adapter = new com.baasplus.weather.adapter.SearchViewAdapter(SearchCityActivity.this, citys);
 		lvCitys.setVisibility(ListView.VISIBLE);
 		lvCitys.setAdapter(adapter);
 		lvCitys.setOnItemClickListener(this);

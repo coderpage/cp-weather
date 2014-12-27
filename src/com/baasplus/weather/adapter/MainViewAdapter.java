@@ -1,24 +1,26 @@
-package com.example.hzqweather.adapter;
-
-import java.util.List;
+package com.baasplus.weather.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.hzqweather.R;
-import com.example.hzqweather.model.City;
-/**
- * SearchCityActivity中listview的adapter
- */
-public class SearchViewAdapter extends android.widget.BaseAdapter{
+import com.baasplus.weather.R;
+import com.baasplus.weather.controler.CitysList;
+import com.baasplus.weather.model.City;
 
-	List<City>citys = null;
+/**
+ * MainActivity中listview的adapter
+ */
+public class MainViewAdapter extends BaseAdapter{
+
+	CitysList citys = null;
 	Context mContext;
 	
-	public SearchViewAdapter(Context context, List<City>citys){
+	public MainViewAdapter(Context context, CitysList citys){
 		this.mContext = context;
 		this.citys = citys;
 	}
@@ -47,22 +49,13 @@ public class SearchViewAdapter extends android.widget.BaseAdapter{
 		}
 		City item = citys.get(position);
 		TextView tvCity = (TextView) convertView.findViewById(R.id.tv_city);
-		String province = item.province;
-		if (province == null ) {
-			province = "";
+		if (position == 0) {
+			tvCity.setText("编辑地点");
+			tvCity.setTextColor(Color.RED);
+		}else {
+			tvCity.setText(item.displayName);
 		}
-		String city = item.city;
-		if (city == null) {
-			city = "";
-		}
-		String county = item.county;
-		if (county == null) {
-			county = "";
-		}
-		tvCity.setText(province + "  " + city + "  " + county);
 		return convertView;
 	}
-
 	
-
 }

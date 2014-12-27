@@ -1,29 +1,27 @@
-package com.example.hzqweather.adapter;
+package com.baasplus.weather.adapter;
+
+import java.util.List;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.hzqweather.R;
-import com.example.hzqweather.controler.CitysList;
-import com.example.hzqweather.model.City;
-
+import com.baasplus.weather.R;
+import com.baasplus.weather.model.City;
 /**
- * MainActivity中listview的adapter
+ * SearchCityActivity中listview的adapter
  */
-public class EditCityViewAdapter extends BaseAdapter {
+public class SearchViewAdapter extends android.widget.BaseAdapter{
 
-	CitysList citys = null;
+	List<City>citys = null;
 	Context mContext;
-
-	public EditCityViewAdapter(Context context, CitysList citys) {
+	
+	public SearchViewAdapter(Context context, List<City>citys){
 		this.mContext = context;
 		this.citys = citys;
 	}
-
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
@@ -44,14 +42,27 @@ public class EditCityViewAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (position == 0) {
-			return LayoutInflater.from(mContext).inflate(R.layout.null_item, null);
+		if (convertView == null) {
+			convertView = LayoutInflater.from(mContext).inflate(R.layout.sliding_lv_item, null);
 		}
-		convertView = LayoutInflater.from(mContext).inflate(R.layout.edit_city_lv_item, null);
 		City item = citys.get(position);
 		TextView tvCity = (TextView) convertView.findViewById(R.id.tv_city);
-		tvCity.setText(item.displayName);
+		String province = item.province;
+		if (province == null ) {
+			province = "";
+		}
+		String city = item.city;
+		if (city == null) {
+			city = "";
+		}
+		String county = item.county;
+		if (county == null) {
+			county = "";
+		}
+		tvCity.setText(province + "  " + city + "  " + county);
 		return convertView;
 	}
+
+	
 
 }

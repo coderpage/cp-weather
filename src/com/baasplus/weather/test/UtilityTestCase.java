@@ -1,6 +1,6 @@
-package com.example.hzqweather.test;
+package com.baasplus.weather.test;
 
-import com.example.hzqweather.tool.Utility;
+import com.baasplus.weather.tool.Utility;
 
 import android.test.AndroidTestCase;
 

@@ -1,4 +1,4 @@
-package com.example.hzqweather;
+package com.baasplus.weather;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.example.hzqweather.NavigationDrawerFragment.NavigationDrawerCallbacks;
-import com.example.hzqweather.controler.CitysList;
-import com.example.hzqweather.define.DefineMessage;
-import com.example.hzqweather.model.City;
-import com.example.hzqweather.model.Weather;
+import com.baasplus.weather.NavigationDrawerFragment.NavigationDrawerCallbacks;
+import com.baasplus.weather.controler.CitysList;
+import com.baasplus.weather.define.DefineMessage;
+import com.baasplus.weather.model.City;
+import com.baasplus.weather.model.Weather;
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerCallbacks {
 
@@ -109,7 +109,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
 	@SuppressWarnings("deprecation")
 	public void restoreActionBar() {
 		actionBar = getSupportActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+//		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(mTitle);
 	}

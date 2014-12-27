@@ -1,17 +1,13 @@
-package com.example.hzqweather.controler;
+package com.baasplus.weather.controler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Application;
 import android.os.Handler;
 
-import com.example.hzqweather.MainActivity;
-import com.example.hzqweather.R.string;
-import com.example.hzqweather.db.DBHelper;
-import com.example.hzqweather.define.DefineMessage;
-import com.example.hzqweather.model.Weather;
-import com.example.hzqweather.tool.Utility;
+import com.baasplus.weather.define.DefineMessage;
+import com.baasplus.weather.model.Weather;
+import com.baasplus.weather.tool.Utility;
 
 public class WeatherHeiper {
 	

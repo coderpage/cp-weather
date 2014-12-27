@@ -1,4 +1,4 @@
-package com.example.hzqweather.model;
+package com.baasplus.weather.model;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.example.hzqweather.controler;
+package com.baasplus.weather.controler;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -8,7 +8,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
-import com.example.hzqweather.define.DefineMessage;
+import com.baasplus.weather.define.DefineMessage;
 
 import android.os.Handler;
 import android.os.Message;

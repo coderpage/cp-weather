@@ -1,17 +1,17 @@
-package com.example.hzqweather.controler;
+package com.baasplus.weather.controler;
 
 import java.util.ArrayList;
 
 import android.content.Context;
 import android.database.Cursor;
 
-import com.example.hzqweather.MainActivity;
-import com.example.hzqweather.NavigationDrawerFragment;
-import com.example.hzqweather.db.DBHelper;
-import com.example.hzqweather.define.DefineMessage;
-import com.example.hzqweather.define.DefineSQL.MyDbTableCareCitys;
-import com.example.hzqweather.model.City;
-import com.example.hzqweather.model.Weather;
+import com.baasplus.weather.MainActivity;
+import com.baasplus.weather.NavigationDrawerFragment;
+import com.baasplus.weather.db.DBHelper;
+import com.baasplus.weather.define.DefineMessage;
+import com.baasplus.weather.define.DefineSQL.MyDbTableCareCitys;
+import com.baasplus.weather.model.City;
+import com.baasplus.weather.model.Weather;
 
 /**
  * 继承ArrayList，存储元素为City 单例实现，保证对象的唯一性，维护所要显示所有城市 对该CitysList的所有操作需有考虑线程安全问题

@@ -1,4 +1,4 @@
-package com.example.hzqweather;
+package com.baasplus.weather;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +16,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.hzqweather.adapter.EditCityViewAdapter;
-import com.example.hzqweather.controler.CitysList;
-import com.example.hzqweather.db.DBHelper;
-import com.example.hzqweather.model.City;
+import com.baasplus.weather.adapter.EditCityViewAdapter;
+import com.baasplus.weather.controler.CitysList;
+import com.baasplus.weather.db.DBHelper;
+import com.baasplus.weather.model.City;
 
 public class EditCitysActivity extends ActionBarActivity {
 

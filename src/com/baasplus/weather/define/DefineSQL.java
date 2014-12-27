@@ -1,4 +1,4 @@
-package com.example.hzqweather.define;
+package com.baasplus.weather.define;
 
 /**
  * 定义数据库
