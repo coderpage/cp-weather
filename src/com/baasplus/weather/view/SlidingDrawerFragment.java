@@ -1,4 +1,4 @@
-package com.baasplus.weather;
+package com.baasplus.weather.view;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -16,21 +16,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewDebug.FlagToString;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.baasplus.weather.R;
 import com.baasplus.weather.adapter.MainViewAdapter;
 import com.baasplus.weather.controler.CitysList;
 
-/**
- * Fragment used for managing interactions for and presentation of a navigation
- * drawer. See the <a href=
- * "https://developer.android.com/design/patterns/navigation-drawer.html#Interaction"
- * > design guidelines</a> for a complete explanation of the behaviors
- * implemented here.
- */
 @SuppressWarnings("deprecation")
-public class NavigationDrawerFragment extends Fragment {
+public class SlidingDrawerFragment extends Fragment {
 
 	/**
 	 * Remember the position of the selected item.
@@ -63,7 +58,7 @@ public class NavigationDrawerFragment extends Fragment {
 
 	private static MainViewAdapter mAdapter;
 
-	public NavigationDrawerFragment() {
+	public SlidingDrawerFragment() {
 	}
 
 	@Override
@@ -88,8 +83,7 @@ public class NavigationDrawerFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		// Indicate that this fragment would like to influence the set of
-		// actions in the action bar.
+		// 在actionbar上设置按钮响应
 		setHasOptionsMenu(true);
 	}
 
@@ -124,25 +118,16 @@ public class NavigationDrawerFragment extends Fragment {
 		mFragmentContainerView = getActivity().findViewById(fragmentId);
 		mDrawerLayout = drawerLayout;
 
-		// set a custom shadow that overlays the main content when the drawer
-		// opens
-//		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-		// set up the drawer's list view with items and click listener
+		// mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+		// GravityCompat.START);
 
 		ActionBar actionBar = getActionBar();
+		// 设置actionbar上的按钮
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setHomeButtonEnabled(true);
 
-		// ActionBarDrawerToggle ties together the the proper interactions
-		// between the navigation drawer and the action bar app icon.
 		mDrawerToggle = new ActionBarDrawerToggle(getActivity(), /* host Activity */
-		mDrawerLayout, /* DrawerLayout object */
-		R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
-		R.string.navigation_drawer_open, /* "open drawer" description for
-										 * accessibility */
-		R.string.navigation_drawer_close /* "close drawer" description for
-										 * accessibility */
-		) {
+		mDrawerLayout, R.drawable.ic_drawer, R.string.sliding_drawer_open, R.string.sliding_drawer_close) {
 			@Override
 			public void onDrawerClosed(View drawerView) {
 				super.onDrawerClosed(drawerView);
@@ -283,8 +268,8 @@ public class NavigationDrawerFragment extends Fragment {
 		 */
 		void onNavigationDrawerItemSelected(int position);
 	}
-	
-	public static void updateListView(){
+
+	public static void updateListView() {
 		mAdapter.notifyDataSetChanged();
 	}
 }

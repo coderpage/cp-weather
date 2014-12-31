@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.baasplus.weather.MainActivity;
-import com.baasplus.weather.NavigationDrawerFragment;
 import com.baasplus.weather.db.DBHelper;
 import com.baasplus.weather.define.DefineMessage;
 import com.baasplus.weather.define.DefineSQL.MyDbTableCareCitys;
 import com.baasplus.weather.model.City;
 import com.baasplus.weather.model.Weather;
+import com.baasplus.weather.view.MainActivity;
+import com.baasplus.weather.view.SlidingDrawerFragment;
 
 /**
  * 继承ArrayList，存储元素为City 单例实现，保证对象的唯一性，维护所要显示所有城市 对该CitysList的所有操作需有考虑线程安全问题
@@ -113,7 +113,7 @@ public class CitysList extends ArrayList<City> {
 				mCitysList.add(c);
 			}
 			MainActivity.updateViewByCity(c);
-			NavigationDrawerFragment.updateListView();
+			SlidingDrawerFragment.updateListView();
 		}
 	}
 

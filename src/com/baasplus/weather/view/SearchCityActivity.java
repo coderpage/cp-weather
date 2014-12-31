@@ -1,4 +1,4 @@
-package com.baasplus.weather;
+package com.baasplus.weather.view;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.baasplus.weather.R;
+import com.baasplus.weather.R.id;
+import com.baasplus.weather.R.layout;
 import com.baasplus.weather.controler.CitysList;
 import com.baasplus.weather.controler.WeatherHeiper;
 import com.baasplus.weather.db.CitycodeDBHelper;

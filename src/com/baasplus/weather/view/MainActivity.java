@@ -1,4 +1,4 @@
-package com.baasplus.weather;
+package com.baasplus.weather.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,17 +11,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.baasplus.weather.NavigationDrawerFragment.NavigationDrawerCallbacks;
+import com.baasplus.weather.R;
+import com.baasplus.weather.R.id;
+import com.baasplus.weather.R.layout;
+import com.baasplus.weather.R.menu;
 import com.baasplus.weather.controler.CitysList;
 import com.baasplus.weather.define.DefineMessage;
 import com.baasplus.weather.model.City;
 import com.baasplus.weather.model.Weather;
+import com.baasplus.weather.view.SlidingDrawerFragment.NavigationDrawerCallbacks;
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerCallbacks {
 
 	public static Handler mHandler;
 
-	private NavigationDrawerFragment mNavigationDrawerFragment;
+	private SlidingDrawerFragment mNavigationDrawerFragment;
 
 	/**
 	 * Used to store the last screen title. For use in
@@ -61,7 +65,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
 
 		tvDetail = (TextView) findViewById(R.id.tv_detail);
 
-		mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(
+		mNavigationDrawerFragment = (SlidingDrawerFragment) getSupportFragmentManager().findFragmentById(
 				R.id.navigation_drawer);
 		mTitle = getTitle();
 
