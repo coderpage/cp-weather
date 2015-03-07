@@ -1,5 +1,0 @@
-/Users/abner-l/AndroidStudioProjects/BPweather/app/build/intermediates/classes/debug
-/Users/abner-l/AndroidStudioProjects/BPweather/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.2-b571092b8dc4680fcd665e9cf24fd0e83cc292b3.jar
-/Users/abner-l/AndroidStudioProjects/BPweather/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-394eef9a3f1ef5b42399a30557d8e03003ec1eb2.jar
-/Users/abner-l/AndroidStudioProjects/BPweather/app/build/intermediates/pre-dexed/debug/classes-b18d9601343525e0ba51eb8d8b0e046a75455eb2.jar
-/Users/abner-l/AndroidStudioProjects/BPweather/app/build/intermediates/pre-dexed/debug/classes-d4554ddf5a742c83634ccf21a134653d3163f334.jar
