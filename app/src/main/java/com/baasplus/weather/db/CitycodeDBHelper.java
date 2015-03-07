@@ -1,12 +1,12 @@
 package com.baasplus.weather.db;
 
-import com.baasplus.weather.define.DefineSQL;
-import com.baasplus.weather.tool.Utility;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
+
+import com.baasplus.weather.define.DefineSQL;
+import com.baasplus.weather.tool.Utility;
 
 public class CitycodeDBHelper {
 
@@ -36,7 +36,7 @@ public class CitycodeDBHelper {
 	 * @return 数据库对象
 	 */
 	private SQLiteDatabase openDB() {
-		String PACKAGE_NAME = "com.example.hzqweather";
+		String PACKAGE_NAME = "com.baasplus.weather";
 		String dbPath = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + PACKAGE_NAME
 				+ "/databases/citycode.db";
 		if (!Utility.citycodeExist()) {

@@ -7,5 +7,8 @@
 
     <string name="sliding_drawer_open">Open sliding drawer</string>
     <string name="sliding_drawer_close">Close sliding drawer</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     
 </resources>

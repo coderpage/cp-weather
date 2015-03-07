@@ -1,5 +1,8 @@
 package com.baasplus.weather.tool;
 
+import android.content.Context;
+import android.os.Environment;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -9,9 +12,6 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-import android.content.Context;
-import android.os.Environment;
-
 public class Utility {
 
 	/**
@@ -19,7 +19,7 @@ public class Utility {
 	 * @return 是否存在
 	 */
 	public static boolean citycodeExist() {
-		String PACKAGE_NAME = "com.example.HZQweather";
+		String PACKAGE_NAME = "com.baasplus.weather";
 		String dbPath = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + PACKAGE_NAME + "/databases/citycode.db";
 		return new File(dbPath).exists();
 	}
@@ -31,7 +31,7 @@ public class Utility {
 	public static void importDB(Context context){
 		try {
 			
-			String PACKAGE_NAME = "com.example.hzqweather";
+			String PACKAGE_NAME = "com.baasplus.weather";
 			String dbPath = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + PACKAGE_NAME + "/databases/citycode.db";
 			System.out.println(dbPath);
 			int BUFFER_SIZE = 200000;

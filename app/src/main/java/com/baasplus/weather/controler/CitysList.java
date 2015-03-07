@@ -20,7 +20,7 @@ public class CitysList extends ArrayList<City> {
 
 	private static final long serialVersionUID = -5492195926551969982L;
 
-	public static CitysList mCitysList = new CitysList();
+	public static CitysList mCitysList;
 	private Context mContext;
 
 	private static DBHelper mDbHelper;
@@ -40,7 +40,6 @@ public class CitysList extends ArrayList<City> {
 		mDbHelper = DBHelper.getInstance(mContext);
 	}
 
-    private CitysList(){};
 
 	/**
 	 * 首次初始化CitysList，从数据库中读取所保存的城市
