@@ -11,7 +11,7 @@ public class DetailFragmentList extends ArrayList<DetailFragment> {
 
     private static DetailFragmentList detailFragmentList = null;
 
-    public DetailFragmentList getInstance() {
+    public static DetailFragmentList getInstance() {
         if (detailFragmentList == null) {
             detailFragmentList = new DetailFragmentList();
         }
