@@ -45,16 +45,18 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case DefineMessage.MSG_UPDATEUI:
-                        updateListView();
                         break;
                     case DefineMessage.MSG_UPDATE_WEATHER:
                         City c = (City) msg.obj;
-                        updateViewpager(c);
                         DetailFragment detailFragment = detailFragments.getItem(c);
                         if (detailFragment != null) {
                             detailFragment.updateData();
                         }
+                        break;
 
+                    case DefineMessage.MSG_ADD_NEW_CITY:
+                        City city = (City) msg.obj;
+                        updateViewpager(city);
                         break;
 
                     default:
@@ -95,12 +97,6 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     }
 
-    /**
-     * 更新ListView
-     */
-    public void updateListView() {
-
-    }
 
     /**
      * 更新 ViewPager; 注意：只有当添加新城市的时候，该方法调用且有效
@@ -115,6 +111,9 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         if (!detailFragments.isExist(city)) {
             detailFragments.add(DetailFragment.newInstance(city));
             adapter.notifyDataSetChanged();
+            if (viewPager != null){
+                viewPager.setCurrentItem(detailFragments.size()-1);
+            }
         }
 
     }
@@ -167,7 +166,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
      * @param v
      */
     public void titleAddClick(View v) {
-
+        startActivity(new Intent(MainActivity.this, SearchCityActivity.class));
     }
 
     /**
