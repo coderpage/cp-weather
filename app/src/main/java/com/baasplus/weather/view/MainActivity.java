@@ -73,13 +73,6 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         titleAddTV = (TextView) findViewById(R.id.title_add);
         titileDetailTV = (TextView) findViewById(R.id.title_detail);
         titleMenuTV = (TextView) findViewById(R.id.title_menu);
-
-
-        mNavigationDrawerFragment = (SlidingDrawerFragment) getSupportFragmentManager().findFragmentById(
-                R.id.navigation_drawer);
-
-        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
-
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         detailFragments = DetailFragmentList.getInstance();
@@ -94,6 +87,12 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
         viewPager.setAdapter(adapter);
 
+        mNavigationDrawerFragment = (SlidingDrawerFragment) getSupportFragmentManager().findFragmentById(
+                R.id.navigation_drawer);
+
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+
+
     }
 
     /**
@@ -103,6 +102,11 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     }
 
+    /**
+     * 更新 ViewPager; 注意：只有当添加新城市的时候，该方法调用且有效
+     *
+     * @param city
+     */
     private void updateViewpager(City city) {
         if (detailFragments == null) {
             detailFragments = DetailFragmentList.getInstance();
@@ -115,6 +119,11 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     }
 
+    /**
+     * 通知天气被更新
+     *
+     * @param c 更新天气的城市
+     */
     public static void updateWeather(City c) {
         if (mHandler != null) {
             Message msg = mHandler.obtainMessage();
@@ -124,7 +133,12 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         }
     }
 
-    public static void addNewCity(City city){
+    /**
+     * 通知添加了新的城市
+     *
+     * @param city 新添加的城市
+     */
+    public static void addNewCity(City city) {
         if (mHandler != null) {
             Message msg = mHandler.obtainMessage();
             msg.what = DefineMessage.MSG_ADD_NEW_CITY;
@@ -133,14 +147,17 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         }
     }
 
+    /**
+     * 抽屉盒菜单 item 的点击回调
+     */
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         if (CitysList.mCitysList.size() <= position) {
             return;
         }
-//            startActivity(new Intent(MainActivity.this, EditCitysActivity.class));
-        City c = CitysList.mCitysList.get(position);
-
+        if (viewPager != null) {
+            viewPager.setCurrentItem(position);
+        }
     }
 
 

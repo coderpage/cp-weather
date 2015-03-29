@@ -3,7 +3,6 @@ package com.baasplus.weather.view;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -27,11 +26,6 @@ public class SlidingDrawerFragment extends Fragment {
 	private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 
 	private NavigationDrawerCallbacks mCallbacks;
-
-	/**
-	 * Helper component that ties the action bar to the navigation drawer.
-	 */
-	private ActionBarDrawerToggle mDrawerToggle;
 
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerListView;
@@ -124,16 +118,10 @@ public class SlidingDrawerFragment extends Fragment {
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		// Forward the new configuration the drawer toggle component.
-		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (mDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
-		}
-
 		return super.onOptionsItemSelected(item);
 	}
 
