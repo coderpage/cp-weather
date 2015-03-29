@@ -22,17 +22,27 @@ public class DetailFragmentList extends ArrayList<DetailFragment> {
     private DetailFragmentList() {
     }
 
-    public DetailFragmentList getDetailFragmentList(){
+    public DetailFragmentList getDetailFragmentList() {
         return detailFragmentList;
     }
 
-    public DetailFragment getItem(City city){
-        for (DetailFragment detailFragment:detailFragmentList){
+    public DetailFragment getItem(City city) {
+        for (DetailFragment detailFragment : detailFragmentList) {
             City city1 = detailFragment.getCity();
-            if (city.code.equals(city1.code)){
+            if (city.code.equals(city1.code)) {
                 return detailFragment;
             }
         }
         return null;
+    }
+
+    public boolean isExist(City city) {
+        String cityCode = city.code;
+        for (DetailFragment detailFragment : detailFragmentList) {
+            if (cityCode.equals(detailFragment.getCity().code)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

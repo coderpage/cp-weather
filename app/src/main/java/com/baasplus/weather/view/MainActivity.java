@@ -19,7 +19,7 @@ import com.baasplus.weather.define.DefineMessage;
 import com.baasplus.weather.model.City;
 import com.baasplus.weather.view.SlidingDrawerFragment.NavigationDrawerCallbacks;
 
-public class MainActivity extends FragmentActivity implements NavigationDrawerCallbacks,DetailFragment.OnFragmentInteractionListener {
+public class MainActivity extends FragmentActivity implements NavigationDrawerCallbacks, DetailFragment.OnFragmentInteractionListener {
 
     public static Handler mHandler;
 
@@ -32,7 +32,6 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
     private ViewPager viewPager;
     private BPFragmentPagerAdapter adapter;
     private DetailFragmentList detailFragments;
-
 
 
     @Override
@@ -48,12 +47,11 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
                     case DefineMessage.MSG_UPDATEUI:
                         updateListView();
                         break;
-                    case DefineMessage.MSG_UPDATEUI_BY_CITY:
+                    case DefineMessage.MSG_UPDATE_WEATHER:
                         City c = (City) msg.obj;
                         updateViewpager(c);
-
                         DetailFragment detailFragment = detailFragments.getItem(c);
-                        if (detailFragment != null){
+                        if (detailFragment != null) {
                             detailFragment.updateData();
                         }
 
@@ -82,17 +80,17 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        viewPager = (ViewPager)findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         detailFragments = DetailFragmentList.getInstance();
-        if (detailFragments.size() == 0) {
+        if (detailFragments.isEmpty()) {
             for (City city : CitysList.mCitysList) {
                 detailFragments.add(DetailFragment.newInstance(city));
             }
         }
 
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-        adapter = new BPFragmentPagerAdapter(manager,detailFragments);
+        adapter = new BPFragmentPagerAdapter(manager, detailFragments);
 
         viewPager.setAdapter(adapter);
 
@@ -105,19 +103,32 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     }
 
-    private void updateViewpager(City city){
+    private void updateViewpager(City city) {
         if (detailFragments == null) {
             detailFragments = DetailFragmentList.getInstance();
         }
-        detailFragments.add(DetailFragment.newInstance(city));
-        adapter.notifyDataSetChanged();
+
+        if (!detailFragments.isExist(city)) {
+            detailFragments.add(DetailFragment.newInstance(city));
+            adapter.notifyDataSetChanged();
+        }
+
     }
 
-    public static void updateViewByCity(City c) {
+    public static void updateWeather(City c) {
         if (mHandler != null) {
             Message msg = mHandler.obtainMessage();
-            msg.what = DefineMessage.MSG_UPDATEUI_BY_CITY;
+            msg.what = DefineMessage.MSG_UPDATE_WEATHER;
             msg.obj = c;
+            mHandler.sendMessage(msg);
+        }
+    }
+
+    public static void addNewCity(City city){
+        if (mHandler != null) {
+            Message msg = mHandler.obtainMessage();
+            msg.what = DefineMessage.MSG_ADD_NEW_CITY;
+            msg.obj = city;
             mHandler.sendMessage(msg);
         }
     }
@@ -128,13 +139,14 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
             return;
         }
 //            startActivity(new Intent(MainActivity.this, EditCitysActivity.class));
-            City c = CitysList.mCitysList.get(position);
+        City c = CitysList.mCitysList.get(position);
 
     }
 
 
     /**
      * 添加按钮点击事件
+     *
      * @param v
      */
     public void titleAddClick(View v) {
@@ -143,6 +155,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     /**
      * 菜单按钮点击事件
+     *
      * @param v
      */
     public void titleMenuClick(View v) {
@@ -151,17 +164,19 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     /**
      * 抽屉盒中 编辑城市 按钮点击事件
+     *
      * @param v
      */
-    public void editCitysClick(View v){
+    public void editCitysClick(View v) {
         startActivity(new Intent(MainActivity.this, EditCitysActivity.class));
     }
 
     /**
      * 抽屉盒中 设置 按钮点击事件
+     *
      * @param v
      */
-    public void settingClick(View v){
+    public void settingClick(View v) {
 
 
     }
