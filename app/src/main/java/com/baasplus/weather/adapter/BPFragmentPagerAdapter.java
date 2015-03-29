@@ -41,7 +41,6 @@ public class BPFragmentPagerAdapter extends android.support.v4.app.FragmentPager
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        detailFragments.get(position).testCity();
         return super.instantiateItem(container, position);
     }
 

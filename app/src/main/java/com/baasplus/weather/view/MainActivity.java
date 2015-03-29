@@ -8,18 +8,15 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.baasplus.weather.DataChangeListener;
 import com.baasplus.weather.R;
 import com.baasplus.weather.adapter.BPFragmentPagerAdapter;
 import com.baasplus.weather.controler.CitysList;
 import com.baasplus.weather.controler.DetailFragmentList;
 import com.baasplus.weather.define.DefineMessage;
 import com.baasplus.weather.model.City;
-import com.baasplus.weather.model.Weather;
 import com.baasplus.weather.view.SlidingDrawerFragment.NavigationDrawerCallbacks;
 
 public class MainActivity extends FragmentActivity implements NavigationDrawerCallbacks,DetailFragment.OnFragmentInteractionListener {
@@ -35,7 +32,6 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
     private ViewPager viewPager;
     private BPFragmentPagerAdapter adapter;
     private DetailFragmentList detailFragments;
-    private DataChangeListener dataChangeListener;
 
 
 
@@ -44,12 +40,6 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         super.onCreate(savedInstanceState);
         CitysList.getInstance(this);
         setContentView(R.layout.activity_main);
-        dataChangeListener = new DataChangeListener() {
-            @Override
-            public void onChange(City city) {
-
-            }
-        };
         CitysList.initCityWeather();
         mHandler = new Handler() {
             @Override
@@ -60,7 +50,6 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
                         break;
                     case DefineMessage.MSG_UPDATEUI_BY_CITY:
                         City c = (City) msg.obj;
-//                        dataChangeListener.onChange(c);
                         updateViewpager(c);
 
                         DetailFragment detailFragment = detailFragments.getItem(c);
@@ -98,13 +87,9 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         detailFragments = DetailFragmentList.getInstance();
         if (detailFragments.size() == 0) {
             for (City city : CitysList.mCitysList) {
-                Log.e("log", "---");
                 detailFragments.add(DetailFragment.newInstance(city));
             }
         }
-
-        Log.e("detailFragments.size: ", detailFragments.size() + "");
-
 
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
         adapter = new BPFragmentPagerAdapter(manager,detailFragments);
@@ -128,14 +113,6 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         adapter.notifyDataSetChanged();
     }
 
-    // public static void updateUI() {
-    // if (mHandler != null) {
-    // Message msg = mHandler.obtainMessage();
-    // msg.what = DefineMessage.MSG_UPDATEUI;
-    // mHandler.sendMessage(msg);
-    // }
-    // }
-
     public static void updateViewByCity(City c) {
         if (mHandler != null) {
             Message msg = mHandler.obtainMessage();
@@ -155,28 +132,6 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     }
 
-    /**
-     * 读取该city中的信息，然后显示到textView
-     *
-     * @param city city对象实例
-     */
-    public void showDetails(City city) {
-        if (city == null) {
-            return;
-        }
-        Weather weather = city.weather;
-        if (weather == null) {
-            return;
-        }
-//        tvDetail.setText("");
-//        tvDetail.append("城市： " + weather.getCity() + "\n");
-//        tvDetail.append("天气状况： " + weather.getWeatherCondition() + "\n");
-//        tvDetail.append("最低气温： " + weather.getLow() + "\n");
-//        tvDetail.append("最高气温： " + weather.getHight() + "\n");
-//        tvDetail.append("日期： " + weather.getDate() + "\n");
-//        tvDetail.append("星期： " + weather.getDayOfWeek() + "\n");
-//        tvDetail.append("更新时间： " + weather.getUpdateTime() + "\n");
-    }
 
     /**
      * 添加按钮点击事件
