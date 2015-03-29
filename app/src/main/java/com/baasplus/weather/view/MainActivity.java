@@ -8,12 +8,13 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.baasplus.weather.DataChangeListener;
 import com.baasplus.weather.R;
 import com.baasplus.weather.adapter.BPFragmentPagerAdapter;
-import com.baasplus.weather.controler.CityPageList;
 import com.baasplus.weather.controler.CitysList;
 import com.baasplus.weather.controler.DetailFragmentList;
 import com.baasplus.weather.define.DefineMessage;
@@ -31,8 +32,11 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
     private TextView titleMenuTV;
     private TextView titileDetailTV;
     private TextView titleAddTV;
+    private ViewPager viewPager;
+    private BPFragmentPagerAdapter adapter;
+    private DetailFragmentList detailFragments;
+    private DataChangeListener dataChangeListener;
 
-    private TextView tvDetail;
 
 
     @Override
@@ -40,6 +44,12 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         super.onCreate(savedInstanceState);
         CitysList.getInstance(this);
         setContentView(R.layout.activity_main);
+        dataChangeListener = new DataChangeListener() {
+            @Override
+            public void onChange(City city) {
+
+            }
+        };
         CitysList.initCityWeather();
         mHandler = new Handler() {
             @Override
@@ -50,7 +60,14 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
                         break;
                     case DefineMessage.MSG_UPDATEUI_BY_CITY:
                         City c = (City) msg.obj;
-                        showDetails(c);
+//                        dataChangeListener.onChange(c);
+                        updateViewpager(c);
+
+                        DetailFragment detailFragment = detailFragments.getItem(c);
+                        if (detailFragment != null){
+                            detailFragment.updateData();
+                        }
+
                         break;
 
                     default:
@@ -76,53 +93,21 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        viewPager = (ViewPager)findViewById(R.id.viewpager);
 
-        ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
+        detailFragments = DetailFragmentList.getInstance();
+        if (detailFragments.size() == 0) {
+            for (City city : CitysList.mCitysList) {
+                Log.e("log", "---");
+                detailFragments.add(DetailFragment.newInstance(city));
+            }
+        }
 
-        //citys
-        City city1 = new City();
-        city1.city = "suzhou";
-        Weather weather1 = new Weather();
-        weather1.setCityID("1");
-        weather1.setCity("suzhou");
-        city1.weather = weather1;
+        Log.e("detailFragments.size: ", detailFragments.size() + "");
 
-        City city2 = new City();
-        city2.city = "xuzhou";
-        Weather weather2 = new Weather();
-        weather2.setCityID("1");
-        weather2.setCity("xuzhou");
-        city2.weather = weather2;
-
-//        CityPage cityPage1 = CityPage.newInstace(this,city1);
-//        CityPage cityPage2 = CityPage.newInstace(this,city2);
-
-        CityPage cityPage1 = new CityPage(this);
-        CityPage cityPage2 = new CityPage(this);
-
-        cityPage1.setCity(city1);
-        cityPage1.initView();
-
-        cityPage2.setCity(city2);
-        cityPage2.initView();
-
-        CityPageList cityPages = CityPageList.getInstance();
-        cityPages.add(cityPage1);
-        cityPages.add(cityPage2);
-
-//        PagerAdapter adapter = new PagerAdapter(cityPages);
-
-        DetailFragmentList detailFragments = DetailFragmentList.getInstance();
-
-        DetailFragment detailFragment1 = DetailFragment.newInstance(city1);
-        DetailFragment detailFragment2 = DetailFragment.newInstance(city2);
-
-        detailFragments.add(detailFragment1);
-        detailFragments.add(detailFragment2);
 
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-//        FragmentManager manager = getFragmentManager();
-        BPFragmentPagerAdapter adapter = new BPFragmentPagerAdapter(manager,detailFragments);
+        adapter = new BPFragmentPagerAdapter(manager,detailFragments);
 
         viewPager.setAdapter(adapter);
 
@@ -133,6 +118,14 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
      */
     public void updateListView() {
 
+    }
+
+    private void updateViewpager(City city){
+        if (detailFragments == null) {
+            detailFragments = DetailFragmentList.getInstance();
+        }
+        detailFragments.add(DetailFragment.newInstance(city));
+        adapter.notifyDataSetChanged();
     }
 
     // public static void updateUI() {
@@ -157,13 +150,8 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         if (CitysList.mCitysList.size() <= position) {
             return;
         }
-        if (position == 0) {
-            startActivity(new Intent(MainActivity.this, EditCitysActivity.class));
-        } else {
+//            startActivity(new Intent(MainActivity.this, EditCitysActivity.class));
             City c = CitysList.mCitysList.get(position);
-            titileDetailTV.setText(c.displayName);
-            showDetails(c);
-        }
 
     }
 
@@ -180,14 +168,14 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         if (weather == null) {
             return;
         }
-        tvDetail.setText("");
-        tvDetail.append("城市： " + weather.getCity() + "\n");
-        tvDetail.append("天气状况： " + weather.getWeatherCondition() + "\n");
-        tvDetail.append("最低气温： " + weather.getLow() + "\n");
-        tvDetail.append("最高气温： " + weather.getHight() + "\n");
-        tvDetail.append("日期： " + weather.getDate() + "\n");
-        tvDetail.append("星期： " + weather.getDayOfWeek() + "\n");
-        tvDetail.append("更新时间： " + weather.getUpdateTime() + "\n");
+//        tvDetail.setText("");
+//        tvDetail.append("城市： " + weather.getCity() + "\n");
+//        tvDetail.append("天气状况： " + weather.getWeatherCondition() + "\n");
+//        tvDetail.append("最低气温： " + weather.getLow() + "\n");
+//        tvDetail.append("最高气温： " + weather.getHight() + "\n");
+//        tvDetail.append("日期： " + weather.getDate() + "\n");
+//        tvDetail.append("星期： " + weather.getDayOfWeek() + "\n");
+//        tvDetail.append("更新时间： " + weather.getUpdateTime() + "\n");
     }
 
     /**
@@ -227,4 +215,6 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
 }

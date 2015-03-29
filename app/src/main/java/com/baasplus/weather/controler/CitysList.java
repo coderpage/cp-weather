@@ -46,7 +46,6 @@ public class CitysList extends ArrayList<City> {
 	 * @return CitysList
 	 */
 	private CitysList initCitysList() {
-		mCitysList.add(new City());
 		Cursor cur = mDbHelper.queryAll(MyDbTableCareCitys.TABLE_NAME);
 		while (cur.moveToNext()) {
 			String cityName = cur.getString(cur.getColumnIndex(MyDbTableCareCitys.COLUMN_CITY_NAME));
@@ -87,11 +86,12 @@ public class CitysList extends ArrayList<City> {
 			if (cityCode.equals(c.code)) {
 				c.weather = weather;
 				mDbHelper.updateLastUpdateTime(System.currentTimeMillis(), c.code);
+                MainActivity.updateViewByCity(c);
 				return;
 			}
-			if (mCitysList.indexOf(c) == 1) {
-				MainActivity.updateViewByCity(mCitysList.get(1));
-			}
+//			if (mCitysList.indexOf(c) == 1) {
+//				MainActivity.updateViewByCity(mCitysList.get(1));
+//			}
 		}
 		
 	}

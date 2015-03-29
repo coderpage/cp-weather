@@ -4,21 +4,23 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baasplus.weather.DataChangeListener;
 import com.baasplus.weather.R;
 import com.baasplus.weather.model.City;
 import com.baasplus.weather.model.Weather;
 
 
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements DataChangeListener {
 
     private City city = new City();
-
+    private TextView detailTV;
     private OnFragmentInteractionListener mListener;
 
     public static DetailFragment newInstance(City city) {
@@ -45,7 +47,8 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         LinearLayout contentView = (LinearLayout) inflater.inflate(R.layout.fragment_detail, container, false);
-        TextView detailTV = (TextView) contentView.findViewById(R.id.fragment_detail_tv);
+
+        detailTV = (TextView) contentView.findViewById(R.id.fragment_detail_tv);
 
         if (city != null) {
 
@@ -67,6 +70,7 @@ public class DetailFragment extends Fragment {
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
+        Log.e("log: ", "onButtonPressed is called, the uri is: " + uri.toString());
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
@@ -74,6 +78,7 @@ public class DetailFragment extends Fragment {
 
     @Override
     public void onAttach(Activity activity) {
+        Log.e("log: ", "onAttach is called");
         super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
@@ -83,8 +88,10 @@ public class DetailFragment extends Fragment {
         }
     }
 
+
     @Override
     public void onDetach() {
+        Log.e("log:", "onDetach is called");
         super.onDetach();
         mListener = null;
     }
@@ -103,5 +110,62 @@ public class DetailFragment extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
+
+    @Override
+    public void onChange(City city) {
+
+        Log.e("log:", "onChange");
+        if (city != null && city.city == this.city.city) {
+            if (city != null) {
+
+                Weather weather = city.weather;
+                if (weather != null) {
+
+                    detailTV.setText("");
+                    detailTV.append("城市： " + weather.getCity() + "\n");
+                    detailTV.append("天气状况： " + weather.getWeatherCondition() + "\n");
+                    detailTV.append("最低气温： " + weather.getLow() + "\n");
+                    detailTV.append("最高气温： " + weather.getHight() + "\n");
+                    detailTV.append("日期： " + weather.getDate() + "\n");
+                    detailTV.append("星期： " + weather.getDayOfWeek() + "\n");
+                    detailTV.append("更新时间： " + weather.getUpdateTime() + "\n");
+                }
+            }
+        }
+    }
+
+    public void updateData() {
+        Log.e("log:", "updateData");
+        if (city != null && city.city == this.city.city) {
+            if (city != null) {
+
+                Weather weather = city.weather;
+                if (weather != null) {
+
+                    detailTV.setText("");
+                    detailTV.append("城市： " + weather.getCity() + "\n");
+                    detailTV.append("天气状况： " + weather.getWeatherCondition() + "\n");
+                    detailTV.append("最低气温： " + weather.getLow() + "\n");
+                    detailTV.append("最高气温： " + weather.getHight() + "\n");
+                    detailTV.append("日期： " + weather.getDate() + "\n");
+                    detailTV.append("星期： " + weather.getDayOfWeek() + "\n");
+                    detailTV.append("更新时间： " + weather.getUpdateTime() + "\n");
+                }
+            }
+        }
+    }
+
+    public void testCity() {
+        if (city != null) {
+            Log.e("city to string : ", city.toString());
+        } else {
+            Log.e("log: ", "city is null");
+        }
+    }
+
+    public City getCity() {
+        return this.city;
+    }
+
 
 }
