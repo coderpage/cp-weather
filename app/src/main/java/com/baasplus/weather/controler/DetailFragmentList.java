@@ -1,5 +1,6 @@
 package com.baasplus.weather.controler;
 
+import com.baasplus.weather.model.City;
 import com.baasplus.weather.view.DetailFragment;
 
 import java.util.ArrayList;
@@ -21,4 +22,17 @@ public class DetailFragmentList extends ArrayList<DetailFragment> {
     private DetailFragmentList() {
     }
 
+    public DetailFragmentList getDetailFragmentList(){
+        return detailFragmentList;
+    }
+
+    public DetailFragment getItem(City city){
+        for (DetailFragment detailFragment:detailFragmentList){
+            City city1 = detailFragment.getCity();
+            if (city.code.equals(city1.code)){
+                return detailFragment;
+            }
+        }
+        return null;
+    }
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class CityPageList extends ArrayList<CityPage>{
 
-    private static CityPageList cityPageList = null;
+    public static CityPageList cityPageList = null;
 
     public static CityPageList getInstance() {
         if (cityPageList == null) {
@@ -20,4 +20,6 @@ public class CityPageList extends ArrayList<CityPage>{
 
     public CityPageList() {
     }
+
+
 }
