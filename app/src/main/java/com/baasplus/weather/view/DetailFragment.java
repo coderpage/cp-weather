@@ -135,5 +135,4 @@ public class DetailFragment extends Fragment {
         return this.city;
     }
 
-
 }

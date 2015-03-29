@@ -2,6 +2,7 @@ package com.baasplus.weather.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -14,13 +15,13 @@ import java.util.List;
 /**
  * Created by abner-l on 15/3/14.
  */
-public class BPFragmentPagerAdapter extends android.support.v4.app.FragmentPagerAdapter{
+public class BPFragmentPagerAdapter extends FragmentStatePagerAdapter{
 
     DetailFragmentList detailFragments;
     private List<LinearLayout> contencViews = new ArrayList<>();
     public BPFragmentPagerAdapter(FragmentManager fm,DetailFragmentList detailFragments) {
         super(fm);
-        this.detailFragments = detailFragments;
+        this.detailFragments = DetailFragmentList.getInstance();
     }
 
     public BPFragmentPagerAdapter(FragmentManager fm) {
@@ -33,6 +34,10 @@ public class BPFragmentPagerAdapter extends android.support.v4.app.FragmentPager
         return detailFragments.get(i);
     }
 
+    @Override
+    public int getItemPosition(Object object) {
+        return PagerAdapter.POSITION_NONE;
+    }
 
     @Override
     public int getCount() {
