@@ -1,7 +1,9 @@
 package com.baasplus.weather.controler;
 
+import com.baasplus.weather.define.DefineMessage;
 import com.baasplus.weather.model.City;
 import com.baasplus.weather.view.DetailFragment;
+import com.baasplus.weather.view.MainActivity;
 
 import java.util.ArrayList;
 
@@ -44,5 +46,19 @@ public class DetailFragmentList extends ArrayList<DetailFragment> {
             }
         }
         return false;
+    }
+
+    public void deleteItemByCityCode(String code) {
+        if (code == null) {
+            throw new NullPointerException("code 不能为空");
+        }
+        for (int i = 0; i < detailFragmentList.size(); i++) {
+            if (code.equals(detailFragmentList.get(i).getCity().code)) {
+                synchronized (DetailFragmentList.class) {
+                    DetailFragment detailFragment = detailFragmentList.remove(i);
+                    MainActivity.mHandler.sendEmptyMessage(DefineMessage.MSG_DEL_CITY);
+                }
+            }
+        }
     }
 }

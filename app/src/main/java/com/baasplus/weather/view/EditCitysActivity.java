@@ -1,8 +1,5 @@
 package com.baasplus.weather.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,12 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baasplus.weather.R;
-import com.baasplus.weather.R.id;
-import com.baasplus.weather.R.layout;
 import com.baasplus.weather.adapter.EditCityViewAdapter;
 import com.baasplus.weather.controler.CitysList;
+import com.baasplus.weather.controler.DetailFragmentList;
 import com.baasplus.weather.db.DBHelper;
 import com.baasplus.weather.model.City;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditCitysActivity extends ActionBarActivity {
 
@@ -92,6 +91,7 @@ public class EditCitysActivity extends ActionBarActivity {
 		boolean deleted = dbHelper.deleteCareCity(code);
 		if (deleted) {
 			CitysList.mCitysList.deleteCity(code);
+            DetailFragmentList.getInstance().deleteItemByCityCode(code);
 		}
 	}
 

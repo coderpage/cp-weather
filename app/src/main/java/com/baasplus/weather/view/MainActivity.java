@@ -58,6 +58,11 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
                         City city = (City) msg.obj;
                         updateViewpager(city);
                         break;
+                    case DefineMessage.MSG_DEL_CITY:
+                        if (adapter != null){
+                            adapter.notifyDataSetChanged();
+                        }
+                        break;
 
                     default:
                         break;
@@ -115,7 +120,6 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
                 viewPager.setCurrentItem(detailFragments.size()-1);
             }
         }
-
     }
 
     /**
@@ -201,6 +205,5 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
     public void onFragmentInteraction(Uri uri) {
 
     }
-
 
 }
