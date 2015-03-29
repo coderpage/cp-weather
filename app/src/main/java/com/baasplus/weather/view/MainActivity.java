@@ -8,21 +8,18 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.baasplus.weather.DataChangeListener;
 import com.baasplus.weather.R;
 import com.baasplus.weather.adapter.BPFragmentPagerAdapter;
 import com.baasplus.weather.controler.CitysList;
 import com.baasplus.weather.controler.DetailFragmentList;
 import com.baasplus.weather.define.DefineMessage;
 import com.baasplus.weather.model.City;
-import com.baasplus.weather.model.Weather;
 import com.baasplus.weather.view.SlidingDrawerFragment.NavigationDrawerCallbacks;
 
-public class MainActivity extends FragmentActivity implements NavigationDrawerCallbacks,DetailFragment.OnFragmentInteractionListener {
+public class MainActivity extends FragmentActivity implements NavigationDrawerCallbacks, DetailFragment.OnFragmentInteractionListener {
 
     public static Handler mHandler;
 
@@ -35,8 +32,6 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
     private ViewPager viewPager;
     private BPFragmentPagerAdapter adapter;
     private DetailFragmentList detailFragments;
-    private DataChangeListener dataChangeListener;
-
 
 
     @Override
@@ -44,12 +39,6 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         super.onCreate(savedInstanceState);
         CitysList.getInstance(this);
         setContentView(R.layout.activity_main);
-        dataChangeListener = new DataChangeListener() {
-            @Override
-            public void onChange(City city) {
-
-            }
-        };
         CitysList.initCityWeather();
         mHandler = new Handler() {
             @Override
@@ -58,13 +47,11 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
                     case DefineMessage.MSG_UPDATEUI:
                         updateListView();
                         break;
-                    case DefineMessage.MSG_UPDATEUI_BY_CITY:
+                    case DefineMessage.MSG_UPDATE_WEATHER:
                         City c = (City) msg.obj;
-//                        dataChangeListener.onChange(c);
                         updateViewpager(c);
-
                         DetailFragment detailFragment = detailFragments.getItem(c);
-                        if (detailFragment != null){
+                        if (detailFragment != null) {
                             detailFragment.updateData();
                         }
 
@@ -93,21 +80,17 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        viewPager = (ViewPager)findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         detailFragments = DetailFragmentList.getInstance();
-        if (detailFragments.size() == 0) {
+        if (detailFragments.isEmpty()) {
             for (City city : CitysList.mCitysList) {
-                Log.e("log", "---");
                 detailFragments.add(DetailFragment.newInstance(city));
             }
         }
 
-        Log.e("detailFragments.size: ", detailFragments.size() + "");
-
-
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-        adapter = new BPFragmentPagerAdapter(manager,detailFragments);
+        adapter = new BPFragmentPagerAdapter(manager, detailFragments);
 
         viewPager.setAdapter(adapter);
 
@@ -120,27 +103,32 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     }
 
-    private void updateViewpager(City city){
+    private void updateViewpager(City city) {
         if (detailFragments == null) {
             detailFragments = DetailFragmentList.getInstance();
         }
-        detailFragments.add(DetailFragment.newInstance(city));
-        adapter.notifyDataSetChanged();
+
+        if (!detailFragments.isExist(city)) {
+            detailFragments.add(DetailFragment.newInstance(city));
+            adapter.notifyDataSetChanged();
+        }
+
     }
 
-    // public static void updateUI() {
-    // if (mHandler != null) {
-    // Message msg = mHandler.obtainMessage();
-    // msg.what = DefineMessage.MSG_UPDATEUI;
-    // mHandler.sendMessage(msg);
-    // }
-    // }
-
-    public static void updateViewByCity(City c) {
+    public static void updateWeather(City c) {
         if (mHandler != null) {
             Message msg = mHandler.obtainMessage();
-            msg.what = DefineMessage.MSG_UPDATEUI_BY_CITY;
+            msg.what = DefineMessage.MSG_UPDATE_WEATHER;
             msg.obj = c;
+            mHandler.sendMessage(msg);
+        }
+    }
+
+    public static void addNewCity(City city){
+        if (mHandler != null) {
+            Message msg = mHandler.obtainMessage();
+            msg.what = DefineMessage.MSG_ADD_NEW_CITY;
+            msg.obj = city;
             mHandler.sendMessage(msg);
         }
     }
@@ -151,35 +139,14 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
             return;
         }
 //            startActivity(new Intent(MainActivity.this, EditCitysActivity.class));
-            City c = CitysList.mCitysList.get(position);
+        City c = CitysList.mCitysList.get(position);
 
     }
 
-    /**
-     * 读取该city中的信息，然后显示到textView
-     *
-     * @param city city对象实例
-     */
-    public void showDetails(City city) {
-        if (city == null) {
-            return;
-        }
-        Weather weather = city.weather;
-        if (weather == null) {
-            return;
-        }
-//        tvDetail.setText("");
-//        tvDetail.append("城市： " + weather.getCity() + "\n");
-//        tvDetail.append("天气状况： " + weather.getWeatherCondition() + "\n");
-//        tvDetail.append("最低气温： " + weather.getLow() + "\n");
-//        tvDetail.append("最高气温： " + weather.getHight() + "\n");
-//        tvDetail.append("日期： " + weather.getDate() + "\n");
-//        tvDetail.append("星期： " + weather.getDayOfWeek() + "\n");
-//        tvDetail.append("更新时间： " + weather.getUpdateTime() + "\n");
-    }
 
     /**
      * 添加按钮点击事件
+     *
      * @param v
      */
     public void titleAddClick(View v) {
@@ -188,6 +155,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     /**
      * 菜单按钮点击事件
+     *
      * @param v
      */
     public void titleMenuClick(View v) {
@@ -196,17 +164,19 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     /**
      * 抽屉盒中 编辑城市 按钮点击事件
+     *
      * @param v
      */
-    public void editCitysClick(View v){
+    public void editCitysClick(View v) {
         startActivity(new Intent(MainActivity.this, EditCitysActivity.class));
     }
 
     /**
      * 抽屉盒中 设置 按钮点击事件
+     *
      * @param v
      */
-    public void settingClick(View v){
+    public void settingClick(View v) {
 
 
     }

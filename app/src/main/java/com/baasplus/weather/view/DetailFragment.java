@@ -11,13 +11,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.baasplus.weather.DataChangeListener;
 import com.baasplus.weather.R;
 import com.baasplus.weather.model.City;
 import com.baasplus.weather.model.Weather;
 
 
-public class DetailFragment extends Fragment implements DataChangeListener {
+public class DetailFragment extends Fragment {
 
     private City city = new City();
     private TextView detailTV;
@@ -111,29 +110,6 @@ public class DetailFragment extends Fragment implements DataChangeListener {
         public void onFragmentInteraction(Uri uri);
     }
 
-    @Override
-    public void onChange(City city) {
-
-        Log.e("log:", "onChange");
-        if (city != null && city.city == this.city.city) {
-            if (city != null) {
-
-                Weather weather = city.weather;
-                if (weather != null) {
-
-                    detailTV.setText("");
-                    detailTV.append("城市： " + weather.getCity() + "\n");
-                    detailTV.append("天气状况： " + weather.getWeatherCondition() + "\n");
-                    detailTV.append("最低气温： " + weather.getLow() + "\n");
-                    detailTV.append("最高气温： " + weather.getHight() + "\n");
-                    detailTV.append("日期： " + weather.getDate() + "\n");
-                    detailTV.append("星期： " + weather.getDayOfWeek() + "\n");
-                    detailTV.append("更新时间： " + weather.getUpdateTime() + "\n");
-                }
-            }
-        }
-    }
-
     public void updateData() {
         Log.e("log:", "updateData");
         if (city != null && city.city == this.city.city) {
@@ -152,14 +128,6 @@ public class DetailFragment extends Fragment implements DataChangeListener {
                     detailTV.append("更新时间： " + weather.getUpdateTime() + "\n");
                 }
             }
-        }
-    }
-
-    public void testCity() {
-        if (city != null) {
-            Log.e("city to string : ", city.toString());
-        } else {
-            Log.e("log: ", "city is null");
         }
     }
 

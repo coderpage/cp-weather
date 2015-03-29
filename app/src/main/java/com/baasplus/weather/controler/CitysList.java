@@ -86,12 +86,10 @@ public class CitysList extends ArrayList<City> {
 			if (cityCode.equals(c.code)) {
 				c.weather = weather;
 				mDbHelper.updateLastUpdateTime(System.currentTimeMillis(), c.code);
-                MainActivity.updateViewByCity(c);
+                MainActivity.updateWeather(c);
 				return;
 			}
-//			if (mCitysList.indexOf(c) == 1) {
-//				MainActivity.updateViewByCity(mCitysList.get(1));
-//			}
+
 		}
 		
 	}
@@ -113,7 +111,7 @@ public class CitysList extends ArrayList<City> {
 			synchronized (CitysList.class) {
 				mCitysList.add(c);
 			}
-			MainActivity.updateViewByCity(c);
+			MainActivity.addNewCity(c);
 			SlidingDrawerFragment.updateListView();
 		}
 	}

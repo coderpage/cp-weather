@@ -7,6 +7,7 @@ public class DefineMessage {
 
 	public final static int MSG_UPDATEUI = 0;
 	public final static int MSG_QUERY_WEATHER_SUCC = 1;
-	public final static int MSG_UPDATEUI_BY_CITY = 3;
+	public final static int MSG_UPDATE_WEATHER = 3;
+    public final static int MSG_ADD_NEW_CITY = 4;
 
 }
