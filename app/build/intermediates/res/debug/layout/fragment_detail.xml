@@ -1,0 +1,17 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.baasplus.weather.view.DetailFragment">
+
+    <TextView
+        android:id="@+id/fragment_detail_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:textColor="#000"
+        android:textSize="18sp"
+       />
+
+</LinearLayout>
+<!-- From: file:/Users/abner-l/AndroidStudioProjects/BPweather/app/src/main/res/layout/fragment_detail.xml -->
