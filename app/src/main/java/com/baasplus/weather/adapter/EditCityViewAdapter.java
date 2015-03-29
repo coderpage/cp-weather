@@ -41,9 +41,6 @@ public class EditCityViewAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (position == 0) {
-			return LayoutInflater.from(mContext).inflate(R.layout.null_item, null);
-		}
 		convertView = LayoutInflater.from(mContext).inflate(R.layout.edit_city_lv_item, null);
 		City item = citys.get(position);
 		TextView tvCity = (TextView) convertView.findViewById(R.id.tv_city);
