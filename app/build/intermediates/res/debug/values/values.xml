@@ -168,7 +168,6 @@
     <eat-comment/>
     <string name="action_settings">Settings</string>
     <string name="app_name">BPweather</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sliding_drawer_close">Close sliding drawer</string>
     <string name="sliding_drawer_open">Open sliding drawer</string>
     <!-- From: file:/Users/abner-l/AndroidStudioProjects/BPweather/app/src/main/res/values/styles.xml -->

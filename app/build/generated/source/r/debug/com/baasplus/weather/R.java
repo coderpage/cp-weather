@@ -1318,32 +1318,28 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f08002e;
         public static final int action_mode_bar_stub=0x7f08002d;
         public static final int action_mode_close_button=0x7f080020;
-        public static final int action_settings=0x7f080056;
+        public static final int action_settings=0x7f08004f;
         public static final int activity_chooser_view_content=0x7f080021;
         public static final int always=0x7f080016;
         public static final int beginning=0x7f080013;
-        public static final int btn_query=0x7f08004a;
+        public static final int btn_query=0x7f080047;
         public static final int checkbox=0x7f080029;
         public static final int collapseActionView=0x7f080017;
         public static final int container=0x7f080043;
-        public static final int content=0x7f080054;
+        public static final int content=0x7f08004d;
         public static final int decor_content_parent=0x7f08002f;
         public static final int default_activity_button=0x7f080024;
         public static final int dialog=0x7f08001b;
         public static final int disableHome=0x7f08000c;
-        public static final int drawer=0x7f080053;
-        public static final int drawer_edit_tv=0x7f08004f;
+        public static final int drawer=0x7f08004c;
         public static final int drawer_layout=0x7f080042;
-        public static final int drawer_lv=0x7f080050;
-        public static final int drawer_setting_tv=0x7f080051;
         public static final int dropdown=0x7f08001c;
         public static final int edit_query=0x7f080033;
         public static final int end=0x7f080014;
-        public static final int et_city=0x7f080049;
+        public static final int et_city=0x7f080046;
         public static final int expand_activities_button=0x7f080022;
         public static final int expanded_menu=0x7f080028;
-        public static final int fragment_detail_tv=0x7f08004e;
-        public static final int handle=0x7f080055;
+        public static final int handle=0x7f08004e;
         public static final int home=0x7f080004;
         public static final int homeAsUp=0x7f08000d;
         public static final int icon=0x7f080026;
@@ -1351,10 +1347,10 @@ containing a value of this type.
         public static final int image=0x7f080023;
         public static final int listMode=0x7f080009;
         public static final int list_item=0x7f080025;
-        public static final int lv_citys=0x7f08004b;
+        public static final int lv_citys=0x7f080048;
         public static final int lv_mycitys=0x7f080040;
         public static final int middle=0x7f080015;
-        public static final int navigation_drawer=0x7f080048;
+        public static final int navigation_drawer=0x7f080045;
         public static final int never=0x7f080019;
         public static final int none=0x7f08000e;
         public static final int normal=0x7f08000a;
@@ -1371,7 +1367,7 @@ containing a value of this type.
         public static final int search_plate=0x7f080039;
         public static final int search_src_text=0x7f08003a;
         public static final int search_voice_btn=0x7f08003e;
-        public static final int section_label=0x7f080052;
+        public static final int section_label=0x7f08004b;
         public static final int shortcut=0x7f08002a;
         public static final int showCustom=0x7f08000f;
         public static final int showHome=0x7f080010;
@@ -1380,16 +1376,13 @@ containing a value of this type.
         public static final int submit_area=0x7f08003c;
         public static final int tabMode=0x7f08000b;
         public static final int title=0x7f080027;
-        public static final int title_add=0x7f080046;
-        public static final int title_detail=0x7f080045;
-        public static final int title_menu=0x7f080044;
         public static final int tv_add_city=0x7f08003f;
-        public static final int tv_city=0x7f08004d;
+        public static final int tv_city=0x7f08004a;
         public static final int tv_delete_city=0x7f080041;
-        public static final int tv_delete_icon=0x7f08004c;
+        public static final int tv_delete_icon=0x7f080049;
+        public static final int tv_detail=0x7f080044;
         public static final int up=0x7f080008;
         public static final int useLogo=0x7f080012;
-        public static final int viewpager=0x7f080047;
         public static final int withText=0x7f08001a;
         public static final int wrap_content=0x7f08001d;
     }
@@ -1424,14 +1417,12 @@ containing a value of this type.
         public static final int activity_main=0x7f030018;
         public static final int activity_query_city=0x7f030019;
         public static final int edit_city_lv_item=0x7f03001a;
-        public static final int fragment_detail=0x7f03001b;
-        public static final int fragment_drawer=0x7f03001c;
-        public static final int fragment_main=0x7f03001d;
-        public static final int fragment_navigation_drawer=0x7f03001e;
-        public static final int null_item=0x7f03001f;
-        public static final int sliding_drawer=0x7f030020;
-        public static final int sliding_lv_item=0x7f030021;
-        public static final int support_simple_spinner_dropdown_item=0x7f030022;
+        public static final int fragment_main=0x7f03001b;
+        public static final int fragment_navigation_drawer=0x7f03001c;
+        public static final int null_item=0x7f03001d;
+        public static final int sliding_drawer=0x7f03001e;
+        public static final int sliding_lv_item=0x7f03001f;
+        public static final int support_simple_spinner_dropdown_item=0x7f030020;
     }
     public static final class menu {
         public static final int global=0x7f0c0000;
@@ -1456,9 +1447,8 @@ containing a value of this type.
         public static final int abc_toolbar_collapse_description=0x7f0a000f;
         public static final int action_settings=0x7f0a0010;
         public static final int app_name=0x7f0a0011;
-        public static final int hello_blank_fragment=0x7f0a0012;
-        public static final int sliding_drawer_close=0x7f0a0013;
-        public static final int sliding_drawer_open=0x7f0a0014;
+        public static final int sliding_drawer_close=0x7f0a0012;
+        public static final int sliding_drawer_open=0x7f0a0013;
     }
     public static final class style {
         /** 

@@ -13,7 +13,7 @@
 
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage="com.baasplus.weather.test" >
+        android:targetPackage="com.baasplus.weather" >
     </instrumentation>
 
     <application
