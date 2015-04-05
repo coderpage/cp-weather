@@ -69,7 +69,6 @@ public class DetailFragment extends Fragment {
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
-        Log.e("log: ", "onButtonPressed is called, the uri is: " + uri.toString());
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
@@ -77,7 +76,6 @@ public class DetailFragment extends Fragment {
 
     @Override
     public void onAttach(Activity activity) {
-        Log.e("log: ", "onAttach is called");
         super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
@@ -90,7 +88,6 @@ public class DetailFragment extends Fragment {
 
     @Override
     public void onDetach() {
-        Log.e("log:", "onDetach is called");
         super.onDetach();
         mListener = null;
     }
@@ -134,5 +131,6 @@ public class DetailFragment extends Fragment {
     public City getCity() {
         return this.city;
     }
+
 
 }

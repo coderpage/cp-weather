@@ -8,7 +8,10 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baasplus.weather.R;
@@ -19,7 +22,9 @@ import com.baasplus.weather.define.DefineMessage;
 import com.baasplus.weather.model.City;
 import com.baasplus.weather.view.SlidingDrawerFragment.NavigationDrawerCallbacks;
 
-public class MainActivity extends FragmentActivity implements NavigationDrawerCallbacks, DetailFragment.OnFragmentInteractionListener {
+import java.util.ArrayList;
+
+public class MainActivity extends FragmentActivity implements NavigationDrawerCallbacks, DetailFragment.OnFragmentInteractionListener, ViewPager.OnPageChangeListener {
 
     public static Handler mHandler;
 
@@ -30,8 +35,11 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
     private TextView titileDetailTV;
     private TextView titleAddTV;
     private ViewPager viewPager;
+    private LinearLayout tabsContainer;
     private BPFragmentPagerAdapter adapter;
     private DetailFragmentList detailFragments;
+    private int dotCurIndex;
+    private ArrayList<ImageView> tabDots = new ArrayList<>();
 
 
     @Override
@@ -56,12 +64,10 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
                     case DefineMessage.MSG_ADD_NEW_CITY:
                         City city = (City) msg.obj;
-                        updateViewpager(city);
+                        updateViewpager(city, DefineMessage.MSG_ADD_NEW_CITY);
                         break;
                     case DefineMessage.MSG_DEL_CITY:
-                        if (adapter != null){
-                            adapter.notifyDataSetChanged();
-                        }
+                        updateViewpager(null, DefineMessage.MSG_DEL_CITY);
                         break;
 
                     default:
@@ -89,10 +95,13 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
             }
         }
 
+        initTabDots();
+
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
         adapter = new BPFragmentPagerAdapter(manager, detailFragments);
 
         viewPager.setAdapter(adapter);
+        viewPager.setOnPageChangeListener(this);
 
         mNavigationDrawerFragment = (SlidingDrawerFragment) getSupportFragmentManager().findFragmentById(
                 R.id.navigation_drawer);
@@ -102,24 +111,75 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     }
 
+    private void initTabDots() {
+        tabsContainer = (LinearLayout) findViewById(R.id.tabs);
+        for (int i = 0; i < detailFragments.size(); i++) {
+            ImageView imageView = (ImageView) LayoutInflater.from(this).inflate(R.layout.tab_dot_image_view, null);
+            imageView.setEnabled(false);
+            tabsContainer.addView(imageView);
+            tabDots.add(imageView);
+        }
+        dotCurIndex = 0;
+        tabDots.get(dotCurIndex).setEnabled(true);
+    }
+
+    private void addTabDot() {
+        if (tabsContainer == null) {
+            tabsContainer = (LinearLayout) findViewById(R.id.tabs);
+        }
+        ImageView imageView = (ImageView) LayoutInflater.from(this).inflate(R.layout.tab_dot_image_view, null);
+        imageView.setEnabled(false);
+        tabsContainer.addView(imageView);
+        tabDots.add(imageView);
+    }
+
+    private void removeTabDot() {
+        if (tabsContainer == null) {
+            tabsContainer = (LinearLayout) findViewById(R.id.tabs);
+        }
+        tabsContainer.removeViewAt(0);
+        tabDots.remove(0);
+    }
+
 
     /**
      * 更新 ViewPager; 注意：只有当添加新城市的时候，该方法调用且有效
      *
      * @param city
      */
-    private void updateViewpager(City city) {
+    private void updateViewpager(City city, int type) {
         if (detailFragments == null) {
             detailFragments = DetailFragmentList.getInstance();
         }
 
-        if (!detailFragments.isExist(city)) {
-            detailFragments.add(DetailFragment.newInstance(city));
-            adapter.notifyDataSetChanged();
-            if (viewPager != null){
-                viewPager.setCurrentItem(detailFragments.size()-1);
+        if (type == DefineMessage.MSG_ADD_NEW_CITY) {
+            if (!detailFragments.isExist(city)) {
+                addTabDot();
+                detailFragments.add(DetailFragment.newInstance(city));
+                adapter.notifyDataSetChanged();
+                if (viewPager != null) {
+                    viewPager.setCurrentItem(detailFragments.size() - 1);
+                }
             }
         }
+
+        if (type == DefineMessage.MSG_DEL_CITY) {
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
+            removeTabDot();
+            setTabDotsLastTrue();
+            if (viewPager != null) {
+                viewPager.setCurrentItem(detailFragments.size() - 1);
+            }
+        }
+    }
+
+    private void setTabDotsLastTrue(){
+        for (ImageView imageView: tabDots){
+            imageView.setEnabled(false);
+        }
+        tabDots.get(tabDots.size()-1).setEnabled(true);
     }
 
     /**
@@ -163,6 +223,32 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         }
     }
 
+    @Override
+    public void onPageScrolled(int i, float v, int i2) {
+
+    }
+
+    @Override
+    public void onPageSelected(int i) {
+        setCurDot(i);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int i) {
+
+    }
+
+    private void setCurDot(int position) {
+        if (position < 0 || position > tabDots.size() - 1
+                || dotCurIndex == position) {
+            return;
+        }
+
+        tabDots.get(position).setEnabled(true);
+        tabDots.get(dotCurIndex).setEnabled(false);
+
+        dotCurIndex = position;
+    }
 
     /**
      * 添加按钮点击事件
