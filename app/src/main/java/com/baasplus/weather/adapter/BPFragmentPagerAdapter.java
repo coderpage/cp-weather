@@ -3,14 +3,9 @@ package com.baasplus.weather.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.baasplus.weather.controler.DetailFragmentList;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by abner-l on 15/3/14.
@@ -18,7 +13,6 @@ import java.util.List;
 public class BPFragmentPagerAdapter extends FragmentStatePagerAdapter{
 
     DetailFragmentList detailFragments;
-    private List<LinearLayout> contencViews = new ArrayList<>();
     public BPFragmentPagerAdapter(FragmentManager fm,DetailFragmentList detailFragments) {
         super(fm);
         this.detailFragments = DetailFragmentList.getInstance();
@@ -30,7 +24,6 @@ public class BPFragmentPagerAdapter extends FragmentStatePagerAdapter{
 
     @Override
     public Fragment getItem(int i) {
-        Log.e("getItem is called : ", " i = " + i);
         return detailFragments.get(i);
     }
 
@@ -53,4 +46,5 @@ public class BPFragmentPagerAdapter extends FragmentStatePagerAdapter{
     public void destroyItem(ViewGroup container, int position, Object object) {
         super.destroyItem(container, position, object);
     }
+
 }

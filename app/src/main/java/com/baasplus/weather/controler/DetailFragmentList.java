@@ -1,5 +1,7 @@
 package com.baasplus.weather.controler;
 
+import android.os.Message;
+
 import com.baasplus.weather.define.DefineMessage;
 import com.baasplus.weather.model.City;
 import com.baasplus.weather.view.DetailFragment;
@@ -12,24 +14,24 @@ import java.util.ArrayList;
  */
 public class DetailFragmentList extends ArrayList<DetailFragment> {
 
-    private static DetailFragmentList detailFragmentList = null;
+    private static DetailFragmentList detailFragments = null;
 
     public static DetailFragmentList getInstance() {
-        if (detailFragmentList == null) {
-            detailFragmentList = new DetailFragmentList();
+        if (detailFragments == null) {
+            detailFragments = new DetailFragmentList();
         }
-        return detailFragmentList;
+        return detailFragments;
     }
 
     private DetailFragmentList() {
     }
 
     public DetailFragmentList getDetailFragmentList() {
-        return detailFragmentList;
+        return detailFragments;
     }
 
     public DetailFragment getItem(City city) {
-        for (DetailFragment detailFragment : detailFragmentList) {
+        for (DetailFragment detailFragment : detailFragments) {
             City city1 = detailFragment.getCity();
             if (city.code.equals(city1.code)) {
                 return detailFragment;
@@ -40,7 +42,7 @@ public class DetailFragmentList extends ArrayList<DetailFragment> {
 
     public boolean isExist(City city) {
         String cityCode = city.code;
-        for (DetailFragment detailFragment : detailFragmentList) {
+        for (DetailFragment detailFragment : detailFragments) {
             if (cityCode.equals(detailFragment.getCity().code)) {
                 return true;
             }
@@ -52,13 +54,17 @@ public class DetailFragmentList extends ArrayList<DetailFragment> {
         if (code == null) {
             throw new NullPointerException("code 不能为空");
         }
-        for (int i = 0; i < detailFragmentList.size(); i++) {
-            if (code.equals(detailFragmentList.get(i).getCity().code)) {
+        for (int i = 0; i < detailFragments.size(); i++) {
+            if (code.equals(detailFragments.get(i).getCity().code)) {
                 synchronized (DetailFragmentList.class) {
-                    DetailFragment detailFragment = detailFragmentList.remove(i);
-                    MainActivity.mHandler.sendEmptyMessage(DefineMessage.MSG_DEL_CITY);
+                    detailFragments.remove(i);
+                    Message msg = new Message();
+                    msg.what = DefineMessage.MSG_DEL_CITY;
+                    msg.obj = i;
+                    MainActivity.mHandler.sendMessage(msg);
                 }
             }
         }
     }
+
 }
