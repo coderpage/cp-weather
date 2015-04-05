@@ -107,7 +107,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        if (!CitysList.mCitysList.isEmpty()){
+        if (!CitysList.mCitysList.isEmpty()) {
             titileDetailTV.setText(CitysList.mCitysList.get(0).displayName);
         }
     }
@@ -121,7 +121,9 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
             tabDots.add(imageView);
         }
         dotCurIndex = 0;
-        tabDots.get(dotCurIndex).setEnabled(true);
+        if (!tabDots.isEmpty()) {
+            tabDots.get(dotCurIndex).setEnabled(true);
+        }
     }
 
     private void addTabDot() {
@@ -129,7 +131,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
             tabsContainer = (LinearLayout) findViewById(R.id.tabs);
         }
         ImageView imageView = (ImageView) LayoutInflater.from(this).inflate(R.layout.tab_dot_image_view, null);
-        imageView.setEnabled(false);
+        imageView.setEnabled(true);
         tabsContainer.addView(imageView);
         tabDots.add(imageView);
     }
@@ -159,7 +161,11 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
                 detailFragments.add(DetailFragment.newInstance(city));
                 adapter.notifyDataSetChanged();
                 if (viewPager != null) {
-                    viewPager.setCurrentItem(detailFragments.size() - 1);
+                    int index = detailFragments.size() - 1;
+                    viewPager.setCurrentItem(index);
+                    if (index == 0){
+                        titileDetailTV.setText(detailFragments.get(0).getCity().displayName);
+                    }
                 }
             }
         }
@@ -176,11 +182,11 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         }
     }
 
-    private void setTabDotsLastTrue(){
-        for (ImageView imageView: tabDots){
+    private void setTabDotsLastTrue() {
+        for (ImageView imageView : tabDots) {
             imageView.setEnabled(false);
         }
-        tabDots.get(tabDots.size()-1).setEnabled(true);
+        tabDots.get(tabDots.size() - 1).setEnabled(true);
     }
 
     /**
