@@ -132,4 +132,12 @@ public class CitysList extends ArrayList<City> {
 		}
 	}
 
+    public boolean exist(City city){
+        for(City c: mCitysList){
+            if (c.code.equals(city.code)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

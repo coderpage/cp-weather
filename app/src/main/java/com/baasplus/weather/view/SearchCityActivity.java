@@ -1,8 +1,5 @@
 package com.baasplus.weather.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -22,6 +19,9 @@ import com.baasplus.weather.db.CitycodeDBHelper;
 import com.baasplus.weather.db.DBHelper;
 import com.baasplus.weather.define.DefineSQL;
 import com.baasplus.weather.model.City;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchCityActivity extends ActionBarActivity implements OnItemClickListener {
 
@@ -52,6 +52,7 @@ public class SearchCityActivity extends ActionBarActivity implements OnItemClick
 			Toast.makeText(SearchCityActivity.this, "未找到相关城市", Toast.LENGTH_SHORT).show();
 			return;
 		}
+
 		ListAdapter adapter = new com.baasplus.weather.adapter.SearchViewAdapter(SearchCityActivity.this, citys);
 		lvCitys.setVisibility(ListView.VISIBLE);
 		lvCitys.setAdapter(adapter);
@@ -61,6 +62,10 @@ public class SearchCityActivity extends ActionBarActivity implements OnItemClick
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		City city = citys.get(position);
+        if (CitysList.mCitysList.exist(city)){
+            Toast.makeText(SearchCityActivity.this, "不能重复添加城市", Toast.LENGTH_SHORT).show();
+            return;
+        }
 		 WeatherHelper wm = new WeatherHelper();
 		 wm.queryWeather(city.code);
 		 lvCitys.setVisibility(ListView.GONE);
