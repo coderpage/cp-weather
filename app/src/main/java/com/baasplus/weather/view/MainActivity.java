@@ -84,7 +84,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     private void intiView() {
         titleAddTV = (TextView) findViewById(R.id.title_add);
-        titileDetailTV = (TextView) findViewById(R.id.title_detail);
+        titileDetailTV = (TextView) findViewById(R.id.title_city_name);
         titleMenuTV = (TextView) findViewById(R.id.title_menu);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
@@ -94,7 +94,6 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
                 detailFragments.add(DetailFragment.newInstance(city));
             }
         }
-
         initTabDots();
 
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
@@ -108,7 +107,9 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
-
+        if (!CitysList.mCitysList.isEmpty()){
+            titileDetailTV.setText(CitysList.mCitysList.get(0).displayName);
+        }
     }
 
     private void initTabDots() {
@@ -231,6 +232,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
     @Override
     public void onPageSelected(int i) {
         setCurDot(i);
+        titileDetailTV.setText(detailFragments.get(i).getCity().displayName);
     }
 
     @Override
