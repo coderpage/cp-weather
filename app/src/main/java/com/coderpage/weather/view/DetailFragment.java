@@ -89,6 +89,7 @@ public class DetailFragment extends Fragment {
                 detailTV.append("日期： " + weather.getDate() + "\n");
                 detailTV.append("星期： " + weather.getDayOfWeek() + "\n");
                 detailTV.append("更新时间： " + weather.getUpdateTime() + "\n");
+                detailTV.append("城市代码： " + weather.getCityID() + "\n");
             }
         }
         return contentView;
@@ -150,6 +151,7 @@ public class DetailFragment extends Fragment {
                     detailTV.append("日期： " + weather.getDate() + "\n");
                     detailTV.append("星期： " + weather.getDayOfWeek() + "\n");
                     detailTV.append("更新时间： " + weather.getUpdateTime() + "\n");
+                    detailTV.append("城市代码： " + weather.getCityID() + "\n");
                 }
             }
         }

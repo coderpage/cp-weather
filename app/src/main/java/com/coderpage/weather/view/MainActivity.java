@@ -15,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.coderpage.weather.BPApplication;
 import com.coderpage.weather.R;
 import com.coderpage.weather.adapter.BPFragmentPagerAdapter;
 import com.coderpage.weather.controler.CitysList;
@@ -42,6 +45,9 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
     private int dotCurIndex;
     private ArrayList<ImageView> tabDots = new ArrayList<>();
 
+    private LocationClientOption.LocationMode tempMode = LocationClientOption.LocationMode.Hight_Accuracy;
+    private LocationClient locationClient;
+    private String tempcoor="gcj02";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,13 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         CitysList.getInstance(this);
         setContentView(R.layout.activity_main);
         CitysList.initCityWeather();
+        try {
+            locationClient = ((BPApplication)getApplication()).locationClient;
+            initLocation();
+            locationClient.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -302,4 +315,11 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     }
 
+    private void initLocation(){
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(tempMode);//设置定位模式
+        option.setCoorType(tempcoor);//返回的定位结果是百度经纬度，默认值gcj02
+        option.setIsNeedAddress(true);
+        locationClient.setLocOption(option);
+    }
 }
