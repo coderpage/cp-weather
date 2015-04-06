@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -60,6 +61,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
                         if (detailFragment != null) {
                             detailFragment.updateData();
                         }
+                        Log.e("log","msg update weather");
                         break;
 
                     case DefineMessage.MSG_ADD_NEW_CITY:

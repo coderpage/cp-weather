@@ -39,7 +39,7 @@ public class WeatherHelper {
 		Query.WeatherQuery(mHandler, cityId);
 	}
 	
-	private Weather recoverWeather(JSONObject weatherJson){
+	public Weather recoverWeather(JSONObject weatherJson){
 		if (weatherJson == null) {
 			return null;
 		}
