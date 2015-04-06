@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.baasplus.weather"
+    package="com.coderpage.weather"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -13,7 +13,7 @@
 
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage ="com.baasplus.weather.test" >
+        android:targetPackage ="com.coderpage.weather.test" >
     </instrumentation>
 
     <application
@@ -24,7 +24,7 @@
         <uses-library android:name="android.test.runner" />
 
         <activity
-            android:name="com.baasplus.weather.view.MainActivity"
+            android:name="com.coderpage.weather.view.MainActivity"
             android:launchMode="singleTask"
             android:label="@string/app_name" >
             <intent-filter>
@@ -34,12 +34,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.baasplus.weather.view.SearchCityActivity"
+            android:name="com.coderpage.weather.view.SearchCityActivity"
             android:launchMode="singleTask"
             android:label="@string/app_name" >
         </activity>
          <activity
-            android:name="com.baasplus.weather.view.EditCitysActivity"
+            android:name="com.coderpage.weather.view.EditCitysActivity"
             android:launchMode="singleTask"
             android:label="@string/app_name" >
         </activity>
