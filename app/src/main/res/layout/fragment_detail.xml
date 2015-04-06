@@ -4,20 +4,29 @@
               android:layout_height="match_parent"
               tools:context="com.baasplus.weather.view.DetailFragment">
 
-    <android.support.v4.widget.SwipeRefreshLayout
+
+    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pull_refresh_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/swipe_refresh_layout">
-
-
-        <TextView
-            android:id="@+id/fragment_detail_tv"
+        android:scrollbars="none"
+        ptr:ptrAnimationStyle="rotate">
+<!--ptr:ptrMode="both"-->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textColor="#000"
-            android:textSize="18sp"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+            <TextView
+                android:id="@+id/fragment_detail_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="#000"
+                android:textSize="18sp"/>
 
+        </LinearLayout>
+
+    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
 </LinearLayout>
