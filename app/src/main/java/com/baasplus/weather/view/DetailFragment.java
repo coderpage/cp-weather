@@ -2,6 +2,7 @@ package com.baasplus.weather.view;
 
 import android.app.Activity;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -9,11 +10,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.baasplus.weather.R;
+import com.baasplus.weather.controler.CitysList;
+import com.baasplus.weather.controler.WeatherHelper;
 import com.baasplus.weather.model.City;
 import com.baasplus.weather.model.Weather;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 
 public class DetailFragment extends Fragment {
@@ -21,6 +35,8 @@ public class DetailFragment extends Fragment {
     private City city = new City();
     private TextView detailTV;
     private OnFragmentInteractionListener mListener;
+    PullToRefreshScrollView mPullRefreshScrollView;
+    ScrollView mScrollView;
 
     public static DetailFragment newInstance(City city) {
         DetailFragment fragment = new DetailFragment();
@@ -47,9 +63,18 @@ public class DetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         LinearLayout contentView = (LinearLayout) inflater.inflate(R.layout.fragment_detail, container, false);
 
-        detailTV = (TextView) contentView.findViewById(R.id.fragment_detail_tv);
+        mPullRefreshScrollView = (PullToRefreshScrollView) contentView.findViewById(R.id.pull_refresh_scrollview);
+        mPullRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
 
-        
+            @Override
+            public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                new GetDataTask().execute();
+            }
+        });
+
+        mScrollView = mPullRefreshScrollView.getRefreshableView();
+
+        detailTV = (TextView) contentView.findViewById(R.id.fragment_detail_tv);
 
         if (city != null) {
 
@@ -134,5 +159,38 @@ public class DetailFragment extends Fragment {
         return this.city;
     }
 
+    private class GetDataTask extends AsyncTask<Void, Void, JSONObject> {
 
+        @Override
+        protected JSONObject doInBackground(Void... params) {
+            JSONObject weatherJson = new JSONObject();
+            String url = "http://weather.51wnl.com/weatherinfo/GetMoreWeather?cityCode=" + getCity().code
+                    + "&weatherType=0";
+            String weatherResponse = "";
+            HttpGet httpRequest = new HttpGet(url);
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpResponse httpResponse = httpClient.execute(httpRequest);
+                if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                    String response = EntityUtils.toString(httpResponse.getEntity());
+                    weatherJson = new JSONObject(response);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.i("error", "出错。。。");
+            }
+
+            return weatherJson;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject result) {
+            Weather weather = new Weather();
+            WeatherHelper helper = new WeatherHelper();
+            weather = helper.recoverWeather(result);
+            CitysList.mCitysList.updateWeather(getCity().code, weather);
+            mPullRefreshScrollView.onRefreshComplete();
+            super.onPostExecute(result);
+        }
+    }
 }

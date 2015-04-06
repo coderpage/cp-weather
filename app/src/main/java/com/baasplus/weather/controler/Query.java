@@ -1,5 +1,11 @@
 package com.baasplus.weather.controler;
 
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+
+import com.baasplus.weather.define.DefineMessage;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
@@ -7,13 +13,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
-
-import com.baasplus.weather.define.DefineMessage;
-
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Message;
-import android.util.Log;
 
 public class Query {
 
@@ -53,5 +52,6 @@ public class Query {
 			}
 		}).start();
 	}
+
 
 }
