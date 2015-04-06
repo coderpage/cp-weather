@@ -49,6 +49,8 @@ public class DetailFragment extends Fragment {
 
         detailTV = (TextView) contentView.findViewById(R.id.fragment_detail_tv);
 
+        
+
         if (city != null) {
 
             Weather weather = city.weather;
