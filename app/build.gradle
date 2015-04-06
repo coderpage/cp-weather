@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.baasplus.weather"
+        applicationId "com.coderpage.weather"
         minSdkVersion 9
         targetSdkVersion 21
     }
