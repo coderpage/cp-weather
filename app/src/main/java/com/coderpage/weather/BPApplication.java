@@ -1,7 +1,6 @@
 package com.coderpage.weather;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -22,9 +21,9 @@ public class BPApplication extends Application {
     public class LocationListener implements BDLocationListener{
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
-            String s = bdLocation.getCity();
-            String citycode = bdLocation.getCityCode();
-            Log.e("location city : ","城市：" + s  + " 代码：" + citycode);
+            String city = bdLocation.getCity();
+            String province = bdLocation.getProvince();
+            String district = bdLocation.getDistrict();
         }
     }
 }
