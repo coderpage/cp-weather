@@ -9,13 +9,14 @@ import android.widget.TextView;
 import com.coderpage.weather.R;
 import com.coderpage.weather.model.City;
 
+import java.util.ArrayList;
 import java.util.List;
 /**
  * SearchCityActivity中listview的adapter
  */
 public class SearchViewAdapter extends android.widget.BaseAdapter{
 
-	List<City>citys = null;
+	List<City>citys = new ArrayList<>();
 	Context mContext;
 	
 	public SearchViewAdapter(Context context, List<City>citys){
@@ -45,21 +46,20 @@ public class SearchViewAdapter extends android.widget.BaseAdapter{
 		City item = citys.get(position);
 		TextView tvCity = (TextView) convertView.findViewById(R.id.tv_city);
 		String province = item.province;
-		if (province == null ) {
-			province = "";
-		}
 		String city = item.city;
-		if (city == null) {
-			city = "";
-		}
 		String county = item.county;
-		if (county == null) {
-			county = "";
-		}
-		tvCity.setText(province + "  " + city + "  " + county);
+
+        if (county != null && city != null && province != null){
+            tvCity.setText(county + "-" + city + "-"+ province);
+        }else if (county == null && city != null && province != null){
+            tvCity.setText(city + "-"+ province);
+        }else if (county == null && city == null && province != null){
+            tvCity.setText(province);
+        }else if (county != null && city == null && province != null){
+            tvCity.setText(county + "-"+ province);
+        }
+
 		return convertView;
 	}
-
-	
 
 }

@@ -1,6 +1,7 @@
 package com.coderpage.weather;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -24,6 +25,7 @@ public class BPApplication extends Application {
             String city = bdLocation.getCity();
             String province = bdLocation.getProvince();
             String district = bdLocation.getDistrict();
+            Log.e("locationg info :","province="+ province + "  city=" + city + "  district=" + district);
         }
     }
 }

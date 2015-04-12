@@ -47,7 +47,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     private LocationClientOption.LocationMode tempMode = LocationClientOption.LocationMode.Hight_Accuracy;
     private LocationClient locationClient;
-    private String tempcoor="gcj02";
+    private String tempcoor = "gcj02";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +55,11 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         CitysList.getInstance(this);
         setContentView(R.layout.activity_main);
         CitysList.initCityWeather();
-        try {
-            locationClient = ((BPApplication)getApplication()).locationClient;
-            initLocation();
-            locationClient.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        locationClient = ((BPApplication) getApplication()).locationClient;
+        initLocation();
+        locationClient.start();
+
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -74,7 +72,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
                         if (detailFragment != null) {
                             detailFragment.updateData();
                         }
-                        Log.e("log","msg update weather");
+                        Log.e("log", "msg update weather");
                         break;
 
                     case DefineMessage.MSG_ADD_NEW_CITY:
@@ -178,7 +176,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
                 if (viewPager != null) {
                     int index = detailFragments.size() - 1;
                     viewPager.setCurrentItem(index);
-                    if (index == 0){
+                    if (index == 0) {
                         titileDetailTV.setText(detailFragments.get(0).getCity().displayName);
                     }
                 }
@@ -315,7 +313,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     }
 
-    private void initLocation(){
+    private void initLocation() {
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(tempMode);//设置定位模式
         option.setCoorType(tempcoor);//返回的定位结果是百度经纬度，默认值gcj02
