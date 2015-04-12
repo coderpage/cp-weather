@@ -15,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.coderpage.weather.BPApplication;
 import com.coderpage.weather.R;
 import com.coderpage.weather.adapter.BPFragmentPagerAdapter;
 import com.coderpage.weather.controler.CitysList;
@@ -34,6 +37,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     private TextView titleMenuTV;
     private TextView titileDetailTV;
+    private ImageView titileLocationIV;
     private TextView titleAddTV;
     private ViewPager viewPager;
     private LinearLayout tabsContainer;
@@ -42,6 +46,9 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
     private int dotCurIndex;
     private ArrayList<ImageView> tabDots = new ArrayList<>();
 
+    private LocationClientOption.LocationMode tempMode = LocationClientOption.LocationMode.Hight_Accuracy;
+    private LocationClient locationClient;
+    private String tempcoor = "gcj02";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +56,11 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         CitysList.getInstance(this);
         setContentView(R.layout.activity_main);
         CitysList.initCityWeather();
+
+        locationClient = ((BPApplication) getApplication()).locationClient;
+        initLocation();
+        locationClient.start();
+
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -61,7 +73,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
                         if (detailFragment != null) {
                             detailFragment.updateData();
                         }
-                        Log.e("log","msg update weather");
+                        Log.e("log", "msg update weather");
                         break;
 
                     case DefineMessage.MSG_ADD_NEW_CITY:
@@ -81,12 +93,12 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         };
 
         intiView();
-
     }
 
     private void intiView() {
         titleAddTV = (TextView) findViewById(R.id.title_add);
         titileDetailTV = (TextView) findViewById(R.id.title_city_name);
+        titileLocationIV = (ImageView) findViewById(R.id.titile_iv_loaction);
         titleMenuTV = (TextView) findViewById(R.id.title_menu);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
@@ -110,7 +122,13 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
         if (!CitysList.mCitysList.isEmpty()) {
-            titileDetailTV.setText(CitysList.mCitysList.get(0).displayName);
+            City city = CitysList.mCitysList.get(0);
+            titileDetailTV.setText(city.displayName);
+            if (city.isLocation()){
+                titileLocationIV.setVisibility(View.VISIBLE);
+            }else {
+                titileLocationIV.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -165,8 +183,13 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
                 if (viewPager != null) {
                     int index = detailFragments.size() - 1;
                     viewPager.setCurrentItem(index);
-                    if (index == 0){
+                    if (index == 0) {
                         titileDetailTV.setText(detailFragments.get(0).getCity().displayName);
+                        if (detailFragments.get(0).getCity().isLocation()){
+                            titileLocationIV.setVisibility(View.VISIBLE);
+                        }else {
+                            titileLocationIV.setVisibility(View.GONE);
+                        }
                     }
                 }
             }
@@ -241,6 +264,11 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
     public void onPageSelected(int i) {
         setCurDot(i);
         titileDetailTV.setText(detailFragments.get(i).getCity().displayName);
+        if (detailFragments.get(i).getCity().isLocation()){
+            titileLocationIV.setVisibility(View.VISIBLE);
+        }else {
+            titileLocationIV.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -302,4 +330,11 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     }
 
+    private void initLocation() {
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(tempMode);//设置定位模式
+        option.setCoorType(tempcoor);//返回的定位结果是百度经纬度，默认值gcj02
+        option.setIsNeedAddress(true);
+        locationClient.setLocOption(option);
+    }
 }
