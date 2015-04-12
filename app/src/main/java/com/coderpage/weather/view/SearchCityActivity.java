@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -71,7 +70,6 @@ public class SearchCityActivity extends ActionBarActivity implements OnItemClick
                     return;
                 }
                 citys = fuzzySearchCities(cityName);
-                Log.e("citys size",citys.size() + "------");
                 if (citys.size() == 0) {
                     Toast.makeText(SearchCityActivity.this, "未找到相关城市", Toast.LENGTH_SHORT).show();
                     return;
@@ -119,7 +117,7 @@ public class SearchCityActivity extends ActionBarActivity implements OnItemClick
         wm.queryWeather(city.code);
         lvCitys.setVisibility(ListView.GONE);
         DBHelper dbHelper = DBHelper.getInstance(SearchCityActivity.this);
-        long rowID = dbHelper.insertCareCitys(city.displayName, city.code, System.currentTimeMillis());
+        long rowID = dbHelper.insertCareCitys(city.displayName, city.code, System.currentTimeMillis(),false);
         if (rowID == -1) {
             Toast.makeText(SearchCityActivity.this, "城市添加失败，请重新添加", Toast.LENGTH_LONG).show();
             return;

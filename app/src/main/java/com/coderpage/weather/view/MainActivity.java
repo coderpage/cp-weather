@@ -37,6 +37,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     private TextView titleMenuTV;
     private TextView titileDetailTV;
+    private ImageView titileLocationIV;
     private TextView titleAddTV;
     private ViewPager viewPager;
     private LinearLayout tabsContainer;
@@ -92,12 +93,12 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         };
 
         intiView();
-
     }
 
     private void intiView() {
         titleAddTV = (TextView) findViewById(R.id.title_add);
         titileDetailTV = (TextView) findViewById(R.id.title_city_name);
+        titileLocationIV = (ImageView) findViewById(R.id.titile_iv_loaction);
         titleMenuTV = (TextView) findViewById(R.id.title_menu);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
@@ -121,7 +122,13 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
         if (!CitysList.mCitysList.isEmpty()) {
-            titileDetailTV.setText(CitysList.mCitysList.get(0).displayName);
+            City city = CitysList.mCitysList.get(0);
+            titileDetailTV.setText(city.displayName);
+            if (city.isLocation()){
+                titileLocationIV.setVisibility(View.VISIBLE);
+            }else {
+                titileLocationIV.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -178,6 +185,11 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
                     viewPager.setCurrentItem(index);
                     if (index == 0) {
                         titileDetailTV.setText(detailFragments.get(0).getCity().displayName);
+                        if (detailFragments.get(0).getCity().isLocation()){
+                            titileLocationIV.setVisibility(View.VISIBLE);
+                        }else {
+                            titileLocationIV.setVisibility(View.GONE);
+                        }
                     }
                 }
             }
@@ -252,6 +264,11 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
     public void onPageSelected(int i) {
         setCurDot(i);
         titileDetailTV.setText(detailFragments.get(i).getCity().displayName);
+        if (detailFragments.get(i).getCity().isLocation()){
+            titileLocationIV.setVisibility(View.VISIBLE);
+        }else {
+            titileLocationIV.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -80,11 +80,12 @@ public class DBHelper extends SQLiteOpenHelper {
 	 * @param lasteUpdateTime 最后更新时间
 	 * @return 插入记录对应的id
 	 */
-	public long insertCareCitys(String cityName, String cityCode, long lasteUpdateTime) {
+	public long insertCareCitys(String cityName, String cityCode, long lasteUpdateTime,boolean location) {
 		ContentValues values = new ContentValues();
 		values.put(MyDbTableCareCitys.COLUMN_CITY_NAME, cityName);
 		values.put(MyDbTableCareCitys.COLUMN_CITY_CODE, cityCode);
 		values.put(MyDbTableCareCitys.COLUMN_LAST_UPDATE_TIME, lasteUpdateTime);
+        values.put(MyDbTableCareCitys.COLUMN_LOCATION,location);
 		long id = mDB.insert(MyDbTableCareCitys.TABLE_NAME, null, values);
 		return id;
 	}
