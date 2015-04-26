@@ -18,6 +18,7 @@ import com.coderpage.weather.controler.CitysList;
 import com.coderpage.weather.controler.WeatherHelper;
 import com.coderpage.weather.model.City;
 import com.coderpage.weather.model.Weather;
+import com.coderpage.weather.model.Week;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
@@ -34,6 +35,8 @@ public class DetailFragment extends Fragment {
 
     private City city = new City();
     private TextView detailTV;
+    private TextView tomorrowTV;
+    private TextView dayAfterTomorrowTV;
     private OnFragmentInteractionListener mListener;
     PullToRefreshScrollView mPullRefreshScrollView;
     ScrollView mScrollView;
@@ -75,6 +78,8 @@ public class DetailFragment extends Fragment {
         mScrollView = mPullRefreshScrollView.getRefreshableView();
 
         detailTV = (TextView) contentView.findViewById(R.id.fragment_detail_tv);
+        tomorrowTV = (TextView) contentView.findViewById(R.id.tomorrow_weather_tv);
+        dayAfterTomorrowTV = (TextView) contentView.findViewById(R.id.day_after_tomorrow_weather_tv);
 
         if (city != null) {
 
@@ -82,15 +87,40 @@ public class DetailFragment extends Fragment {
             if (weather != null) {
 
                 detailTV.setText("");
-                detailTV.append("城市： " + weather.getCity() + "\n");
+                detailTV.append("城市： " + city.getDisplayName() + "\n");
                 detailTV.append("天气状况： " + weather.getWeatherCondition() + "\n");
                 detailTV.append("最低气温： " + weather.getLow() + "\n");
                 detailTV.append("最高气温： " + weather.getHight() + "\n");
                 detailTV.append("日期： " + weather.getDate() + "\n");
                 detailTV.append("星期： " + weather.getDayOfWeek() + "\n");
                 detailTV.append("更新时间： " + weather.getUpdateTime() + "\n");
-                detailTV.append("城市代码： " + weather.getCityID() + "\n");
+                detailTV.append("城市代码： " + city.getCode() + "\n");
                 detailTV.append("定位： " + city.isLocation() + "\n");
+                Week week = weather.getWeek();
+                tomorrowTV.append("明天：" + week.getWeather1().getLow() + "~" + week.getWeather1().getHight() + "\n");
+                tomorrowTV.append(week.getWeather1().getWeatherCondition() + "\n");
+                dayAfterTomorrowTV.append("后天：" + week.getWeather2().getLow() + "~" + week.getWeather2().getHight() + "\n");
+                dayAfterTomorrowTV.append(week.getWeather2().getWeatherCondition() + "\n");
+//                detailTV.append("day1：" + "\n");
+//                detailTV.append("天气状况： " + week.getWeather1().getWeatherCondition() + "\n");
+//                detailTV.append("最低气温： " + week.getWeather1().getLow() + "\n");
+//                detailTV.append("最高气温： " + week.getWeather1().getHight() + "\n");
+//                detailTV.append("day2：" + "\n");
+//                detailTV.append("天气状况： " + week.getWeather2().getWeatherCondition() + "\n");
+//                detailTV.append("最低气温： " + week.getWeather2().getLow() + "\n");
+//                detailTV.append("最高气温： " + week.getWeather2().getHight() + "\n");
+//                detailTV.append("day3：" + "\n");
+//                detailTV.append("天气状况： " + week.getWeather3().getWeatherCondition() + "\n");
+//                detailTV.append("最低气温： " + week.getWeather3().getLow() + "\n");
+//                detailTV.append("最高气温： " + week.getWeather3().getHight() + "\n");
+//                detailTV.append("day4：" + "\n");
+//                detailTV.append("天气状况： " + week.getWeather4().getWeatherCondition() + "\n");
+//                detailTV.append("最低气温： " + week.getWeather4().getLow() + "\n");
+//                detailTV.append("最高气温： " + week.getWeather4().getHight() + "\n");
+//                detailTV.append("day5：" + "\n");
+//                detailTV.append("天气状况： " + week.getWeather5().getWeatherCondition() + "\n");
+//                detailTV.append("最低气温： " + week.getWeather5().getLow() + "\n");
+//                detailTV.append("最高气温： " + week.getWeather5().getHight() + "\n");
             }
         }
         return contentView;
@@ -145,15 +175,42 @@ public class DetailFragment extends Fragment {
                 if (weather != null) {
 
                     detailTV.setText("");
-                    detailTV.append("城市： " + weather.getCity() + "\n");
+                    detailTV.append("城市： " + city.getDisplayName()+ "\n");
                     detailTV.append("天气状况： " + weather.getWeatherCondition() + "\n");
                     detailTV.append("最低气温： " + weather.getLow() + "\n");
                     detailTV.append("最高气温： " + weather.getHight() + "\n");
                     detailTV.append("日期： " + weather.getDate() + "\n");
                     detailTV.append("星期： " + weather.getDayOfWeek() + "\n");
                     detailTV.append("更新时间： " + weather.getUpdateTime() + "\n");
-                    detailTV.append("城市代码： " + weather.getCityID() + "\n");
+                    detailTV.append("城市代码： " + city.getCode() + "\n");
                     detailTV.append("定位： " + city.isLocation() + "\n");
+                    Week week = weather.getWeek();
+                    tomorrowTV.setText("");
+                    dayAfterTomorrowTV.setText("");
+                    tomorrowTV.append("明天：" + week.getWeather1().getLow() + "~" + week.getWeather1().getHight() + "\n");
+                    tomorrowTV.append(week.getWeather1().getWeatherCondition() + "\n");
+                    dayAfterTomorrowTV.append("后天：" + week.getWeather2().getLow() + "~" + week.getWeather2().getHight() + "\n");
+                    dayAfterTomorrowTV.append(week.getWeather2().getWeatherCondition() + "\n");
+//                    detailTV.append("day1：" + "\n");
+//                    detailTV.append("天气状况： " + week.getWeather1().getWeatherCondition() + "\n");
+//                    detailTV.append("最低气温： " + week.getWeather1().getLow() + "\n");
+//                    detailTV.append("最高气温： " + week.getWeather1().getHight() + "\n");
+//                    detailTV.append("day2：" + "\n");
+//                    detailTV.append("天气状况： " + week.getWeather2().getWeatherCondition() + "\n");
+//                    detailTV.append("最低气温： " + week.getWeather2().getLow() + "\n");
+//                    detailTV.append("最高气温： " + week.getWeather2().getHight() + "\n");
+//                    detailTV.append("day3：" + "\n");
+//                    detailTV.append("天气状况： " + week.getWeather3().getWeatherCondition() + "\n");
+//                    detailTV.append("最低气温： " + week.getWeather3().getLow() + "\n");
+//                    detailTV.append("最高气温： " + week.getWeather3().getHight() + "\n");
+//                    detailTV.append("day4：" + "\n");
+//                    detailTV.append("天气状况： " + week.getWeather4().getWeatherCondition() + "\n");
+//                    detailTV.append("最低气温： " + week.getWeather4().getLow() + "\n");
+//                    detailTV.append("最高气温： " + week.getWeather4().getHight() + "\n");
+//                    detailTV.append("day5：" + "\n");
+//                    detailTV.append("天气状况： " + week.getWeather5().getWeatherCondition() + "\n");
+//                    detailTV.append("最低气温： " + week.getWeather5().getLow() + "\n");
+//                    detailTV.append("最高气温： " + week.getWeather5().getHight() + "\n");
                 }
             }
         }

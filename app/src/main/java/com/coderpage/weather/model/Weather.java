@@ -5,31 +5,15 @@ import java.io.Serializable;
 public class Weather implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	
-	private String city;
-	private String cityID;
+
 	private String low;
 	private String hight;
 	private String date;
 	private String dayOfWeek;
 	private String weatherCondition;
 	private String updateTime;
+    private Week week;
 
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getCityID() {
-		return cityID;
-	}
-
-	public void setCityID(String cityID) {
-		this.cityID = cityID;
-	}
 
 	public String getLow() {
 		return low;
@@ -78,10 +62,18 @@ public class Weather implements Serializable{
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
-	
-	@Override
+
+    public Week getWeek() {
+        return week;
+    }
+
+    public void setWeek(Week week) {
+        this.week = week;
+    }
+
+    @Override
 	public String toString() {
-		return city + cityID + weatherCondition;
+		return weatherCondition;//city + cityID +
 	}
 
 }
