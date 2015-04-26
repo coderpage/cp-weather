@@ -33,6 +33,7 @@ public class BPApplication extends Application {
             Locate locate = new Locate(context, province, city, district);
             boolean isAddLoacation = locate.addLocationCity();
             Log.e("isAddLoacation",isAddLoacation + "");
+            locationClient.stop();
         }
     }
 }

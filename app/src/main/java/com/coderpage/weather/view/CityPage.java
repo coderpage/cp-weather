@@ -55,7 +55,7 @@ public class CityPage extends ViewGroup {
             Weather weather = city.weather;
             if (weather != null) {
                 detailTV.setText("");
-                detailTV.append("城市： " + weather.getCity() + "\n");
+                detailTV.append("城市： " + city.getDisplayName() + "\n");
                 detailTV.append("天气状况： " + weather.getWeatherCondition() + "\n");
                 detailTV.append("最低气温： " + weather.getLow() + "\n");
                 detailTV.append("最高气温： " + weather.getHight() + "\n");
