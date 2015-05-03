@@ -3,22 +3,23 @@ package com.coderpage.weather.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.view.ViewGroup;
 
-import com.coderpage.weather.controler.DetailFragmentList;
+import com.coderpage.weather.data.CityPages;
 
 /**
  * Created by abner-l on 15/3/14.
  */
-public class BPFragmentPagerAdapter extends FragmentStatePagerAdapter{
+public class CityPagerAdapter extends FragmentStatePagerAdapter{
 
-    DetailFragmentList detailFragments;
-    public BPFragmentPagerAdapter(FragmentManager fm,DetailFragmentList detailFragments) {
+    CityPages detailFragments;
+    public CityPagerAdapter(FragmentManager fm, CityPages detailFragments) {
         super(fm);
-        this.detailFragments = DetailFragmentList.getInstance();
+        this.detailFragments = CityPages.getInstance();
     }
 
-    public BPFragmentPagerAdapter(FragmentManager fm) {
+    public CityPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

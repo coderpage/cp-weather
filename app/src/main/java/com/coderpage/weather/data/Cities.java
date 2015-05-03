@@ -1,9 +1,9 @@
-package com.coderpage.weather.controler;
+package com.coderpage.weather.data;
 
 import android.content.Context;
 import android.database.Cursor;
 
-import com.coderpage.weather.db.DBHelper;
+import com.coderpage.weather.data.db.DBHelper;
 import com.coderpage.weather.define.DefineMessage;
 import com.coderpage.weather.define.DefineSQL.MyDbTableCareCitys;
 import com.coderpage.weather.model.City;
@@ -16,26 +16,26 @@ import java.util.ArrayList;
 /**
  * 继承ArrayList，存储元素为City 单例实现，保证对象的唯一性，维护所要显示所有城市 对该CitysList的所有操作需有考虑线程安全问题
  */
-public class CitysList extends ArrayList<City> {
+public class Cities extends ArrayList<City> {
 
     private static final long serialVersionUID = -5492195926551969982L;
 
-    public static CitysList mCitysList;
+    public static Cities mCities;
     private Context mContext;
 
     private static DBHelper mDbHelper;
 
-    public static synchronized CitysList getInstance(Context context) {
-        if (mCitysList != null) {
-            return mCitysList;
+    public static synchronized Cities getInstance(Context context) {
+        if (mCities != null) {
+            return mCities;
         } else {
-            mCitysList = new CitysList(context);
-            return mCitysList.initCitysList();
+            mCities = new Cities(context);
+            return mCities.initCitysList();
         }
 
     }
 
-    private CitysList(Context context) {
+    private Cities(Context context) {
         mContext = context;
         mDbHelper = DBHelper.getInstance(mContext);
     }
@@ -46,7 +46,7 @@ public class CitysList extends ArrayList<City> {
      *
      * @return CitysList
      */
-    private CitysList initCitysList() {
+    private Cities initCitysList() {
         Cursor cur = mDbHelper.queryAll(MyDbTableCareCitys.TABLE_NAME);
         while (cur.moveToNext()) {
             String cityName = cur.getString(cur.getColumnIndex(MyDbTableCareCitys.COLUMN_CITY_NAME));
@@ -59,9 +59,9 @@ public class CitysList extends ArrayList<City> {
             c.setLastUpdateTime(lastUpdateTime);
             boolean isLocation = location == 1 ? true : false;
             c.setLocation(isLocation);
-            mCitysList.add(c);
+            mCities.add(c);
         }
-        return mCitysList;
+        return mCities;
     }
 
     /**
@@ -70,7 +70,7 @@ public class CitysList extends ArrayList<City> {
      * 该方法不会直接修改更新天气信息，只会去查询天气，更新操作在查询成功后调用updateWeather方法执行
      */
     public static synchronized void initCityWeather() {
-        for (City c : mCitysList) {
+        for (City c : mCities) {
             if (c.code == null) {
                 continue;
             }
@@ -87,7 +87,7 @@ public class CitysList extends ArrayList<City> {
      * @param weather  天气信息
      */
     public static synchronized void updateWeather(String cityCode, Weather weather) {
-        for (City c : mCitysList) {
+        for (City c : mCities) {
             if (cityCode.equals(c.code)) {
                 c.weather = weather;
                 mDbHelper.updateLastUpdateTime(System.currentTimeMillis(), c.code);
@@ -116,8 +116,8 @@ public class CitysList extends ArrayList<City> {
             c.code = cityCode;
             c.lastUpdateTime = lastUpdateTime;
             c.setLocation(location == 1 ? true : false);
-            synchronized (CitysList.class) {
-                mCitysList.add(c);
+            synchronized (Cities.class) {
+                mCities.add(c);
             }
             MainActivity.addNewCity(c);
             SlidingDrawerFragment.updateListView();
@@ -130,10 +130,10 @@ public class CitysList extends ArrayList<City> {
      * @param code 城市代码
      */
     public void deleteCity(String code) {
-        for (int i = 0; i < mCitysList.size(); i++) {
-            if (code.equals(mCitysList.get(i).code)) {
-                synchronized (CitysList.class) {
-                    mCitysList.remove(i);
+        for (int i = 0; i < mCities.size(); i++) {
+            if (code.equals(mCities.get(i).code)) {
+                synchronized (Cities.class) {
+                    mCities.remove(i);
                 }
                 MainActivity.mHandler.sendEmptyMessage(DefineMessage.MSG_UPDATEUI);
                 return;
@@ -142,7 +142,7 @@ public class CitysList extends ArrayList<City> {
     }
 
     public boolean exist(City city) {
-        for (City c : mCitysList) {
+        for (City c : mCities) {
             if (c.code.equals(city.code)) {
                 return true;
             }

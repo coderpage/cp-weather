@@ -1,4 +1,4 @@
-package com.coderpage.weather.controler;
+package com.coderpage.weather.data;
 
 import android.os.Handler;
 import android.os.Message;
@@ -24,9 +24,7 @@ public class Query {
 			public void run() {
 				String URL = "http://weather.51wnl.com/weatherinfo/GetMoreWeather?cityCode=" + cityId
 						+ "&weatherType=0";
-				// String URL =
-				// "http://weather.123.duba.net/static/weather_info/"+ cityId
-				// +".html";
+
 				String weatherResponse = "";
 				HttpGet httpRequest = new HttpGet(URL);
 				try {
@@ -34,7 +32,6 @@ public class Query {
 					HttpResponse httpResponse = httpClient.execute(httpRequest);
 					if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 						String response = EntityUtils.toString(httpResponse.getEntity());
-					//	weatherResponse = response.substring(response.indexOf("(") + 1, response.indexOf(")"));
 						weatherResponse = response;
 						Log.i("response:  ", weatherResponse.toString());
 						JSONObject weatherJson = new JSONObject(response);

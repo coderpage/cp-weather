@@ -1,4 +1,4 @@
-package com.coderpage.weather.db;
+package com.coderpage.weather.data.db;
 
 import android.content.ContentValues;
 import android.content.Context;

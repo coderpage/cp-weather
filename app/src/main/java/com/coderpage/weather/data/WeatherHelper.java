@@ -1,4 +1,4 @@
-package com.coderpage.weather.controler;
+package com.coderpage.weather.data;
 
 import android.os.Handler;
 
@@ -25,7 +25,7 @@ public class WeatherHelper {
 			case DefineMessage.MSG_QUERY_WEATHER_SUCC:
 				JSONObject weatherJson = (JSONObject) msg.obj;
 				weather = recoverWeather(weatherJson);
-				CitysList.updateWeather(cityCode, weather);
+				Cities.updateWeather(cityCode, weather);
 				break;
 
 			default:

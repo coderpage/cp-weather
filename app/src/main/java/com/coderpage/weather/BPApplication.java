@@ -7,7 +7,7 @@ import android.util.Log;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
-import com.coderpage.weather.controler.Locate;
+import com.coderpage.weather.data.Locate;
 
 public class BPApplication extends Application {
 

@@ -1,10 +1,10 @@
-package com.coderpage.weather.controler;
+package com.coderpage.weather.data;
 
 import android.content.Context;
 import android.database.Cursor;
 
-import com.coderpage.weather.db.CitycodeDBHelper;
-import com.coderpage.weather.db.DBHelper;
+import com.coderpage.weather.data.db.CitycodeDBHelper;
+import com.coderpage.weather.data.db.DBHelper;
 import com.coderpage.weather.define.DefineSQL;
 import com.coderpage.weather.model.City;
 
@@ -101,7 +101,7 @@ public class Locate {
     }
 
     private boolean addLocation(City c) {
-        if (CitysList.mCitysList.exist(c)){
+        if (Cities.mCities.exist(c)){
             return true;
         }
         WeatherHelper wm = new WeatherHelper();
@@ -111,7 +111,7 @@ public class Locate {
         if (rowID == -1) {
             return false;
         }
-        CitysList.mCitysList.addCity(rowID);
+        Cities.mCities.addCity(rowID);
         return true;
     }
 }
