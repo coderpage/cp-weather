@@ -191,26 +191,6 @@ public class DetailFragment extends Fragment {
                     tomorrowTV.append(week.getWeather1().getWeatherCondition() + "\n");
                     dayAfterTomorrowTV.append("后天：" + week.getWeather2().getLow() + "~" + week.getWeather2().getHight() + "\n");
                     dayAfterTomorrowTV.append(week.getWeather2().getWeatherCondition() + "\n");
-//                    detailTV.append("day1：" + "\n");
-//                    detailTV.append("天气状况： " + week.getWeather1().getWeatherCondition() + "\n");
-//                    detailTV.append("最低气温： " + week.getWeather1().getLow() + "\n");
-//                    detailTV.append("最高气温： " + week.getWeather1().getHight() + "\n");
-//                    detailTV.append("day2：" + "\n");
-//                    detailTV.append("天气状况： " + week.getWeather2().getWeatherCondition() + "\n");
-//                    detailTV.append("最低气温： " + week.getWeather2().getLow() + "\n");
-//                    detailTV.append("最高气温： " + week.getWeather2().getHight() + "\n");
-//                    detailTV.append("day3：" + "\n");
-//                    detailTV.append("天气状况： " + week.getWeather3().getWeatherCondition() + "\n");
-//                    detailTV.append("最低气温： " + week.getWeather3().getLow() + "\n");
-//                    detailTV.append("最高气温： " + week.getWeather3().getHight() + "\n");
-//                    detailTV.append("day4：" + "\n");
-//                    detailTV.append("天气状况： " + week.getWeather4().getWeatherCondition() + "\n");
-//                    detailTV.append("最低气温： " + week.getWeather4().getLow() + "\n");
-//                    detailTV.append("最高气温： " + week.getWeather4().getHight() + "\n");
-//                    detailTV.append("day5：" + "\n");
-//                    detailTV.append("天气状况： " + week.getWeather5().getWeatherCondition() + "\n");
-//                    detailTV.append("最低气温： " + week.getWeather5().getLow() + "\n");
-//                    detailTV.append("最高气温： " + week.getWeather5().getHight() + "\n");
                 }
             }
         }

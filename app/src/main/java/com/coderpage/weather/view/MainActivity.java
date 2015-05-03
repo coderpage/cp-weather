@@ -1,6 +1,7 @@
 package com.coderpage.weather.view;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +9,7 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +24,11 @@ import com.coderpage.weather.R;
 import com.coderpage.weather.adapter.DetailPagerAdapter;
 import com.coderpage.weather.controler.CitysList;
 import com.coderpage.weather.controler.DetailFragmentList;
+import com.coderpage.weather.db.CitycodeDBHelper;
+import com.coderpage.weather.db.NewDbHelper;
 import com.coderpage.weather.define.DefineMessage;
 import com.coderpage.weather.model.City;
+import com.coderpage.weather.tool.PinyinUtil;
 import com.coderpage.weather.view.SlidingDrawerFragment.NavigationDrawerCallbacks;
 
 import java.util.ArrayList;
@@ -92,6 +97,42 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         };
 
         intiView();
+        initNewDb();
+    }
+
+    private void initNewDb(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CitycodeDBHelper helper = CitycodeDBHelper.getInstance(MainActivity.this);
+                NewDbHelper newDbHelper = NewDbHelper.getInstance(MainActivity.this,"new_db");
+                Cursor cursor = helper.queryAll();
+                while(cursor.moveToNext()){
+                    String province = cursor.getString(cursor.getColumnIndex("province"));
+                    String city = cursor.getString(cursor.getColumnIndex("city"));
+                    String county = cursor.getString(cursor.getColumnIndex("county"));
+                    String code = cursor.getString(cursor.getColumnIndex("code"));
+
+                    if (TextUtils.isEmpty(province) || TextUtils.isEmpty(code)){
+                        throw new IllegalStateException("province || code is null");
+                    }
+
+                    if (TextUtils.isEmpty(city)){
+                        city = province;
+                    }
+                    if (TextUtils.isEmpty(county)){
+                        county = city;
+                    }
+
+                    String all_py = PinyinUtil.getPingYin(county);
+                    String all_first_py = PinyinUtil.getFirstSpell(county);
+                    String firest_py = PinyinUtil.getFirstSpell(county.substring(0,1));
+
+                    newDbHelper.insert(province,city,county,code,all_py,all_first_py,firest_py);
+                }
+                Log.e("log","make new_db succ");
+            }
+        }).start();
     }
 
     private void intiView() {
