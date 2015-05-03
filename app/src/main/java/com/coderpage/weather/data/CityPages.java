@@ -1,10 +1,10 @@
-package com.coderpage.weather.controler;
+package com.coderpage.weather.data;
 
 import android.os.Message;
 
 import com.coderpage.weather.define.DefineMessage;
 import com.coderpage.weather.model.City;
-import com.coderpage.weather.view.DetailFragment;
+import com.coderpage.weather.view.CityPage;
 import com.coderpage.weather.view.MainActivity;
 
 import java.util.ArrayList;
@@ -12,26 +12,26 @@ import java.util.ArrayList;
 /**
  * Created by abner-l on 15/3/8.
  */
-public class DetailFragmentList extends ArrayList<DetailFragment> {
+public class CityPages extends ArrayList<CityPage> {
 
-    private static DetailFragmentList detailFragments = null;
+    private static CityPages mCityPages = null;
 
-    public static DetailFragmentList getInstance() {
-        if (detailFragments == null) {
-            detailFragments = new DetailFragmentList();
+    public static CityPages getInstance() {
+        if (mCityPages == null) {
+            mCityPages = new CityPages();
         }
-        return detailFragments;
+        return mCityPages;
     }
 
-    private DetailFragmentList() {
+    private CityPages() {
     }
 
-    public DetailFragmentList getDetailFragmentList() {
-        return detailFragments;
+    public CityPages getDetailFragmentList() {
+        return mCityPages;
     }
 
-    public DetailFragment getItem(City city) {
-        for (DetailFragment detailFragment : detailFragments) {
+    public CityPage getItem(City city) {
+        for (CityPage detailFragment : mCityPages) {
             City city1 = detailFragment.getCity();
             if (city.code.equals(city1.code)) {
                 return detailFragment;
@@ -42,7 +42,7 @@ public class DetailFragmentList extends ArrayList<DetailFragment> {
 
     public boolean isExist(City city) {
         String cityCode = city.code;
-        for (DetailFragment detailFragment : detailFragments) {
+        for (CityPage detailFragment : mCityPages) {
             if (cityCode.equals(detailFragment.getCity().code)) {
                 return true;
             }
@@ -54,10 +54,10 @@ public class DetailFragmentList extends ArrayList<DetailFragment> {
         if (code == null) {
             throw new NullPointerException("code 不能为空");
         }
-        for (int i = 0; i < detailFragments.size(); i++) {
-            if (code.equals(detailFragments.get(i).getCity().code)) {
-                synchronized (DetailFragmentList.class) {
-                    detailFragments.remove(i);
+        for (int i = 0; i < mCityPages.size(); i++) {
+            if (code.equals(mCityPages.get(i).getCity().code)) {
+                synchronized (CityPages.class) {
+                    mCityPages.remove(i);
                     Message msg = new Message();
                     msg.what = DefineMessage.MSG_DEL_CITY;
                     msg.obj = i;

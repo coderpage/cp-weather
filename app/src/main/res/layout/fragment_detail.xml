@@ -2,7 +2,7 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              tools:context="com.coderpage.weather.view.DetailFragment">
+              tools:context="com.coderpage.weather.view.CityPage">
 
 
     <com.handmark.pulltorefresh.library.PullToRefreshScrollView

@@ -16,8 +16,8 @@ import android.widget.Toast;
 
 import com.coderpage.weather.R;
 import com.coderpage.weather.adapter.SearchViewAdapter;
-import com.coderpage.weather.controler.CitysList;
-import com.coderpage.weather.controler.WeatherHelper;
+import com.coderpage.weather.data.Cities;
+import com.coderpage.weather.data.WeatherHelper;
 import com.coderpage.weather.data.db.CitycodeDBHelper;
 import com.coderpage.weather.data.db.DBHelper;
 import com.coderpage.weather.define.DefineSQL;
@@ -109,7 +109,7 @@ public class SearchCityActivity extends ActionBarActivity implements OnItemClick
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         City city = citys.get(position);
-        if (CitysList.mCitysList.exist(city)) {
+        if (Cities.mCities.exist(city)) {
             Toast.makeText(SearchCityActivity.this, "不能重复添加城市", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -122,7 +122,7 @@ public class SearchCityActivity extends ActionBarActivity implements OnItemClick
             Toast.makeText(SearchCityActivity.this, "城市添加失败，请重新添加", Toast.LENGTH_LONG).show();
             return;
         }
-        CitysList.mCitysList.addCity(rowID);
+        Cities.mCities.addCity(rowID);
         startActivity(new Intent(SearchCityActivity.this, MainActivity.class));
     }
 

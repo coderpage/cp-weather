@@ -14,8 +14,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.coderpage.weather.R;
-import com.coderpage.weather.controler.CitysList;
-import com.coderpage.weather.controler.WeatherHelper;
+import com.coderpage.weather.data.Cities;
+import com.coderpage.weather.data.WeatherHelper;
 import com.coderpage.weather.model.City;
 import com.coderpage.weather.model.Weather;
 import com.coderpage.weather.model.Week;
@@ -31,7 +31,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 
-public class DetailFragment extends Fragment {
+public class CityPage extends Fragment {
 
     private City city = new City();
     private TextView detailTV;
@@ -41,15 +41,15 @@ public class DetailFragment extends Fragment {
     PullToRefreshScrollView mPullRefreshScrollView;
     ScrollView mScrollView;
 
-    public static DetailFragment newInstance(City city) {
-        DetailFragment fragment = new DetailFragment();
+    public static CityPage newInstance(City city) {
+        CityPage fragment = new CityPage();
         Bundle args = new Bundle();
         args.putSerializable("city", city);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public DetailFragment() {
+    public CityPage() {
 
     }
 
@@ -229,7 +229,7 @@ public class DetailFragment extends Fragment {
             Weather weather = new Weather();
             WeatherHelper helper = new WeatherHelper();
             weather = helper.recoverWeather(result);
-            CitysList.mCitysList.updateWeather(getCity().code, weather);
+            Cities.mCities.updateWeather(getCity().code, weather);
             mPullRefreshScrollView.onRefreshComplete();
             super.onPostExecute(result);
         }

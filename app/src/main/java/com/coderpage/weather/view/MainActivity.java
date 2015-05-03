@@ -19,16 +19,16 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.coderpage.weather.BPApplication;
 import com.coderpage.weather.R;
-import com.coderpage.weather.adapter.DetailPagerAdapter;
-import com.coderpage.weather.controler.CitysList;
-import com.coderpage.weather.controler.DetailFragmentList;
+import com.coderpage.weather.adapter.CityPagerAdapter;
+import com.coderpage.weather.data.Cities;
+import com.coderpage.weather.data.CityPages;
 import com.coderpage.weather.define.DefineMessage;
 import com.coderpage.weather.model.City;
 import com.coderpage.weather.view.SlidingDrawerFragment.NavigationDrawerCallbacks;
 
 import java.util.ArrayList;
 
-public class MainActivity extends FragmentActivity implements NavigationDrawerCallbacks, DetailFragment.OnFragmentInteractionListener, ViewPager.OnPageChangeListener {
+public class MainActivity extends FragmentActivity implements NavigationDrawerCallbacks, CityPage.OnFragmentInteractionListener, ViewPager.OnPageChangeListener {
 
     public static Handler mHandler;
 
@@ -40,8 +40,8 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
     private TextView titleAddTV;
     private ViewPager viewPager;
     private LinearLayout tabsContainer;
-    private DetailPagerAdapter adapter;
-    private DetailFragmentList detailFragments;
+    private CityPagerAdapter adapter;
+    private CityPages cityPages;
     private int dotCurIndex;
     private ArrayList<ImageView> tabDots = new ArrayList<>();
 
@@ -52,9 +52,9 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CitysList.getInstance(this);
+        Cities.getInstance(this);
         setContentView(R.layout.activity_main);
-        CitysList.initCityWeather();
+        Cities.initCityWeather();
 
         locationClient = ((BPApplication) getApplication()).locationClient;
         initLocation();
@@ -68,7 +68,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
                         break;
                     case DefineMessage.MSG_UPDATE_WEATHER:
                         City c = (City) msg.obj;
-                        DetailFragment detailFragment = detailFragments.getItem(c);
+                        CityPage detailFragment = cityPages.getItem(c);
                         if (detailFragment != null) {
                             detailFragment.updateData();
                         }
@@ -102,16 +102,16 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         titleMenuTV = (TextView) findViewById(R.id.title_menu);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        detailFragments = DetailFragmentList.getInstance();
-        if (detailFragments.isEmpty()) {
-            for (City city : CitysList.mCitysList) {
-                detailFragments.add(DetailFragment.newInstance(city));
+        cityPages = CityPages.getInstance();
+        if (cityPages.isEmpty()) {
+            for (City city : Cities.mCities) {
+                cityPages.add(CityPage.newInstance(city));
             }
         }
         initTabDots();
 
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-        adapter = new DetailPagerAdapter(manager, detailFragments);
+        adapter = new CityPagerAdapter(manager, cityPages);
 
         viewPager.setAdapter(adapter);
         viewPager.setOnPageChangeListener(this);
@@ -121,8 +121,8 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        if (!CitysList.mCitysList.isEmpty()) {
-            City city = CitysList.mCitysList.get(0);
+        if (!Cities.mCities.isEmpty()) {
+            City city = Cities.mCities.get(0);
             titileDetailTV.setText(city.displayName);
             if (city.isLocation()){
                 titileLocationIV.setVisibility(View.VISIBLE);
@@ -134,7 +134,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     private void initTabDots() {
         tabsContainer = (LinearLayout) findViewById(R.id.tabs);
-        for (int i = 0; i < detailFragments.size(); i++) {
+        for (int i = 0; i < cityPages.size(); i++) {
             ImageView imageView = (ImageView) LayoutInflater.from(this).inflate(R.layout.tab_dot_image_view, null);
             imageView.setEnabled(false);
             tabsContainer.addView(imageView);
@@ -171,21 +171,21 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
      * @param city
      */
     private void updateViewpager(City city, int type) {
-        if (detailFragments == null) {
-            detailFragments = DetailFragmentList.getInstance();
+        if (cityPages == null) {
+            cityPages = CityPages.getInstance();
         }
 
         if (type == DefineMessage.MSG_ADD_NEW_CITY) {
-            if (!detailFragments.isExist(city)) {
+            if (!cityPages.isExist(city)) {
                 addTabDot();
-                detailFragments.add(DetailFragment.newInstance(city));
+                cityPages.add(CityPage.newInstance(city));
                 adapter.notifyDataSetChanged();
                 if (viewPager != null) {
-                    int index = detailFragments.size() - 1;
+                    int index = cityPages.size() - 1;
                     viewPager.setCurrentItem(index);
                     if (index == 0) {
-                        titileDetailTV.setText(detailFragments.get(0).getCity().displayName);
-                        if (detailFragments.get(0).getCity().isLocation()){
+                        titileDetailTV.setText(cityPages.get(0).getCity().displayName);
+                        if (cityPages.get(0).getCity().isLocation()){
                             titileLocationIV.setVisibility(View.VISIBLE);
                         }else {
                             titileLocationIV.setVisibility(View.GONE);
@@ -202,7 +202,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
             removeTabDot();
             setTabDotsLastTrue();
             if (viewPager != null) {
-                viewPager.setCurrentItem(detailFragments.size() - 1);
+                viewPager.setCurrentItem(cityPages.size() - 1);
             }
         }
     }
@@ -247,7 +247,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
      */
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        if (CitysList.mCitysList.size() <= position) {
+        if (Cities.mCities.size() <= position) {
             return;
         }
         if (viewPager != null) {
@@ -263,8 +263,8 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
     @Override
     public void onPageSelected(int i) {
         setCurDot(i);
-        titileDetailTV.setText(detailFragments.get(i).getCity().displayName);
-        if (detailFragments.get(i).getCity().isLocation()){
+        titileDetailTV.setText(cityPages.get(i).getCity().displayName);
+        if (cityPages.get(i).getCity().isLocation()){
             titileLocationIV.setVisibility(View.VISIBLE);
         }else {
             titileLocationIV.setVisibility(View.GONE);

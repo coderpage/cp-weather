@@ -101,7 +101,7 @@ public class Locate {
     }
 
     private boolean addLocation(City c) {
-        if (CitysList.mCitysList.exist(c)){
+        if (Cities.mCities.exist(c)){
             return true;
         }
         WeatherHelper wm = new WeatherHelper();
@@ -111,7 +111,7 @@ public class Locate {
         if (rowID == -1) {
             return false;
         }
-        CitysList.mCitysList.addCity(rowID);
+        Cities.mCities.addCity(rowID);
         return true;
     }
 }

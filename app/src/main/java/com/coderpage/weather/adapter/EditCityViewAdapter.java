@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.coderpage.weather.R;
-import com.coderpage.weather.controler.CitysList;
+import com.coderpage.weather.data.Cities;
 import com.coderpage.weather.model.City;
 
 /**
@@ -16,10 +16,10 @@ import com.coderpage.weather.model.City;
  */
 public class EditCityViewAdapter extends BaseAdapter {
 
-	CitysList citys;
+	Cities citys;
 	Context mContext;
 
-	public EditCityViewAdapter(Context context, CitysList citys) {
+	public EditCityViewAdapter(Context context, Cities citys) {
 		this.mContext = context;
 		this.citys = citys;
 	}
