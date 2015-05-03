@@ -17,7 +17,7 @@ import com.coderpage.weather.R;
 import com.coderpage.weather.adapter.EditCityViewAdapter;
 import com.coderpage.weather.controler.CitysList;
 import com.coderpage.weather.controler.DetailFragmentList;
-import com.coderpage.weather.db.DBHelper;
+import com.coderpage.weather.data.db.DBHelper;
 import com.coderpage.weather.model.City;
 
 import java.util.ArrayList;

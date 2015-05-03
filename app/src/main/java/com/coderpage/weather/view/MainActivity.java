@@ -24,8 +24,8 @@ import com.coderpage.weather.R;
 import com.coderpage.weather.adapter.DetailPagerAdapter;
 import com.coderpage.weather.controler.CitysList;
 import com.coderpage.weather.controler.DetailFragmentList;
-import com.coderpage.weather.db.CitycodeDBHelper;
-import com.coderpage.weather.db.NewDbHelper;
+import com.coderpage.weather.data.db.CitycodeDBHelper;
+import com.coderpage.weather.data.db.NewDbHelper;
 import com.coderpage.weather.define.DefineMessage;
 import com.coderpage.weather.model.City;
 import com.coderpage.weather.tool.PinyinUtil;
@@ -97,7 +97,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         };
 
         intiView();
-        initNewDb();
+//        initNewDb();
     }
 
     private void initNewDb(){

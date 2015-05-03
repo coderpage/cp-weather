@@ -18,8 +18,8 @@ import com.coderpage.weather.R;
 import com.coderpage.weather.adapter.SearchViewAdapter;
 import com.coderpage.weather.controler.CitysList;
 import com.coderpage.weather.controler.WeatherHelper;
-import com.coderpage.weather.db.CitycodeDBHelper;
-import com.coderpage.weather.db.DBHelper;
+import com.coderpage.weather.data.db.CitycodeDBHelper;
+import com.coderpage.weather.data.db.DBHelper;
 import com.coderpage.weather.define.DefineSQL;
 import com.coderpage.weather.model.City;
 

@@ -6,7 +6,7 @@ package com.coderpage.weather.define;
 public class DefineSQL {
 
 	public static class CityCodeDB {
-		public static final String TABLE_NAME = "citycode";
+		public static final String TABLE_NAME = "city";
 		public static final String COLUMN_PROVINCE = "province";
 		public static final String COLUMN_CITY = "city";
 		public static final String COLUMN_COUNTY = "county";

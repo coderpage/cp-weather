@@ -1,4 +1,4 @@
-package com.coderpage.weather.controler;
+package com.coderpage.weather.data;
 
 import android.content.Context;
 import android.database.Cursor;

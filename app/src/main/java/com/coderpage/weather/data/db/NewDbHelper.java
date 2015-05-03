@@ -1,4 +1,4 @@
-package com.coderpage.weather.db;
+package com.coderpage.weather.data.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -29,7 +29,7 @@ public class NewDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table new_db(_id integer primary key autoincrement, province text, city text, county text, code text, all_py text, all_first_py text, first_py text);");
+        db.execSQL("create table city(_id integer primary key autoincrement, province text, city text, county text, code text, all_py text, all_first_py text, first_py text);");
     }
 
     @Override
@@ -47,7 +47,7 @@ public class NewDbHelper extends SQLiteOpenHelper {
         values.put("all_first_py",all_first_py);
         values.put("first_py",first_py);
 
-        mDB.insert("new_db",null,values);
+        mDB.insert("city",null,values);
     }
 
 }
