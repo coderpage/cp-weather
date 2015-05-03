@@ -11,6 +11,9 @@ public class DefineSQL {
 		public static final String COLUMN_CITY = "city";
 		public static final String COLUMN_COUNTY = "county";
 		public static final String COLUMN_CODE = "code";
+        public static final String COLUMN_ALL_PY = "all_py";
+        public static final String COLUMN_ALL_FIRST_PY = "all_first_py";
+        public static final String COLUMN_FIRST_PY = "first_py";
 	}
 
 	public static class MyDbTableCareCitys {
