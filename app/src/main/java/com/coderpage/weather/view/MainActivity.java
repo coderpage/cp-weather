@@ -19,7 +19,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.coderpage.weather.BPApplication;
 import com.coderpage.weather.R;
-import com.coderpage.weather.adapter.BPFragmentPagerAdapter;
+import com.coderpage.weather.adapter.DetailPagerAdapter;
 import com.coderpage.weather.controler.CitysList;
 import com.coderpage.weather.controler.DetailFragmentList;
 import com.coderpage.weather.define.DefineMessage;
@@ -34,14 +34,13 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
     private SlidingDrawerFragment mNavigationDrawerFragment;
 
-
     private TextView titleMenuTV;
     private TextView titileDetailTV;
     private ImageView titileLocationIV;
     private TextView titleAddTV;
     private ViewPager viewPager;
     private LinearLayout tabsContainer;
-    private BPFragmentPagerAdapter adapter;
+    private DetailPagerAdapter adapter;
     private DetailFragmentList detailFragments;
     private int dotCurIndex;
     private ArrayList<ImageView> tabDots = new ArrayList<>();
@@ -111,7 +110,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         initTabDots();
 
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-        adapter = new BPFragmentPagerAdapter(manager, detailFragments);
+        adapter = new DetailPagerAdapter(manager, detailFragments);
 
         viewPager.setAdapter(adapter);
         viewPager.setOnPageChangeListener(this);

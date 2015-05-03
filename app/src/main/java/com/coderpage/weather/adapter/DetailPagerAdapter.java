@@ -11,15 +11,15 @@ import com.coderpage.weather.controler.DetailFragmentList;
 /**
  * Created by abner-l on 15/3/14.
  */
-public class BPFragmentPagerAdapter extends FragmentStatePagerAdapter{
+public class DetailPagerAdapter extends FragmentStatePagerAdapter{
 
     DetailFragmentList detailFragments;
-    public BPFragmentPagerAdapter(FragmentManager fm,DetailFragmentList detailFragments) {
+    public DetailPagerAdapter(FragmentManager fm, DetailFragmentList detailFragments) {
         super(fm);
         this.detailFragments = DetailFragmentList.getInstance();
     }
 
-    public BPFragmentPagerAdapter(FragmentManager fm) {
+    public DetailPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

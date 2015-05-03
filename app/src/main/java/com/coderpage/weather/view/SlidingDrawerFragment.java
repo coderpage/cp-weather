@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.coderpage.weather.R;
-import com.coderpage.weather.adapter.MainViewAdapter;
+import com.coderpage.weather.adapter.SlidingDrawerAdapter;
 import com.coderpage.weather.controler.CitysList;
 
 @SuppressWarnings("deprecation")
@@ -33,7 +33,7 @@ public class SlidingDrawerFragment extends Fragment {
 
 	private int mCurrentSelectedPosition = 1;
 
-	private static MainViewAdapter mAdapter;
+	private static SlidingDrawerAdapter mAdapter;
 
 	public SlidingDrawerFragment() {
 	}
@@ -66,7 +66,7 @@ public class SlidingDrawerFragment extends Fragment {
 				selectItem(position);
 			}
 		});
-		mAdapter = new MainViewAdapter(getActivity(), CitysList.mCitysList);
+		mAdapter = new SlidingDrawerAdapter(getActivity(), CitysList.mCitysList);
 		mDrawerListView.setAdapter(mAdapter);
 		mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 		return contentView;

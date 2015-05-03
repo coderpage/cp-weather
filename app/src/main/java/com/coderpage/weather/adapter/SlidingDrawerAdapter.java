@@ -14,12 +14,12 @@ import com.coderpage.weather.model.City;
 /**
  * MainActivity中listview的adapter
  */
-public class MainViewAdapter extends BaseAdapter {
+public class SlidingDrawerAdapter extends BaseAdapter {
 
     CitysList citys = null;
     Context mContext;
 
-    public MainViewAdapter(Context context, CitysList citys) {
+    public SlidingDrawerAdapter(Context context, CitysList citys) {
         this.mContext = context;
         this.citys = citys;
     }
