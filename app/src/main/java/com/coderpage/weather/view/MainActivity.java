@@ -20,8 +20,8 @@ import com.baidu.location.LocationClientOption;
 import com.coderpage.weather.BPApplication;
 import com.coderpage.weather.R;
 import com.coderpage.weather.adapter.CityPagerAdapter;
-import com.coderpage.weather.data.Cities;
-import com.coderpage.weather.data.CityPages;
+import com.coderpage.weather.data.AllCity;
+import com.coderpage.weather.data.AllCityPage;
 import com.coderpage.weather.define.DefineMessage;
 import com.coderpage.weather.model.City;
 import com.coderpage.weather.view.SlidingDrawerFragment.NavigationDrawerCallbacks;
@@ -41,7 +41,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
     private ViewPager viewPager;
     private LinearLayout tabsContainer;
     private CityPagerAdapter adapter;
-    private CityPages cityPages;
+    private AllCityPage cityPages;
     private int dotCurIndex;
     private ArrayList<ImageView> tabDots = new ArrayList<>();
 
@@ -52,9 +52,9 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Cities.getInstance(this);
+        AllCity.getInstance(this);
         setContentView(R.layout.activity_main);
-        Cities.initCityWeather();
+        AllCity.initCityWeather();
 
         locationClient = ((BPApplication) getApplication()).locationClient;
         initLocation();
@@ -102,9 +102,9 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
         titleMenuTV = (TextView) findViewById(R.id.title_menu);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        cityPages = CityPages.getInstance();
+        cityPages = AllCityPage.getInstance();
         if (cityPages.isEmpty()) {
-            for (City city : Cities.mCities) {
+            for (City city : AllCity.cities) {
                 cityPages.add(CityPage.newInstance(city));
             }
         }
@@ -121,8 +121,8 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
 
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        if (!Cities.mCities.isEmpty()) {
-            City city = Cities.mCities.get(0);
+        if (!AllCity.cities.isEmpty()) {
+            City city = AllCity.cities.get(0);
             titileDetailTV.setText(city.displayName);
             if (city.isLocation()){
                 titileLocationIV.setVisibility(View.VISIBLE);
@@ -172,7 +172,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
      */
     private void updateViewpager(City city, int type) {
         if (cityPages == null) {
-            cityPages = CityPages.getInstance();
+            cityPages = AllCityPage.getInstance();
         }
 
         if (type == DefineMessage.MSG_ADD_NEW_CITY) {
@@ -247,7 +247,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerCa
      */
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        if (Cities.mCities.size() <= position) {
+        if (AllCity.cities.size() <= position) {
             return;
         }
         if (viewPager != null) {

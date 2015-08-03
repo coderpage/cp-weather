@@ -100,18 +100,18 @@ public class Locate {
         return null;
     }
 
-    private boolean addLocation(City c) {
-        if (Cities.mCities.exist(c)){
+    private boolean addLocation(City city) {
+        if (AllCity.cities.exist(city)){
             return true;
         }
-        WeatherHelper wm = new WeatherHelper();
-        wm.queryWeather(c.code);
+
+        city.updateWeather();
         DBHelper dbHelper = DBHelper.getInstance(context);
-        long rowID = dbHelper.insertCareCitys(c.displayName, c.code, System.currentTimeMillis(),true);
+        long rowID = dbHelper.insertCareCitys(city.displayName, city.code, System.currentTimeMillis(),true);
         if (rowID == -1) {
             return false;
         }
-        Cities.mCities.addCity(rowID);
+        AllCity.cities.addCity(rowID);
         return true;
     }
 }

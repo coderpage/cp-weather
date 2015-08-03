@@ -1,37 +1,42 @@
 package com.coderpage.weather.model;
 
+import com.coderpage.weather.NetworkCallback;
+import com.coderpage.weather.UpdateCityCallBack;
+import com.coderpage.weather.data.Query;
+import com.coderpage.weather.view.MainActivity;
+
 import java.io.Serializable;
 
-public class City implements Serializable{
+public class City implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	public String province;
-	public String city;
-	public String county;
-	public String code;
-	public String displayName;
-	public Weather weather;
-	public long lastUpdateTime;
-	public boolean primary = false;
-	public boolean location = false;
-	
-	public City() {
+    private static final long serialVersionUID = 1L;
+    public String province = "";
+    public String city = "";
+    public String county = "";
+    public String code = "";
+    public String displayName = "";
+    public Weather weather = new Weather();
+    public long lastUpdateTime;
+    public boolean primary = false;
+    public boolean location = false;
 
-	}
-	
-	public City(String province, String city, String county, String code) {
-		this.province = province;
-		this.city = city;
-		this.county = county;
-		this.code = code;
-		if (county != null) {
-			this.displayName = county;
-		} else if (city != null) {
-			this.displayName = city;
-		} else {
-			this.displayName = province;
-		}
-	}
+    public City() {
+
+    }
+
+    public City(String province, String city, String county, String code) {
+        this.province = province;
+        this.city = city;
+        this.county = county;
+        this.code = code;
+        if (county != null) {
+            this.displayName = county;
+        } else if (city != null) {
+            this.displayName = city;
+        } else {
+            this.displayName = province;
+        }
+    }
 
     public String getProvince() {
         return province;
@@ -106,9 +111,51 @@ public class City implements Serializable{
     }
 
     @Override
-	public String toString() {
-		return "[ province:" + province + "  city:" + city + "  county:" + county + "  code:" + code + "  displayName:"
-				+ displayName + " ]";
-	}
+    public String toString() {
+        return "[ province:" + province + "  city:" + city + "  county:" + county + "  code:" + code + "  displayName:"
+                + displayName + " ]";
+    }
 
+    public void updateWeather() {
+        DataReceiver receiver = new DataReceiver(this, null);
+        Query.weatherQuerySync(receiver, code);
+    }
+
+    public void updateWeatherAsync(){
+        DataReceiver receiver = new DataReceiver(this, null);
+        Query.weatherQueryAsync(receiver, code);
+    }
+
+    public void updateWeather(UpdateCityCallBack callBack) {
+        DataReceiver receiver = new DataReceiver(this, callBack);
+        Query.weatherQueryAsync(receiver, code);
+    }
+
+    public void updateWeather(Weather weather) {
+        this.weather = weather;
+        MainActivity.updateWeather(this);
+    }
+
+    public class DataReceiver implements NetworkCallback {
+        City city;
+        UpdateCityCallBack callBack;
+
+        DataReceiver(City city, UpdateCityCallBack callBack) {
+            this.city = city;
+            this.callBack = callBack;
+        }
+
+        @Override
+        public void onSuccess(String weather) {
+            city.weather.update(weather);
+            if (callBack != null) {
+                callBack.onSuccess(city);
+            }
+        }
+
+        @Override
+        public void onError(String message) {
+
+        }
+    }
 }

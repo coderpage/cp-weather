@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.coderpage.weather.R;
-import com.coderpage.weather.data.Cities;
+import com.coderpage.weather.data.AllCity;
 import com.coderpage.weather.model.City;
 
 /**
@@ -16,10 +16,10 @@ import com.coderpage.weather.model.City;
  */
 public class SlidingDrawerAdapter extends BaseAdapter {
 
-    Cities citys = null;
+    AllCity citys = null;
     Context mContext;
 
-    public SlidingDrawerAdapter(Context context, Cities citys) {
+    public SlidingDrawerAdapter(Context context, AllCity citys) {
         this.mContext = context;
         this.citys = citys;
     }

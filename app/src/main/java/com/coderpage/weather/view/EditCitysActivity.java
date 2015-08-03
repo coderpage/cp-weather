@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import com.coderpage.weather.R;
 import com.coderpage.weather.adapter.EditCityViewAdapter;
-import com.coderpage.weather.data.Cities;
-import com.coderpage.weather.data.CityPages;
+import com.coderpage.weather.data.AllCity;
+import com.coderpage.weather.data.AllCityPage;
 import com.coderpage.weather.data.db.DBHelper;
 import com.coderpage.weather.model.City;
 
@@ -38,7 +38,7 @@ public class EditCitysActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_edit_citys);
 		tvDeleteCity = (TextView) findViewById(R.id.tv_delete_city);
 		lvMyCitys = (ListView) findViewById(R.id.lv_mycitys);
-		adapter = new EditCityViewAdapter(this, Cities.mCities);
+		adapter = new EditCityViewAdapter(this, AllCity.cities);
 		lvMyCitys.setAdapter(adapter);
 		lvMyCitys.setOnItemClickListener(new OnItemClickListener() {
 
@@ -46,7 +46,7 @@ public class EditCitysActivity extends ActionBarActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				// TODO Auto-generated method stub
 				TextView tvDeleteIcon = (TextView) view.findViewById(R.id.tv_delete_icon);
-				City c = Cities.mCities.get(position);
+				City c = AllCity.cities.get(position);
 				if (selectedCitys.contains(c)) {
 					selectedCitys.remove(c);
 					tvDeleteIcon.setTextColor(Color.rgb(159, 159, 159));
@@ -90,8 +90,8 @@ public class EditCitysActivity extends ActionBarActivity {
 		DBHelper dbHelper = DBHelper.getInstance(EditCitysActivity.this);
 		boolean deleted = dbHelper.deleteCareCity(code);
 		if (deleted) {
-            Cities.mCities.deleteCity(code);
-            CityPages.getInstance().deleteItemByCityCode(code);
+            AllCity.cities.deleteCity(code);
+            AllCityPage.getInstance().deleteItemByCityCode(code);
 		}
 	}
 

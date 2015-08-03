@@ -6,17 +6,17 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.view.ViewGroup;
 
-import com.coderpage.weather.data.CityPages;
+import com.coderpage.weather.data.AllCityPage;
 
 /**
  * Created by abner-l on 15/3/14.
  */
 public class CityPagerAdapter extends FragmentStatePagerAdapter{
 
-    CityPages detailFragments;
-    public CityPagerAdapter(FragmentManager fm, CityPages detailFragments) {
+    AllCityPage detailFragments;
+    public CityPagerAdapter(FragmentManager fm, AllCityPage detailFragments) {
         super(fm);
-        this.detailFragments = CityPages.getInstance();
+        this.detailFragments = AllCityPage.getInstance();
     }
 
     public CityPagerAdapter(FragmentManager fm) {
