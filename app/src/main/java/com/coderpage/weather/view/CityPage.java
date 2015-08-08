@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,8 +17,7 @@ import android.widget.TextView;
 
 import com.coderpage.weather.R;
 import com.coderpage.weather.model.City;
-import com.coderpage.weather.model.Weather;
-import com.coderpage.weather.model.Week;
+import com.coderpage.weather.model.TodayWeather;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
@@ -24,12 +25,37 @@ import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 public class CityPage extends Fragment {
 
     private City city = new City();
-    private TextView detailTV;
-    private TextView tomorrowTV;
-    private TextView dayAfterTomorrowTV;
+    private TextView pm25TV;
+    private TextView airQuailtTV;
+    private TextView updateTimeTV;
+    private TextView currentTmpTV;
+    private TextView conditionTV;
+    private TextView tmpTV;
+    private TextView windSpeedTV;
+
     private OnFragmentInteractionListener mListener;
     PullToRefreshScrollView mPullRefreshScrollView;
     ScrollView mScrollView;
+
+    LineView lineView;
+    int mX = 0;
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+
+            switch (msg.what){
+                case 0:
+                    lineView.setLinePoint(msg.arg1,msg.arg2);
+                    break;
+                default:
+                    break;
+
+            }
+
+            super.handleMessage(msg);
+        }
+    };
 
     public static CityPage newInstance(City city) {
         CityPage fragment = new CityPage();
@@ -49,6 +75,27 @@ public class CityPage extends Fragment {
         if (getArguments() != null) {
             city = (City) getArguments().getSerializable("city");
         }
+
+        new Thread(){
+            public void run() {
+                for (int index=0; index<20; index++)
+                {
+                    Message message = new Message();
+                    message.what = 0;
+                    message.arg1 = mX;
+                    message.arg2 = (int)(Math.random()*200);;
+                    handler.sendMessage(message);
+                    try {
+                        sleep(1000);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
+                    mX += 30;
+                }
+            };
+        }.start();
     }
 
     @Override
@@ -69,37 +116,33 @@ public class CityPage extends Fragment {
 
         mScrollView = mPullRefreshScrollView.getRefreshableView();
 
-        detailTV = (TextView) contentView.findViewById(R.id.fragment_detail_tv);
-        tomorrowTV = (TextView) contentView.findViewById(R.id.tomorrow_weather_tv);
-        dayAfterTomorrowTV = (TextView) contentView.findViewById(R.id.day_after_tomorrow_weather_tv);
-
+        initView(contentView);
         if (city != null) {
 
-            Weather weather = city.weather;
-            if (weather != null) {
-
-                detailTV.setText("");
-                detailTV.append("城市： " + city.getDisplayName() + "\n");
-                detailTV.append("天气状况： " + weather.getWeatherCondition() + "\n");
-                detailTV.append("最低气温： " + weather.getLow() + "\n");
-                detailTV.append("最高气温： " + weather.getHight() + "\n");
-                detailTV.append("日期： " + weather.getDate() + "\n");
-                detailTV.append("星期： " + weather.getDayOfWeek() + "\n");
-                detailTV.append("更新时间： " + weather.getUpdateTime() + "\n");
-                detailTV.append("城市代码： " + city.getCode() + "\n");
-                detailTV.append("定位： " + city.isLocation() + "\n");
-                Week week = weather.getWeek();
-
-//                if (week.getWeather1() == null){
-//                    throw new NullPointerException("week.getWeather1 is null!");
-//                }
-//                tomorrowTV.append("明天：" + week.getWeather1().getLow() + "~" + week.getWeather1().getHight() + "\n");
-//                tomorrowTV.append(week.getWeather1().getWeatherCondition() + "\n");
-//                dayAfterTomorrowTV.append("后天：" + week.getWeather2().getLow() + "~" + week.getWeather2().getHight() + "\n");
-//                dayAfterTomorrowTV.append(week.getWeather2().getWeatherCondition() + "\n");
+            TodayWeather weather = city.weather;
+            if (weather != null && weather.getAirQuality() != null) {
+                pm25TV.setText("pm2.5：" + weather.getAirQuality().getPm25());
+                airQuailtTV.setText("空气质量：" + weather.getAirQuality().getQualityType());
+                updateTimeTV.setText(weather.getUpdateTime() + "更新");
+                currentTmpTV.setText(weather.getCurrentTmp() + "℃");
+                conditionTV.setText(weather.getDayCondition());
+                tmpTV.setText(weather.getMinTmp() + "~" + weather.getMaxTmp());
+                windSpeedTV.setText(weather.getWind().getDirection() + weather.getWind().getScale() + "级");
             }
         }
         return contentView;
+    }
+
+    private void initView(LinearLayout contentView){
+        pm25TV = (TextView) contentView.findViewById(R.id.weather_pm25_tv);
+        airQuailtTV = (TextView) contentView.findViewById(R.id.weather_quality_type);
+        updateTimeTV = (TextView) contentView.findViewById(R.id.weather_update_time_tv);
+        currentTmpTV = (TextView) contentView.findViewById(R.id.weather_current_tmp_tv);
+        conditionTV = (TextView) contentView.findViewById(R.id.weather_now_cond_tv);
+        tmpTV = (TextView) contentView.findViewById(R.id.weather_today_tmp);
+        windSpeedTV = (TextView) contentView.findViewById(R.id.weather_now_wind_speed);
+
+        lineView = (LineView)contentView.findViewById(R.id.line);
     }
 
     public void onButtonPressed(Uri uri) {
@@ -145,26 +188,16 @@ public class CityPage extends Fragment {
         if (city != null && city.city == this.city.city) {
             if (city != null) {
 
-                Weather weather = city.weather;
+                TodayWeather weather = city.weather;
                 if (weather != null) {
 
-                    detailTV.setText("");
-                    detailTV.append("城市： " + city.getDisplayName() + "\n");
-                    detailTV.append("天气状况： " + weather.getWeatherCondition() + "\n");
-                    detailTV.append("最低气温： " + weather.getLow() + "\n");
-                    detailTV.append("最高气温： " + weather.getHight() + "\n");
-                    detailTV.append("日期： " + weather.getDate() + "\n");
-                    detailTV.append("星期： " + weather.getDayOfWeek() + "\n");
-                    detailTV.append("更新时间： " + weather.getUpdateTime() + "\n");
-                    detailTV.append("城市代码： " + city.getCode() + "\n");
-                    detailTV.append("定位： " + city.isLocation() + "\n");
-                    Week week = weather.getWeek();
-                    tomorrowTV.setText("");
-                    dayAfterTomorrowTV.setText("");
-                    tomorrowTV.append("明天：" + week.getWeather1().getLow() + "~" + week.getWeather1().getHight() + "\n");
-                    tomorrowTV.append(week.getWeather1().getWeatherCondition() + "\n");
-                    dayAfterTomorrowTV.append("后天：" + week.getWeather2().getLow() + "~" + week.getWeather2().getHight() + "\n");
-                    dayAfterTomorrowTV.append(week.getWeather2().getWeatherCondition() + "\n");
+                    pm25TV.setText("pm2.5：" + weather.getAirQuality().getPm25());
+                    airQuailtTV.setText("空气质量：" + weather.getAirQuality().getQualityType());
+                    updateTimeTV.setText(weather.getUpdateTime() + "更新");
+                    currentTmpTV.setText(weather.getCurrentTmp() + "℃");
+                    conditionTV.setText(weather.getDayCondition());
+                    tmpTV.setText(weather.getMinTmp() + "~" + weather.getMaxTmp());
+                    windSpeedTV.setText(weather.getWind().getDirection() + weather.getWind().getScale() + "级");
                 }
             }
         }

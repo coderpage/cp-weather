@@ -16,7 +16,7 @@ public class AllCityPage extends ArrayList<CityPage> {
 
     private static AllCityPage mCityPages = null;
 
-    public static AllCityPage getInstance() {
+    public synchronized static AllCityPage getInstance() {
         if (mCityPages == null) {
             mCityPages = new AllCityPage();
         }

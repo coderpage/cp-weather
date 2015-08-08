@@ -3,30 +3,30 @@ package com.coderpage.weather.data;
 import android.util.Log;
 
 import com.coderpage.weather.NetworkCallback;
+import com.coderpage.weather.tool.http.SSLSocketFactoryEx;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 public class Query {
     private static boolean DEBUG = true;
     private static final String TAG = Query.class.getSimpleName();
 
-    public static void weatherQueryAsync(final NetworkCallback callback, final String cityId) {
+    public static void weatherQueryAsync(final NetworkCallback callback, final String cityID) {
 
         new Thread(new Runnable() {
 
             @Override
             public void run() {
-                String URL = "http://weather.51wnl.com/weatherinfo/GetMoreWeather?cityCode=" + cityId
-                        + "&weatherType=0";
+//                String URL = "http://weather.51wnl.com/weatherinfo/GetMoreWeather?cityCode=" + cityID
+//                        + "&weatherType=0";
 
-                HttpGet httpRequest = new HttpGet(URL);
+                HttpGet httpRequest = new HttpGet(url(cityID));
                 try {
-                    HttpClient httpClient = new DefaultHttpClient();
+                    HttpClient httpClient = SSLSocketFactoryEx.getNewHttpClient();
                     HttpResponse httpResponse = httpClient.execute(httpRequest);
                     if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                         String response = EntityUtils.toString(httpResponse.getEntity());
@@ -48,15 +48,13 @@ public class Query {
         }).start();
     }
 
-    public static String weatherQuerySync(NetworkCallback callback, String cityId) {
+    public static String weatherQuerySync(NetworkCallback callback, String cityID) {
 
-        String URL = "http://weather.51wnl.com/weatherinfo/GetMoreWeather?cityCode=" + cityId
-                + "&weatherType=0";
         String response = null;
 
-        HttpGet httpRequest = new HttpGet(URL);
+        HttpGet httpRequest = new HttpGet(url(cityID));
         try {
-            HttpClient httpClient = new DefaultHttpClient();
+            HttpClient httpClient = SSLSocketFactoryEx.getNewHttpClient();
             HttpResponse httpResponse = httpClient.execute(httpRequest);
             if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 response = EntityUtils.toString(httpResponse.getEntity());
@@ -77,5 +75,9 @@ public class Query {
             }
         }
         return response;
+    }
+
+    static String url(String cityID) {
+        return "https://api.heweather.com/x3/weather?cityid=CN" + cityID + "&key=71316f94d9904171b637f56a2434aace";
     }
 }

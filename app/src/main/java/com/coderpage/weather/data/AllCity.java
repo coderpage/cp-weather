@@ -7,7 +7,7 @@ import com.coderpage.weather.data.db.DBHelper;
 import com.coderpage.weather.define.DefineMessage;
 import com.coderpage.weather.define.DefineSQL.MyDbTableCareCitys;
 import com.coderpage.weather.model.City;
-import com.coderpage.weather.model.Weather;
+import com.coderpage.weather.model.TodayWeather;
 import com.coderpage.weather.view.MainActivity;
 import com.coderpage.weather.view.SlidingDrawerFragment;
 
@@ -74,7 +74,7 @@ public class AllCity extends ArrayList<City> {
             if (city.code == null) {
                 continue;
             }
-            city.updateWeather();
+            city.updateWeatherAsync();
         }
     }
 
@@ -85,7 +85,7 @@ public class AllCity extends ArrayList<City> {
      * @param cityCode 城市代码
      * @param weather  天气信息
      */
-    public static synchronized void updateWeather(String cityCode, Weather weather) {
+    public static synchronized void updateWeather(String cityCode, TodayWeather weather) {
         for (City c : cities) {
             if (cityCode.equals(c.code)) {
                 c.weather = weather;

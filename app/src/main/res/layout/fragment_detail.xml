@@ -2,46 +2,119 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="#2fb5b9cf"
               tools:context="com.coderpage.weather.view.CityPage">
 
 
     <com.handmark.pulltorefresh.library.PullToRefreshScrollView
-        xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/pull_refresh_scrollview"
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
         ptr:ptrAnimationStyle="rotate">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/fragment_detail_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textColor="#fff"
-                android:textSize="18sp"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tomorrow_weather_tv"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/day_after_tomorrow_weather_tv"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="20dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp">
+
+                        <TextView
+                            android:id="@+id/weather_pm25_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="pm2.5: 200"/>
+
+                        <TextView
+                            android:id="@+id/weather_quality_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:text="空气质量：良"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/weather_update_time_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|right"
+                        android:paddingRight="20dp"
+                        android:text="20分钟前更新"/>
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="60dp">
+
+                    <TextView
+                        android:id="@+id/weather_current_tmp_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="38℃"
+                        android:textSize="100sp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/weather_now_cond_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical|right"
+                            android:paddingRight="5dp"
+                            android:text="多云转晴"/>
+
+                        <TextView
+                            android:id="@+id/weather_today_tmp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="5dp"
+                            android:text="28℃~37℃"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/weather_now_wind_speed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="5dp"
+                        android:text="东风2级"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.coderpage.weather.view.LineView
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:id="@+id/line"/>
 
         </LinearLayout>
 

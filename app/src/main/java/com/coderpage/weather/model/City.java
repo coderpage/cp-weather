@@ -15,7 +15,7 @@ public class City implements Serializable {
     public String county = "";
     public String code = "";
     public String displayName = "";
-    public Weather weather = new Weather();
+    public TodayWeather weather = new TodayWeather();
     public long lastUpdateTime;
     public boolean primary = false;
     public boolean location = false;
@@ -78,11 +78,11 @@ public class City implements Serializable {
         this.displayName = displayName;
     }
 
-    public Weather getWeather() {
+    public TodayWeather getWeather() {
         return weather;
     }
 
-    public void setWeather(Weather weather) {
+    public void setWeather(TodayWeather weather) {
         this.weather = weather;
     }
 
@@ -131,7 +131,7 @@ public class City implements Serializable {
         Query.weatherQueryAsync(receiver, code);
     }
 
-    public void updateWeather(Weather weather) {
+    public void updateWeather(TodayWeather weather) {
         this.weather = weather;
         MainActivity.updateWeather(this);
     }
@@ -147,7 +147,8 @@ public class City implements Serializable {
 
         @Override
         public void onSuccess(String weather) {
-            city.weather.update(weather);
+            TodayWeather.update(city.weather,weather);
+
             if (callBack != null) {
                 callBack.onSuccess(city);
             }
