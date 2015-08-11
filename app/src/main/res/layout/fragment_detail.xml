@@ -41,15 +41,13 @@
                         <TextView
                             android:id="@+id/weather_pm25_tv"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="pm2.5: 200"/>
+                            android:layout_height="wrap_content"/>
 
                         <TextView
                             android:id="@+id/weather_quality_type"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingTop="10dp"
-                            android:text="空气质量：良"/>
+                            android:paddingTop="10dp"/>
                     </LinearLayout>
 
                     <TextView
@@ -57,8 +55,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|right"
-                        android:paddingRight="20dp"
-                        android:text="20分钟前更新"/>
+                        android:paddingRight="20dp"/>
 
                 </LinearLayout>
 
@@ -73,7 +70,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="38℃"
                         android:textSize="100sp"/>
 
                     <LinearLayout
@@ -87,8 +83,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center_vertical|right"
-                            android:paddingRight="5dp"
-                            android:text="多云转晴"/>
+                            android:paddingRight="5dp"/>
 
                         <TextView
                             android:id="@+id/weather_today_tmp"
@@ -96,8 +91,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:paddingLeft="5dp"
-                            android:text="28℃~37℃"/>
+                            android:paddingLeft="5dp"/>
 
                     </LinearLayout>
 
@@ -106,15 +100,79 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:paddingTop="5dp"
-                        android:text="东风2级"/>
+                        android:paddingTop="5dp"/>
                 </LinearLayout>
             </LinearLayout>
 
-            <com.coderpage.weather.view.LineView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:id="@+id/line"/>
+                android:layout_height="wrap_content"
+                android:paddingTop="60dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <include
+                        android:id="@+id/multi_days_0"
+                        layout="@layout/multi_days_view_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                    <include
+                        android:id="@+id/multi_days_1"
+                        layout="@layout/multi_days_view_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                    <include
+                        android:id="@+id/multi_days_2"
+                        layout="@layout/multi_days_view_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                    <include
+                        android:id="@+id/multi_days_3"
+                        layout="@layout/multi_days_view_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                    <include
+                        android:id="@+id/multi_days_4"
+                        layout="@layout/multi_days_view_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                    <include
+                        android:id="@+id/multi_days_5"
+                        layout="@layout/multi_days_view_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                    <include
+                        android:id="@+id/multi_days_6"
+                        layout="@layout/multi_days_view_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <com.coderpage.weather.view.TrendView
+                    android:id="@+id/trend_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"/>
+
+
+            </FrameLayout>
 
         </LinearLayout>
 

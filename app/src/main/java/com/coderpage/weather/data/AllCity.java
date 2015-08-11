@@ -8,7 +8,7 @@ import com.coderpage.weather.define.DefineMessage;
 import com.coderpage.weather.define.DefineSQL.MyDbTableCareCitys;
 import com.coderpage.weather.model.City;
 import com.coderpage.weather.model.TodayWeather;
-import com.coderpage.weather.view.MainActivity;
+import com.coderpage.weather.view.activity.MainActivity;
 import com.coderpage.weather.view.SlidingDrawerFragment;
 
 import java.util.ArrayList;

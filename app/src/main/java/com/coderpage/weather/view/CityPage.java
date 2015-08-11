@@ -1,13 +1,12 @@
 package com.coderpage.weather.view;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +16,14 @@ import android.widget.TextView;
 
 import com.coderpage.weather.R;
 import com.coderpage.weather.model.City;
+import com.coderpage.weather.model.DaysWeather;
 import com.coderpage.weather.model.TodayWeather;
+import com.coderpage.weather.view.activity.MainActivity;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CityPage extends Fragment {
@@ -34,28 +38,11 @@ public class CityPage extends Fragment {
     private TextView windSpeedTV;
 
     private OnFragmentInteractionListener mListener;
-    PullToRefreshScrollView mPullRefreshScrollView;
-    ScrollView mScrollView;
+    private PullToRefreshScrollView mPullRefreshScrollView;
+    private ScrollView mScrollView;
+    private TrendView trendView;
 
-    LineView lineView;
     int mX = 0;
-
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-
-            switch (msg.what){
-                case 0:
-                    lineView.setLinePoint(msg.arg1,msg.arg2);
-                    break;
-                default:
-                    break;
-
-            }
-
-            super.handleMessage(msg);
-        }
-    };
 
     public static CityPage newInstance(City city) {
         CityPage fragment = new CityPage();
@@ -76,26 +63,7 @@ public class CityPage extends Fragment {
             city = (City) getArguments().getSerializable("city");
         }
 
-        new Thread(){
-            public void run() {
-                for (int index=0; index<20; index++)
-                {
-                    Message message = new Message();
-                    message.what = 0;
-                    message.arg1 = mX;
-                    message.arg2 = (int)(Math.random()*200);;
-                    handler.sendMessage(message);
-                    try {
-                        sleep(1000);
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
 
-                    mX += 30;
-                }
-            };
-        }.start();
     }
 
     @Override
@@ -121,13 +89,7 @@ public class CityPage extends Fragment {
 
             TodayWeather weather = city.weather;
             if (weather != null && weather.getAirQuality() != null) {
-                pm25TV.setText("pm2.5：" + weather.getAirQuality().getPm25());
-                airQuailtTV.setText("空气质量：" + weather.getAirQuality().getQualityType());
-                updateTimeTV.setText(weather.getUpdateTime() + "更新");
-                currentTmpTV.setText(weather.getCurrentTmp() + "℃");
-                conditionTV.setText(weather.getDayCondition());
-                tmpTV.setText(weather.getMinTmp() + "~" + weather.getMaxTmp());
-                windSpeedTV.setText(weather.getWind().getDirection() + weather.getWind().getScale() + "级");
+                updateData();
             }
         }
         return contentView;
@@ -142,7 +104,8 @@ public class CityPage extends Fragment {
         tmpTV = (TextView) contentView.findViewById(R.id.weather_today_tmp);
         windSpeedTV = (TextView) contentView.findViewById(R.id.weather_now_wind_speed);
 
-        lineView = (LineView)contentView.findViewById(R.id.line);
+        trendView = (TrendView)contentView.findViewById(R.id.trend_view);
+
     }
 
     public void onButtonPressed(Uri uri) {
@@ -184,7 +147,6 @@ public class CityPage extends Fragment {
     }
 
     public void updateData() {
-        Log.e("log:", "updateData");
         if (city != null && city.city == this.city.city) {
             if (city != null) {
 
@@ -198,6 +160,19 @@ public class CityPage extends Fragment {
                     conditionTV.setText(weather.getDayCondition());
                     tmpTV.setText(weather.getMinTmp() + "~" + weather.getMaxTmp());
                     windSpeedTV.setText(weather.getWind().getDirection() + weather.getWind().getScale() + "级");
+
+                    int height = dip2px(getActivity().getApplicationContext(),500f);
+                    trendView.setWidthHeight(MainActivity.windowWidth, height);
+
+                    SparseArray<DaysWeather> days = weather.getMultiDays().getAllDaysWeather();
+                    List<Integer> maxTems = new ArrayList<>();
+                    List<Integer> minTems = new ArrayList<>();
+                    for (int i = 0; i<7; i++){
+                        maxTems.add(Integer.parseInt(days.get(i).getMaxTmp()));
+                        minTems.add(Integer.parseInt(days.get(i).getMinTmp()));
+                    }
+                    trendView.setTemperature(maxTems,minTems);
+
                 }
             }
         }
@@ -221,6 +196,17 @@ public class CityPage extends Fragment {
             updateData();
             super.onPostExecute(result);
         }
+    }
+
+
+    public static int dip2px(Context context, float dipValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
+    }
+
+    public static int px2dip(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
     }
 
 }

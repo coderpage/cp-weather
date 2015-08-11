@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="title_bar_bg">#7fb388</color>
+    <color name="multi_day_item_border">#0f8e8f8f</color>
+    <color name="multi_day_item_bg_normal">#0dd2d8dd</color>
+    <color name="multi_day_item_bg_pressed">#0d063626</color>
+
+</resources>

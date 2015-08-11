@@ -3,7 +3,7 @@ package com.coderpage.weather.model;
 import com.coderpage.weather.NetworkCallback;
 import com.coderpage.weather.UpdateCityCallBack;
 import com.coderpage.weather.data.Query;
-import com.coderpage.weather.view.MainActivity;
+import com.coderpage.weather.view.activity.MainActivity;
 
 import java.io.Serializable;
 

@@ -5,7 +5,7 @@ import android.os.Message;
 import com.coderpage.weather.define.DefineMessage;
 import com.coderpage.weather.model.City;
 import com.coderpage.weather.view.CityPage;
-import com.coderpage.weather.view.MainActivity;
+import com.coderpage.weather.view.activity.MainActivity;
 
 import java.util.ArrayList;
 

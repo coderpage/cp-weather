@@ -3,10 +3,12 @@ package com.coderpage.weather.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by abner-l on 15/8/4.
  */
-public class Quality {
+public class Quality implements Serializable {
     protected int qualityIndex; // 空气质量指数
     protected int co; // 一氧化碳1小时平均值(ug/m³)
     protected int no2; //二氧化氮1小时平均值(ug/m³)
@@ -32,13 +34,9 @@ public class Quality {
         try {
 
             instance.qualityIndex = json.getInt("aqi");
-            instance.co = json.getInt("co");
-            instance.no2 = json.getInt("no2");
-            instance.o3 = json.getInt("o3");
             instance.pm10 = json.getInt("pm10");
             instance.pm25 = json.getInt("pm25");
             instance.qualityType = json.getString("qlty");
-            instance.so2 = json.getInt("so2");
 
         } catch (JSONException e) {
             e.printStackTrace();
