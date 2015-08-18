@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 
 import com.coderpage.weather.define.DefineSQL;
-import com.coderpage.weather.tool.Utility;
+import com.coderpage.weather.tool.Utils;
 
 public class CitycodeDBHelper {
 
@@ -40,8 +40,8 @@ public class CitycodeDBHelper {
         String PACKAGE_NAME = "com.coderpage.weather";
         String dbPath = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + PACKAGE_NAME
                 + "/databases/citycode.db";
-        if (!Utility.citycodeExist()) {
-            Utility.importDB(mContext);
+        if (!Utils.citycodeExist()) {
+            Utils.importDB(mContext);
         }
         SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbPath, null);
 

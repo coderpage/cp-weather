@@ -7,9 +7,12 @@ import com.coderpage.weather.tool.http.SSLSocketFactoryEx;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
 
 public class Query {
     private static boolean DEBUG = true;
@@ -68,7 +71,12 @@ public class Query {
                     Log.d(TAG, "查询数据出错，返回码：" + httpResponse.getStatusLine().getStatusCode());
                 }
             }
-        } catch (Exception e) {
+        } catch (ClientProtocolException e) {
+            callback.onError("HTTP出错:" + e.getMessage());
+            if (DEBUG) {
+                Log.d(TAG, "HTTP出错:" + e.getMessage());
+            }
+        }catch (IOException e){
             callback.onError("HTTP出错:" + e.getMessage());
             if (DEBUG) {
                 Log.d(TAG, "HTTP出错:" + e.getMessage());

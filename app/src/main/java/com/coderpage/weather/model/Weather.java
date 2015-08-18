@@ -1,8 +1,9 @@
 package com.coderpage.weather.model;
 
+import com.coderpage.weather.tool.TimeUtils;
+
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.TimeZone;
 
 /**
  * Created by abner-l on 15/8/4.
@@ -16,44 +17,14 @@ public abstract class Weather implements Serializable {
     protected String nightCondition = ""; // 晚上天气状况
     protected Wind wind;
 
-    protected int icon1; // 白天天气图标资源ID
-    protected int icon2; // 晚上天气图标资源ID
+    protected int iconDay; // 白天天气图标资源ID
+    protected int iconNight; // 晚上天气图标资源ID
 
-    protected Weather() {
-        initDayOfWeek();
+    protected Weather(int day) {
+        this.calendar = TimeUtils.getLaterDate(day);
+        this.dayOfWeek = TimeUtils.getDayOfWeek(calendar);
     }
 
-    protected void initCalendar() {
-        calendar = Calendar.getInstance();
-        calendar.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
-    }
-
-    protected void initDayOfWeek() {
-        initCalendar();
-        switch (calendar.get(Calendar.DAY_OF_WEEK)) {
-            case Calendar.SUNDAY:
-                dayOfWeek = Week.SUNDAY;
-                break;
-            case Calendar.MONDAY:
-                dayOfWeek = Week.MONDAY;
-                break;
-            case Calendar.TUESDAY:
-                dayOfWeek = Week.TUESDAY;
-                break;
-            case Calendar.WEDNESDAY:
-                dayOfWeek = Week.WEDNESDAY;
-                break;
-            case Calendar.THURSDAY:
-                dayOfWeek = Week.THURSDAY;
-                break;
-            case Calendar.FRIDAY:
-                dayOfWeek = Week.FRIDAY;
-                break;
-            case Calendar.SATURDAY:
-                dayOfWeek = Week.SATURDAY;
-                break;
-        }
-    }
 
     public String getMinTmp() {
         return minTmp;
@@ -83,11 +54,11 @@ public abstract class Weather implements Serializable {
         return wind;
     }
 
-    public int getIcon1() {
-        return icon1;
+    public int getIconDay() {
+        return iconDay;
     }
 
-    public int getIcon2() {
-        return icon2;
+    public int getIconNight() {
+        return iconNight;
     }
 }

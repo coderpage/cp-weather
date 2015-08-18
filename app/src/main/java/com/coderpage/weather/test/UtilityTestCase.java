@@ -2,7 +2,7 @@ package com.coderpage.weather.test;
 
 import android.test.AndroidTestCase;
 
-import com.coderpage.weather.tool.Utility;
+import com.coderpage.weather.tool.Utils;
 
 public class UtilityTestCase extends AndroidTestCase {
 
@@ -19,8 +19,8 @@ public class UtilityTestCase extends AndroidTestCase {
     }
 
     public void testCitycodeExist() throws Exception {
-        System.out.println(Utility.citycodeExist());
-        assertTrue(Utility.citycodeExist());
+        System.out.println(Utils.citycodeExist());
+        assertTrue(Utils.citycodeExist());
     }
 
 

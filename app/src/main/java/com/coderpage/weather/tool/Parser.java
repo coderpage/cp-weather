@@ -23,12 +23,13 @@ public class Parser {
         }
     }
 
-    public void addTadayCondition(String txt_d) {
+    public void addTodayCondition(String txt_d, int code_d) {
         try {
             JSONArray daily = parseDays();
             JSONObject today = daily.getJSONObject(0);
             JSONObject cond = today.getJSONObject("cond");
             cond.put("txt_d", txt_d);
+            cond.put("code_d", code_d);
             today.put("cond", cond);
             daily.put(0, today);
             all.put("daily_forecast", daily);

@@ -17,7 +17,10 @@ import android.widget.TextView;
 import com.coderpage.weather.R;
 import com.coderpage.weather.model.City;
 import com.coderpage.weather.model.DaysWeather;
+import com.coderpage.weather.model.MultiDays;
 import com.coderpage.weather.model.TodayWeather;
+import com.coderpage.weather.tool.ImageUtils;
+import com.coderpage.weather.tool.TimeUtils;
 import com.coderpage.weather.view.activity.MainActivity;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
@@ -30,12 +33,14 @@ public class CityPage extends Fragment {
 
     private City city = new City();
     private TextView pm25TV;
-    private TextView airQuailtTV;
+    private TextView airQualityTV;
     private TextView updateTimeTV;
     private TextView currentTmpTV;
     private TextView conditionTV;
     private TextView tmpTV;
     private TextView windSpeedTV;
+
+    private MultiDayItemView[] multiDayItemViews = new MultiDayItemView[7];
 
     private OnFragmentInteractionListener mListener;
     private PullToRefreshScrollView mPullRefreshScrollView;
@@ -95,16 +100,24 @@ public class CityPage extends Fragment {
         return contentView;
     }
 
-    private void initView(LinearLayout contentView){
+    private void initView(LinearLayout contentView) {
         pm25TV = (TextView) contentView.findViewById(R.id.weather_pm25_tv);
-        airQuailtTV = (TextView) contentView.findViewById(R.id.weather_quality_type);
+        airQualityTV = (TextView) contentView.findViewById(R.id.weather_quality_type);
         updateTimeTV = (TextView) contentView.findViewById(R.id.weather_update_time_tv);
         currentTmpTV = (TextView) contentView.findViewById(R.id.weather_current_tmp_tv);
         conditionTV = (TextView) contentView.findViewById(R.id.weather_now_cond_tv);
         tmpTV = (TextView) contentView.findViewById(R.id.weather_today_tmp);
         windSpeedTV = (TextView) contentView.findViewById(R.id.weather_now_wind_speed);
 
-        trendView = (TrendView)contentView.findViewById(R.id.trend_view);
+        trendView = (TrendView) contentView.findViewById(R.id.trend_view);
+
+        multiDayItemViews[0] = (MultiDayItemView) contentView.findViewById(R.id.multi_days_0);
+        multiDayItemViews[1] = (MultiDayItemView) contentView.findViewById(R.id.multi_days_1);
+        multiDayItemViews[2] = (MultiDayItemView) contentView.findViewById(R.id.multi_days_2);
+        multiDayItemViews[3] = (MultiDayItemView) contentView.findViewById(R.id.multi_days_3);
+        multiDayItemViews[4] = (MultiDayItemView) contentView.findViewById(R.id.multi_days_4);
+        multiDayItemViews[5] = (MultiDayItemView) contentView.findViewById(R.id.multi_days_5);
+        multiDayItemViews[6] = (MultiDayItemView) contentView.findViewById(R.id.multi_days_6);
 
     }
 
@@ -154,24 +167,36 @@ public class CityPage extends Fragment {
                 if (weather != null) {
 
                     pm25TV.setText("pm2.5：" + weather.getAirQuality().getPm25());
-                    airQuailtTV.setText("空气质量：" + weather.getAirQuality().getQualityType());
+                    airQualityTV.setText("空气质量：" + weather.getAirQuality().getQualityType());
                     updateTimeTV.setText(weather.getUpdateTime() + "更新");
                     currentTmpTV.setText(weather.getCurrentTmp() + "℃");
                     conditionTV.setText(weather.getDayCondition());
                     tmpTV.setText(weather.getMinTmp() + "~" + weather.getMaxTmp());
                     windSpeedTV.setText(weather.getWind().getDirection() + weather.getWind().getScale() + "级");
 
-                    int height = dip2px(getActivity().getApplicationContext(),500f);
+                    int height = dip2px(getActivity().getApplicationContext(), 500f);
                     trendView.setWidthHeight(MainActivity.windowWidth, height);
 
                     SparseArray<DaysWeather> days = weather.getMultiDays().getAllDaysWeather();
                     List<Integer> maxTems = new ArrayList<>();
                     List<Integer> minTems = new ArrayList<>();
-                    for (int i = 0; i<7; i++){
+                    for (int i = 0; i < 7; i++) {
                         maxTems.add(Integer.parseInt(days.get(i).getMaxTmp()));
                         minTems.add(Integer.parseInt(days.get(i).getMinTmp()));
                     }
-                    trendView.setTemperature(maxTems,minTems);
+                    trendView.setTemperature(maxTems, minTems);
+
+                    MultiDays multiDays = city.getWeather().getMultiDays();
+                    for (int i = 0; i < multiDayItemViews.length; i++) {
+                        DaysWeather daysWeather = multiDays.getDay(i);
+                        MultiDayItemView view = multiDayItemViews[i];
+                        view.setWeekTV(daysWeather.getDayOfWeek().value());
+                        view.setDayConditionTV(daysWeather.getDayCondition());
+                        view.setNightConditionTV(daysWeather.getNightCondition());
+                        view.setDateTV(TimeUtils.getDate(daysWeather.getCalendar()));
+                        view.setDayIcon(ImageUtils.getSmallIcon(getActivity().getApplicationContext(), daysWeather.getIconDay()));
+                        view.setNightIcon(ImageUtils.getSmallIcon(getActivity().getApplicationContext(),daysWeather.getIconNight()));
+                    }
 
                 }
             }

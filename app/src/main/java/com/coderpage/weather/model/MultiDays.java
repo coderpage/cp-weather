@@ -31,7 +31,7 @@ public class MultiDays implements Serializable {
 
         try {
             for (int i = 0; i < json.length(); i++) {
-                daysWeather = DaysWeather.instanceByJson(json.getJSONObject(i));
+                daysWeather = DaysWeather.instanceByJson(json.getJSONObject(i), i);
                 instance.addWeather(i, daysWeather);
             }
 
@@ -48,7 +48,7 @@ public class MultiDays implements Serializable {
         allDaysWeather.put(index, weather);
     }
 
-    public DaysWeather getDay(int day){
+    public DaysWeather getDay(int day) {
         return allDaysWeather.get(day);
     }
 }

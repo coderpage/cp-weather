@@ -111,55 +111,54 @@
 
 
                 <LinearLayout
+                    android:id="@+id/multi_days_wrapper"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <include
+                    <com.coderpage.weather.view.MultiDayItemView
                         android:id="@+id/multi_days_0"
                         layout="@layout/multi_days_view_item"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"/>
 
-                    <include
+                    <com.coderpage.weather.view.MultiDayItemView
                         android:id="@+id/multi_days_1"
                         layout="@layout/multi_days_view_item"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"/>
 
-                    <include
+                    <com.coderpage.weather.view.MultiDayItemView
                         android:id="@+id/multi_days_2"
                         layout="@layout/multi_days_view_item"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"/>
 
-                    <include
+                    <com.coderpage.weather.view.MultiDayItemView
                         android:id="@+id/multi_days_3"
                         layout="@layout/multi_days_view_item"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"/>
 
-                    <include
+                    <com.coderpage.weather.view.MultiDayItemView
                         android:id="@+id/multi_days_4"
                         layout="@layout/multi_days_view_item"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"/>
 
-                    <include
+                    <com.coderpage.weather.view.MultiDayItemView
                         android:id="@+id/multi_days_5"
-                        layout="@layout/multi_days_view_item"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"/>
 
-                    <include
+                    <com.coderpage.weather.view.MultiDayItemView
                         android:id="@+id/multi_days_6"
-                        layout="@layout/multi_days_view_item"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"/>
