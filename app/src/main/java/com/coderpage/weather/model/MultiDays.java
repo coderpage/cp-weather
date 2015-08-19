@@ -11,7 +11,7 @@ import java.io.Serializable;
  * Created by abner-l on 15/4/26.
  */
 public class MultiDays implements Serializable {
-    private final SparseArray<DaysWeather> allDaysWeather = new SparseArray<>();
+    private final SparseArray<DaysWeather> allDaysWeather = new MySparseArray();
 
 
     public static MultiDays instanceByJson(JSONArray json) {
@@ -51,4 +51,6 @@ public class MultiDays implements Serializable {
     public DaysWeather getDay(int day) {
         return allDaysWeather.get(day);
     }
+
+    static class MySparseArray extends SparseArray implements Serializable{}
 }
