@@ -113,7 +113,7 @@ public class SearchCityActivity extends ActionBarActivity implements OnItemClick
             return;
         }
 
-        city.updateWeather();
+        city.updateWeatherAsync();
         lvCitys.setVisibility(ListView.GONE);
         DBHelper dbHelper = DBHelper.getInstance(SearchCityActivity.this);
         long rowID = dbHelper.insertCareCitys(city.displayName, city.code, System.currentTimeMillis(),false);
