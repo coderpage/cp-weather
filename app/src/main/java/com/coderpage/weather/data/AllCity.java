@@ -5,7 +5,7 @@ import android.database.Cursor;
 
 import com.coderpage.weather.data.db.DBHelper;
 import com.coderpage.weather.define.DefineMessage;
-import com.coderpage.weather.define.DefineSQL.MyDbTableCareCitys;
+import com.coderpage.weather.define.DefineSQL.MyDbTableCareCities;
 import com.coderpage.weather.model.City;
 import com.coderpage.weather.model.TodayWeather;
 import com.coderpage.weather.view.activity.MainActivity;
@@ -47,12 +47,12 @@ public class AllCity extends ArrayList<City> {
      * @return CitysList
      */
     private AllCity init() {
-        Cursor cur = dbHelper.queryAll(MyDbTableCareCitys.TABLE_NAME);
+        Cursor cur = dbHelper.queryAll(MyDbTableCareCities.TABLE_NAME);
         while (cur.moveToNext()) {
-            String cityName = cur.getString(cur.getColumnIndex(MyDbTableCareCitys.COLUMN_CITY_NAME));
-            String cityCode = cur.getString(cur.getColumnIndex(MyDbTableCareCitys.COLUMN_CITY_CODE));
-            long lastUpdateTime = cur.getLong(cur.getColumnIndex(MyDbTableCareCitys.COLUMN_LAST_UPDATE_TIME));
-            int location = cur.getInt(cur.getColumnIndex(MyDbTableCareCitys.COLUMN_LOCATION));
+            String cityName = cur.getString(cur.getColumnIndex(MyDbTableCareCities.COLUMN_CITY_NAME));
+            String cityCode = cur.getString(cur.getColumnIndex(MyDbTableCareCities.COLUMN_CITY_CODE));
+            long lastUpdateTime = cur.getLong(cur.getColumnIndex(MyDbTableCareCities.COLUMN_LAST_UPDATE_TIME));
+            int location = cur.getInt(cur.getColumnIndex(MyDbTableCareCities.COLUMN_LOCATION));
             City c = new City();
             c.setDisplayName(cityName);
             c.setCode(cityCode);
@@ -104,12 +104,12 @@ public class AllCity extends ArrayList<City> {
      * @param id 需要添加的城市在my.db中对应主键id
      */
     public void addCity(long id) {
-        Cursor cur = dbHelper.queryByRowId(MyDbTableCareCitys.TABLE_NAME, id);
+        Cursor cur = dbHelper.queryByRowId(MyDbTableCareCities.TABLE_NAME, id);
         if (cur.moveToNext()) {
-            String cityName = cur.getString(cur.getColumnIndex(MyDbTableCareCitys.COLUMN_CITY_NAME));
-            String cityCode = cur.getString(cur.getColumnIndex(MyDbTableCareCitys.COLUMN_CITY_CODE));
-            long lastUpdateTime = cur.getLong(cur.getColumnIndex(MyDbTableCareCitys.COLUMN_LAST_UPDATE_TIME));
-            int location = cur.getInt(cur.getColumnIndex(MyDbTableCareCitys.COLUMN_LOCATION));
+            String cityName = cur.getString(cur.getColumnIndex(MyDbTableCareCities.COLUMN_CITY_NAME));
+            String cityCode = cur.getString(cur.getColumnIndex(MyDbTableCareCities.COLUMN_CITY_CODE));
+            long lastUpdateTime = cur.getLong(cur.getColumnIndex(MyDbTableCareCities.COLUMN_LAST_UPDATE_TIME));
+            int location = cur.getInt(cur.getColumnIndex(MyDbTableCareCities.COLUMN_LOCATION));
             City c = new City();
             c.displayName = cityName;
             c.code = cityCode;

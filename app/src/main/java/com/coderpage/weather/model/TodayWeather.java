@@ -2,6 +2,7 @@ package com.coderpage.weather.model;
 
 import android.text.TextUtils;
 
+import com.coderpage.weather.define.DefineSQL;
 import com.coderpage.weather.tool.Parser;
 import com.coderpage.weather.tool.TimeUtils;
 
@@ -111,5 +112,11 @@ public class TodayWeather extends Weather implements Serializable {
         }
 
     }
+    public static final int TYPE = 3;
+    public static final String CURRENT_TEMP = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_1;
+    public static final String UPDATE_TIME = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_2;
+    public static final String PRESSURE = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_3;
+    public static final String SUNRISE = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_4;
+    public static final String SUNSET = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_5;
 
 }

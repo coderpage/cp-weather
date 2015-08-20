@@ -8,32 +8,34 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.coderpage.weather.define.DefineSQL;
-import com.coderpage.weather.define.DefineSQL.MyDbTableCareCitys;
+import com.coderpage.weather.define.DefineSQL.MyDbTableCareCities;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-	private static DBHelper mDbHelper;
-	private SQLiteDatabase mDB;
-	private Context mContext;
+	private static DBHelper dbHelper;
+	private SQLiteDatabase db;
+	private Context ctx;
 
 	public static synchronized DBHelper getInstance(Context context) {
-		if (mDbHelper != null) {
-			return mDbHelper;
+		if (dbHelper != null) {
+			return dbHelper;
 		} else {
-			return new DBHelper(context, "my.db", null, 1);
+			dbHelper = new DBHelper(context, "my.db", null, 1);
+			return dbHelper;
 		}
 	}
 
 	private DBHelper(Context context, String name, CursorFactory factory, int version) {
 		super(context, name, factory, version);
-		mContext = context;
-		mDB = getWritableDatabase();
+		ctx = context;
+		db = getWritableDatabase();
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 
-		db.execSQL(DefineSQL.MyDbTableCareCitys.CREATE_TABLE_CARE_CITYS);
+		db.execSQL(MyDbTableCareCities.CREATE_TABLE_CARE_CITIES);
+		db.execSQL(DefineSQL.MyDbTableWeatherCache.CREATE_TABLE_WEATHER_CACHE);
 	}
 
 	@Override
@@ -48,12 +50,12 @@ public class DBHelper extends SQLiteOpenHelper {
 	 * @return Cursor
 	 */
 	public Cursor queryAll(String tableName) {
-		if (tableName.equals(MyDbTableCareCitys.TABLE_NAME)) {
-			String selection = MyDbTableCareCitys.COLUMN_DELETED + "!=?";
+		if (tableName.equals(MyDbTableCareCities.TABLE_NAME)) {
+			String selection = MyDbTableCareCities.COLUMN_DELETED + "!=?";
 			String[] selectionArgs = new String[] { "1" };
-			return mDB.query(tableName, null, selection, selectionArgs, null, null, null);
+			return db.query(tableName, null, selection, selectionArgs, null, null, null);
 		}
-		return mDB.query(tableName, null, null, null, null, null, null);
+		return db.query(tableName, null, null, null, null, null, null);
 	}
 
 	/**
@@ -63,14 +65,14 @@ public class DBHelper extends SQLiteOpenHelper {
 	 * @return Cursor
 	 */
 	public Cursor queryByRowId(String tableName, long id) {
-		if (tableName.equals(MyDbTableCareCitys.TABLE_NAME)) {
-			String selection = MyDbTableCareCitys.COLUMN_DELETED + "!=? and " + MyDbTableCareCitys.COLUMN_ID + " =? ";
+		if (tableName.equals(MyDbTableCareCities.TABLE_NAME)) {
+			String selection = MyDbTableCareCities.COLUMN_DELETED + "!=? and " + MyDbTableCareCities.COLUMN_ID + " =? ";
 			String[] selectionArgs = new String[] { "1", String.valueOf(id) };
-			return mDB.query(tableName, null, selection, selectionArgs, null, null, null);
+			return db.query(tableName, null, selection, selectionArgs, null, null, null);
 		}
-		String selection = MyDbTableCareCitys.COLUMN_ID + " =? ";
+		String selection = MyDbTableCareCities.COLUMN_ID + " =? ";
 		String[] selectionArgs = new String[] { String.valueOf(id) };
-		return mDB.query(tableName, null, selection, selectionArgs, null, null, null);
+		return db.query(tableName, null, selection, selectionArgs, null, null, null);
 	}
 
 	/**
@@ -82,11 +84,11 @@ public class DBHelper extends SQLiteOpenHelper {
 	 */
 	public long insertCareCitys(String cityName, String cityCode, long lasteUpdateTime,boolean location) {
 		ContentValues values = new ContentValues();
-		values.put(MyDbTableCareCitys.COLUMN_CITY_NAME, cityName);
-		values.put(MyDbTableCareCitys.COLUMN_CITY_CODE, cityCode);
-		values.put(MyDbTableCareCitys.COLUMN_LAST_UPDATE_TIME, lasteUpdateTime);
-        values.put(MyDbTableCareCitys.COLUMN_LOCATION,location);
-		long id = mDB.insert(MyDbTableCareCitys.TABLE_NAME, null, values);
+		values.put(MyDbTableCareCities.COLUMN_CITY_NAME, cityName);
+		values.put(MyDbTableCareCities.COLUMN_CITY_CODE, cityCode);
+		values.put(MyDbTableCareCities.COLUMN_LAST_UPDATE_TIME, lasteUpdateTime);
+        values.put(MyDbTableCareCities.COLUMN_LOCATION, location);
+		long id = db.insert(MyDbTableCareCities.TABLE_NAME, null, values);
 		return id;
 	}
 
@@ -97,11 +99,11 @@ public class DBHelper extends SQLiteOpenHelper {
 	 * @return 是否更新成功
 	 */
 	public boolean updateLastUpdateTime(long time, String cityCode) {
-		String whereClause = MyDbTableCareCitys.COLUMN_CITY_CODE + " = ?";
+		String whereClause = MyDbTableCareCities.COLUMN_CITY_CODE + " = ?";
 		String[] whereArgs = new String[] { cityCode };
 		ContentValues values = new ContentValues();
-		values.put(MyDbTableCareCitys.COLUMN_LAST_UPDATE_TIME, time);
-		mDB.update(MyDbTableCareCitys.TABLE_NAME, values, whereClause, whereArgs);
+		values.put(MyDbTableCareCities.COLUMN_LAST_UPDATE_TIME, time);
+		db.update(MyDbTableCareCities.TABLE_NAME, values, whereClause, whereArgs);
 		return true;
 	}
 
@@ -112,11 +114,11 @@ public class DBHelper extends SQLiteOpenHelper {
 	 * @return 是否更新成功
 	 */
 	public boolean updatePrimary(Boolean b, String cityCode) {
-		String whereClause = MyDbTableCareCitys.COLUMN_CITY_CODE + " = ?";
+		String whereClause = MyDbTableCareCities.COLUMN_CITY_CODE + " = ?";
 		String[] whereArgs = new String[] { cityCode };
 		ContentValues values = new ContentValues();
-		values.put(MyDbTableCareCitys.COLUMN_MAIN, b);
-		mDB.update(MyDbTableCareCitys.TABLE_NAME, values, whereClause, whereArgs);
+		values.put(MyDbTableCareCities.COLUMN_MAIN, b);
+		db.update(MyDbTableCareCities.TABLE_NAME, values, whereClause, whereArgs);
 		return true;
 	}
 
@@ -127,11 +129,11 @@ public class DBHelper extends SQLiteOpenHelper {
 	 * @return 是否更新成功
 	 */
 	public boolean updateLocation(Boolean b, String cityCode) {
-		String whereClause = MyDbTableCareCitys.COLUMN_CITY_CODE + " = ?";
+		String whereClause = MyDbTableCareCities.COLUMN_CITY_CODE + " = ?";
 		String[] whereArgs = new String[] { cityCode };
 		ContentValues values = new ContentValues();
-		values.put(MyDbTableCareCitys.COLUMN_LOCATION, b);
-		mDB.update(MyDbTableCareCitys.TABLE_NAME, values, whereClause, whereArgs);
+		values.put(MyDbTableCareCities.COLUMN_LOCATION, b);
+		db.update(MyDbTableCareCities.TABLE_NAME, values, whereClause, whereArgs);
 		return true;
 	}
 
@@ -141,11 +143,11 @@ public class DBHelper extends SQLiteOpenHelper {
 	 * @return 是否删除成功
 	 */
 	public boolean deleteCareCity(String cityCode) {
-		String whereClause = MyDbTableCareCitys.COLUMN_CITY_CODE + " = ?";
+		String whereClause = MyDbTableCareCities.COLUMN_CITY_CODE + " = ?";
 		String[] whereArgs = new String[] { cityCode };
 		ContentValues values = new ContentValues();
-		values.put(MyDbTableCareCitys.COLUMN_DELETED, 1);
-		mDB.update(MyDbTableCareCitys.TABLE_NAME, values, whereClause, whereArgs);
+		values.put(MyDbTableCareCities.COLUMN_DELETED, 1);
+		db.update(MyDbTableCareCities.TABLE_NAME, values, whereClause, whereArgs);
 		return true;
 	}
 

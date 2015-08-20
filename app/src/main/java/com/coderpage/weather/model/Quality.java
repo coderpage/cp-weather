@@ -1,5 +1,7 @@
 package com.coderpage.weather.model;
 
+import com.coderpage.weather.define.DefineSQL;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -74,4 +76,15 @@ public class Quality implements Serializable {
     public int getSo2() {
         return so2;
     }
+
+    public static final int TYPE = 1;
+    public static final String QUALITY_INDEX = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_1;
+    public static final String CO = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_2;
+    public static final String NO2 = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_3;
+    public static final String O3 = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_4;
+    public static final String PM10 = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_5;
+    public static final String PM25 = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_6;
+    public static final String QUALITY_TYPE = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_7;
+    public static final String SO2 = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_7;
+
 }

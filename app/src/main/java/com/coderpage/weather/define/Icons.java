@@ -125,4 +125,20 @@ public abstract class Icons {
     public static int getNightIcon(int code) {
         return nightIcons.get(code, NOT_KNOW);
     }
+
+    public static int getDayIconCode(int resource_id) {
+        int keyIndex =  dayIcons.indexOfValue(resource_id);
+        if (keyIndex == -1){
+            return -1;
+        }
+        return dayIcons.keyAt(keyIndex);
+    }
+
+    public static int getNightIconCode(int resource_id) {
+        int keyIndex =  nightIcons.indexOfValue(resource_id);
+        if (keyIndex == -1){
+            return -1;
+        }
+        return nightIcons.keyAt(keyIndex);
+    }
 }

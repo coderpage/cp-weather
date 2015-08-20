@@ -105,7 +105,7 @@ public class Locate {
             return true;
         }
 
-        city.updateWeather();
+        city.updateWeatherAsync();
         DBHelper dbHelper = DBHelper.getInstance(context);
         long rowID = dbHelper.insertCareCitys(city.displayName, city.code, System.currentTimeMillis(),true);
         if (rowID == -1) {

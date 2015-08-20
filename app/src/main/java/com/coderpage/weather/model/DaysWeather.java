@@ -1,5 +1,6 @@
 package com.coderpage.weather.model;
 
+import com.coderpage.weather.define.DefineSQL;
 import com.coderpage.weather.define.Icons;
 
 import org.json.JSONException;
@@ -45,4 +46,13 @@ public class DaysWeather extends Weather {
             e.printStackTrace();
         }
     }
+
+    public static final int TYPE = 0;
+    public static final String MIN_TEMP = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_1;
+    public static final String MAX_TEMP = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_2;
+    public static final String DATE = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_3;
+    public static final String DAY_CONDITION = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_4;
+    public static final String NIGHT_CONDITION = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_5;
+    public static final String ICON_DAY = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_6;
+    public static final String ICON_NIGHT = DefineSQL.MyDbTableWeatherCache.COLUMN_DATA_7;
 }

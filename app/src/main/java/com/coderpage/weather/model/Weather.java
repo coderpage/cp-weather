@@ -1,5 +1,6 @@
 package com.coderpage.weather.model;
 
+import com.coderpage.weather.define.DefineSQL;
 import com.coderpage.weather.tool.TimeUtils;
 
 import java.io.Serializable;
@@ -61,4 +62,6 @@ public abstract class Weather implements Serializable {
     public int getIconNight() {
         return iconNight;
     }
+
+    public static final String CITY_ID = DefineSQL.MyDbTableWeatherCache.COLUMN_CITY_ID;
 }
